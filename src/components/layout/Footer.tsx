@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useUIStore } from '@/store/useUIStore';
+import TextAnimation3D from '@/components/ui/TextAnimation3D';
 
 export default function Footer() {
   const { toggleContact } = useUIStore();
@@ -49,8 +50,11 @@ export default function Footer() {
       </div>
 
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-12 w-full mt-auto">
-        <div className="text-[10rem] md:text-[14rem] lg:text-[18rem] leading-[0.7] tracking-tighter font-medium -ml-3 md:-ml-4">
-          KANASA
+        <div className="flex flex-col gap-4">
+          <TextAnimation3D text="KANASA" />
+          <div className="text-[10rem] md:text-[14rem] lg:text-[18rem] leading-[0.7] tracking-tighter font-medium -ml-3 md:-ml-4 hidden">
+            KANASA
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row items-start md:items-end gap-10 xl:gap-16 pb-2">
