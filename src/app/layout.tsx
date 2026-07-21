@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import ContactOverlay from "@/components/layout/ContactOverlay";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import PageTransition from "@/components/providers/PageTransition";
+import LoadingScreen from "@/components/ui/LoadingScreen";
 import SplashScreen from "@/components/ui/SplashScreen";
 
 export const metadata: Metadata = {
@@ -27,6 +28,7 @@ export default function RootLayout({
       className={`h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <LoadingScreen />
         <SplashScreen />
         <SmoothScroll>
           <Navbar />
