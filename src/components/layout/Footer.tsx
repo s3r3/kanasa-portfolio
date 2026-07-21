@@ -26,6 +26,8 @@ export default function Footer() {
           <ul className="flex flex-col gap-3 font-medium">
             <li><a href="https://www.instagram.com/cxrnflakesk/" target="_blank" rel="noopener noreferrer" className="hover:italic transition-all w-max">[ ] INSTAGRAM</a></li>
             <li><a href="https://www.linkedin.com/in/muhammad-farid-307029300/?locale=en" target="_blank" rel="noopener noreferrer" className="hover:italic transition-all w-max">[ ] LINKEDIN</a></li>
+            <li><a href="https://github.com/s3r3" target="_blank" rel="noopener noreferrer" className="hover:italic transition-all w-max">[ ] GITHUB</a></li>
+            <li><a href="https://www.behance.net/kanasa_creative" target="_blank" rel="noopener noreferrer" className="hover:italic transition-all w-max">[ ] BEHANCE</a></li>
           </ul>
 
           {/* Contact */}

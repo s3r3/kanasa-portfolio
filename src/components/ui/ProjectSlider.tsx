@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { SLIDER_PROJECT } from "@/constants";
 import { EASE as EASE_SHARED } from "@/lib/animations";
@@ -68,13 +69,14 @@ export default function ProjectSlider() {
         onClick={nextSlide}
       >
         <AnimatePresence mode="wait">
+          <Link href={`/work`}>
           <motion.div
             key={currentIndex}
             initial={{ opacity: 0, y: 80 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -40 }}
             transition={{ duration: 0.8, ease: EASE }}
-            className="relative w-[55vw] max-w-[1100px] aspect-[16/10] overflow-hidden bg-neutral-200 border border-black/10"
+            className="relative w-[55vw] max-w-[1100px] aspect-[16/10] overflow-hidden bg-neutral-200 border border-black/10 cursor-pointer"
           >
             {/* Nomor project kiri atas */}
             <div className="absolute left-5 top-5 z-10 text-[15px] tracking-[0.15em] font-mono text-black/70">
@@ -89,6 +91,7 @@ export default function ProjectSlider() {
               </div>
             </div>
           </motion.div>
+          </Link>
         </AnimatePresence>
       </div>
 

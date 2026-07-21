@@ -113,7 +113,7 @@ export default function Navbar() {
                 </motion.div>
                 <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.3 } } }} className="bg-white w-full flex flex-col shadow-2xl pb-2">
                   {FEATURED_PROJECTS.map((project) => (
-                    <div key={project.id} className="group flex items-start gap-4 p-4 border-t border-black/10 hover:bg-neutral-50 transition-colors cursor-pointer">
+                    <Link href="/work" key={project.id} className="group flex items-start gap-4 p-4 border-t border-black/10 hover:bg-neutral-50 transition-colors cursor-pointer">
                       <img src={project.image} alt={project.title} className="w-[75px] h-[75px] object-cover bg-neutral-200 shrink-0" />
                       <div className="w-[120px] pt-1">
                         <span className="text-[10px] uppercase font-bold tracking-wide text-black leading-tight block">{project.title}</span>
@@ -122,10 +122,10 @@ export default function Navbar() {
                         <span className="text-[10px] uppercase leading-[1.6] text-black/80 font-medium line-clamp-3">{project.description}</span>
                       </div>
                       <div className="text-[10px] uppercase tracking-wide text-black pt-1 shrink-0 font-medium">{project.code}</div>
-                    </div>
+                    </Link>
                   ))}
                   <div className="px-4 pt-4 pb-2">
-                    <button className="w-full border border-black py-3 text-xs uppercase hover:bg-black hover:text-white transition-colors font-medium tracking-wide">SEE ALL WORK [17]</button>
+                    <Link href="/work"><button className="w-full border border-black py-3 text-xs uppercase hover:bg-black hover:text-white transition-colors font-medium tracking-wide">SEE ALL WORK [6]</button></Link>
                   </div>
                 </motion.div>
               </motion.div>

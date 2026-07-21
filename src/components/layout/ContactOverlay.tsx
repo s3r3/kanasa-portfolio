@@ -9,6 +9,8 @@ import { EASE } from '@/lib/animations';
 const SOCIAL_LINKS = [
   { label: 'INSTAGRAM', url: 'https://www.instagram.com/cxrnflakesk/' },
   { label: 'LINKEDIN', url: 'https://www.linkedin.com/in/muhammad-farid-307029300/?locale=en' },
+  { label: 'GITHUB', url: 'https://github.com/s3r3' },
+  { label: 'BEHANCE', url: 'https://www.behance.net/kanasa_creative' },
 ];
 
 const staggerItem = {
@@ -61,7 +63,7 @@ export default function ContactOverlay() {
               </motion.p>
               <motion.div variants={staggerItem} className="border-t border-black/10 py-6">
                 <div className="grid grid-cols-[120px_1fr_1.5fr] gap-6">
-                  <div className="relative w-[120px] h-[120px] bg-gray-400 grayscale bg-cover bg-center shadow-inner" style={{ backgroundImage: 'url(/images/julie.jpg)' }} >
+                  <div className="relative w-[120px] h-[120px] bg-gray-400 grayscale bg-cover bg-center shadow-inner" style={{ backgroundImage: 'url(/images/profile.jpg)' }}>
                     <div className="absolute left-2 top-1/2 transform -translate-y-1/2 w-2.5 h-2.5 bg-white rounded-full shadow-sm" />
                   </div>
                   <div className="uppercase text-[11px] font-mono tracking-wide pt-1">Muhammad Farid</div>

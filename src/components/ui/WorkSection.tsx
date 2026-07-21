@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import { WORK_CATEGORIES } from '@/constants';
 import { EASE, SPRING } from '@/lib/animations';
 
@@ -50,9 +51,9 @@ export default function WorkSection() {
             <h2 className="text-4xl md:text-5xl font-medium tracking-tight">
               Instead of adapting to change, we shape it.
             </h2>
-            <button className="border border-black px-4 py-2 text-xs font-medium uppercase tracking-wider hover:bg-black hover:text-[#efeee8] transition-colors">
+            <Link href="/work"><button className="border border-black px-4 py-2 text-xs font-medium uppercase tracking-wider hover:bg-black hover:text-[#efeee8] transition-colors">
               See our work
-            </button>
+            </button></Link>
           </div>
 
           <div className="relative flex-1 w-full flex items-center justify-center">
@@ -97,21 +98,22 @@ export default function WorkSection() {
                 const isAnyHovered = hoveredId !== null;
 
                 return (
+                  <Link href="/work" key={`img-${cat.id}`}>
                   <motion.div
-                    key={`img-${cat.id}`}
                     onPointerEnter={() => setHoveredId(cat.id)}
                     animate={{
                       scale: isHovered ? 1.15 : isAnyHovered ? 0.9 : 1,
                       zIndex: isHovered ? 30 : 10,
                     }}
                     transition={{ duration: 0.5, ease: EASE.spring }}
-                    className="relative w-full h-full bg-neutral-300 overflow-hidden shadow-lg"
+                    className="relative w-full h-full bg-neutral-300 overflow-hidden shadow-lg cursor-pointer"
                   >
                     <div
                       className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-110"
                       style={{ backgroundImage: `url(${cat.image})` }}
                     />
                   </motion.div>
+                  </Link>
                 );
               })}
             </div>
