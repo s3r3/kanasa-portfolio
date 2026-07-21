@@ -60,11 +60,14 @@ class Constraint {
   }
 }
 
-/* ---- Audio: wind chime ---- */
+/* ---- Audio: wind chime (init on user gesture) ---- */
 let audioCtx: AudioContext | null = null;
+let chimeThrottle = 0;
+function initAudio() { if (!audioCtx) audioCtx = new AudioContext(); }
 function chime() {
   try {
-    if (!audioCtx) audioCtx = new AudioContext();
+    if (!audioCtx) return;
+    if (audioCtx.state === 'suspended') audioCtx.resume();
     const now = audioCtx.currentTime;
     for (let h = 0; h < 3; h++) {
       const osc = audioCtx.createOscillator();
@@ -77,20 +80,19 @@ function chime() {
       osc.start(now + h * 0.12);
       osc.stop(now + 2);
     }
-  } catch (_) { /* silent */ }
+  } catch (_: unknown) { /* silent */ }
 }
-let chimeThrottle = 0;
 
 /* ===== COMPONENT ===== */
 export default function LoadingScreen() {
-  const [done, setDone] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
   const typeRef = useRef<HTMLHeadingElement>(null);
+  const [gone, setGone] = useState(false);
 
   useEffect(() => {
-    if (done) return;
+    if (gone) return;
     const container = containerRef.current;
     const c = canvasRef.current;
     const bar = barRef.current;
@@ -215,6 +217,7 @@ export default function LoadingScreen() {
       }
     };
     const onMove = (e: PointerEvent) => {
+      initAudio(); // first touch unlocks AudioContext
       setMouse(e);
       if (grabbedParticle) {
         grabbedParticle.pos.reset(mousePos.x, mousePos.y);
@@ -243,8 +246,17 @@ export default function LoadingScreen() {
     window.addEventListener('pointermove', onMove);
     c.addEventListener('contextmenu', (e) => e.preventDefault());
 
-    /* ---- close timer ---- */
-    const timer = setTimeout(() => setDone(true), 10000);
+    /* ---- preload + min 10s ---- */
+    const min10 = new Promise<void>((r) => setTimeout(r, 10000));
+    const pageReady = new Promise<void>((r) => {
+      if (document.readyState === 'complete') r();
+      else window.addEventListener('load', () => r(), { once: true });
+    });
+    Promise.all([min10, pageReady]).then(() => {
+      container.style.opacity = '0';
+      container.style.transition = 'opacity 0.6s ease';
+      setTimeout(() => setGone(true), 600);
+    });
 
     /* ---- render loop (exact CodePen structure) ---- */
     let running = true;
@@ -302,15 +314,14 @@ export default function LoadingScreen() {
 
     return () => {
       running = false;
-      clearTimeout(timer);
       clearInterval(typer);
       c.removeEventListener('pointerdown', onDown);
       window.removeEventListener('pointerup', onUp);
       window.removeEventListener('pointermove', onMove);
     };
-  }, [done]);
+  }, [gone]);
 
-  if (done) return null;
+  if (gone) return null;
 
   return (
     <div
@@ -323,7 +334,7 @@ export default function LoadingScreen() {
         className="font-sans text-[60px] md:text-[80px] font-extrabold leading-none text-[#333] mb-6 tracking-tight"
       />
       <div
-        className="relative flex items-center justify-center border border-black/10 shadow-lg"
+        className="relative flex items-center justify-center"
         style={{ touchAction: 'none' }}
       >
         <canvas ref={canvasRef} />
