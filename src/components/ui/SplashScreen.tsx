@@ -79,8 +79,19 @@ function createTextAnimation(font: any, text: string) {
   geometry.translate(-size.width / 2, -size.height / 2, -size.depth / 2);
   (geometry as any).userData.size = size;
 
-  BAS.Utils.separateFaces(geometry);
-  const bufGeo = new BAS.ModelBufferGeometry(geometry);
+  const nonIndexed = geometry.toNonIndexed();
+  // patch faces for BAS (removed in Three.js r125+)
+  const pos = nonIndexed.attributes.position;
+  const vertCount = pos.count;
+  const fakeFaces: { a: THREE.Vector3; b: THREE.Vector3; c: THREE.Vector3; vertexIndex: number[] }[] = [];
+  for (let i = 0; i < vertCount; i += 3) {
+    const a = new THREE.Vector3().fromBufferAttribute(pos, i);
+    const b = new THREE.Vector3().fromBufferAttribute(pos, i + 1);
+    const c = new THREE.Vector3().fromBufferAttribute(pos, i + 2);
+    fakeFaces.push({ a, b, c, vertexIndex: [i, i + 1, i + 2] });
+  }
+  (nonIndexed as unknown as Record<string, unknown>).faces = fakeFaces;
+  const bufGeo = new BAS.ModelBufferGeometry(nonIndexed);
   const faceCount = bufGeo.faceCount;
 
   const aAnim = bufGeo.createAttribute('aAnimation', 2);
@@ -161,23 +172,14 @@ function createTextAnimation(font: any, text: string) {
   return mesh;
 }
 
-/* Get face centroid from indexed geometry */
+/* Get face centroid from non-indexed geometry */
 function getCentroid(geo: THREE.BufferGeometry, faceIdx: number): THREE.Vector3 {
-  const idx = geo.index!;
   const pos = geo.attributes.position;
-  const a = new THREE.Vector3();
-  const b = new THREE.Vector3();
-  const c = new THREE.Vector3();
-  const i0 = idx.getX(faceIdx * 3);
-  const i1 = idx.getX(faceIdx * 3 + 1);
-  const i2 = idx.getX(faceIdx * 3 + 2);
-  a.fromBufferAttribute(pos, i0);
-  b.fromBufferAttribute(pos, i1);
-  c.fromBufferAttribute(pos, i2);
+  const i = faceIdx * 9;
   return new THREE.Vector3(
-    (a.x + b.x + c.x) / 3,
-    (a.y + b.y + c.y) / 3,
-    (a.z + b.z + c.z) / 3,
+    (pos.array[i] + pos.array[i + 3] + pos.array[i + 6]) / 3,
+    (pos.array[i + 1] + pos.array[i + 4] + pos.array[i + 7]) / 3,
+    (pos.array[i + 2] + pos.array[i + 5] + pos.array[i + 8]) / 3,
   );
 }
 
