@@ -3,6 +3,7 @@ export interface SliderProject {
   code: string;
   images: string[];
   slides: { title: string; description: string }[];
+  codes: string[];
 }
 
 export const SLIDER_PROJECT: SliderProject = {
@@ -20,6 +21,15 @@ export const SLIDER_PROJECT: SliderProject = {
     { title: 'Foodie', description: 'Food delivery platform with seamless ordering' },
     { title: 'Qitchen', description: 'Restaurant management & reservation system' },
     { title: 'VRADA', description: 'E-commerce app with visual search' },
-    { title: 'Kanasa', description: 'Design & technology studio' },
+    { title: 'Skillbridge', description: 'Skill-based job matching platform' },
+    { title: 'SethMilot', description: 'Personal branding & portfolio website' },
+  ],
+  codes: [
+    'KAN • NQA • 0426',
+    'KAN • FDE • 0226',
+    'KAN • QTC • 0726',
+    'KAN • VRD • 0326',
+    'KAN • SKB • 0126',
+    'KAN • SMT • 0126',
   ],
 };
