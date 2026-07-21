@@ -50,7 +50,7 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: EASE.smooth }}
         className="font-medium leading-[0.75] tracking-tighter -ml-2 z-10"
       >
-        <Link href="/">REF</Link>
+        <Link href="/">KANASA</Link>
       </motion.div>
 
       {/* Bagian Tengah: Menu Navigasi (Dibuat relative agar dropdown menempel di sini) */}

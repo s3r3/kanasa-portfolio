@@ -11,13 +11,13 @@ import CareerModal from '@/components/ui/CareerModal';
 // ==========================================
 const CAREERS_ITEMS = [
   { id: 'jobs',     label: 'Jobs Opening',         x: '82%', y: '50%', type: 'jobs' },
-  { id: 'playlist', label: 'PLAYLIST REF 2025',     x: '62%', y: '15%', type: 'playlist' },
+  { id: 'playlist', label: 'PLAYLIST Kanasa 2025',     x: '62%', y: '15%', type: 'playlist' },
   { id: 'employee', label: 'EMPLOYEE OF THE MONTH', x: '30%', y: '18%', type: 'icon' },
   { id: 'admin',    label: 'ADMIN PARTY',           x: '14%', y: '38%', type: 'stack' },
   { id: 'rabbit',   label: 'RABBIT_HOLE',           x: '16%', y: '68%', type: 'icon' },
   { id: 'shoes',    label: 'SHOES',                 x: '26%', y: '55%', type: 'icon' },
   { id: 'pets',     label: 'PETS',                  x: '38%', y: '50%', type: 'icon' },
-  { id: 'launch',   label: 'REF_LAUNCH_PARTY',      x: '35%', y: '88%', type: 'stack' },
+  { id: 'launch',   label: 'Kanasa_LAUNCH_PARTY',      x: '35%', y: '88%', type: 'stack' },
   { id: 'terrace',  label: 'TERRACE PARTY',         x: '55%', y: '80%', type: 'stack' },
   { id: 'benefits', label: 'JOBS BENEFITS',         x: '80%', y: '68%', type: 'icon' },
 ];
@@ -50,9 +50,9 @@ export default function CareersPage() {
       {/* HERO                                       */}
       {/* ========================================== */}
       <section className="relative min-h-screen flex flex-col">
-        {/* REF background texture */}
+        {/* Kanasa background texture */}
         <div className="absolute top-20 left-6 text-[12rem] md:text-[18rem] leading-[0.7] font-sans font-medium tracking-tighter pointer-events-none z-0 select-none opacity-[0.06]">
-          REF
+          Kanasa
         </div>
 
         <div className="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-12 pt-32">
@@ -61,11 +61,11 @@ export default function CareersPage() {
               <span className="text-[10px] leading-none">■</span> Careers
             </div>
             <h1 className="text-5xl md:text-[5.5rem] leading-[1.05] tracking-tight font-medium max-w-3xl mb-6 font-sans">
-              Join the team that&rsquo;s<br />
-              building the future.
+              Let&rsquo;s build something<br />
+              great together.
             </h1>
             <p className="text-base md:text-lg font-medium leading-relaxed text-black/60 max-w-xl">
-              We&rsquo;re always looking for talented people who want to do the best work of their lives.
+              Kanasa Creative is always looking for passionate people who love design and technology.
             </p>
           </Reveal>
         </div>
@@ -115,7 +115,7 @@ export default function CareersPage() {
 
             {/* Nodes */}
             <div className="absolute inset-0 w-full h-full pointer-events-auto">
-              {/* Center REFFY */}
+              {/* Center KanasaFY */}
               <div
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center cursor-pointer group z-20"
                 onMouseEnter={() => setCenterHover(true)}
@@ -128,7 +128,7 @@ export default function CareersPage() {
                     <div className="w-3 h-1 bg-white" />
                   </div>
                 </div>
-                <span className="mt-1.5 bg-black text-white px-2 py-0.5 text-[10px] font-bold tracking-wide">REFFY</span>
+                <span className="mt-1.5 bg-black text-white px-2 py-0.5 text-[10px] font-bold tracking-wide">KanasaFY</span>
 
                 {centerHover && (
                   <div className="absolute top-full mt-2 w-max flex flex-col items-center gap-0.5 z-30">
@@ -193,7 +193,7 @@ export default function CareersPage() {
                   <div className="w-3 h-1 bg-white" />
                 </div>
               </div>
-              <span className="mt-1.5 bg-black text-white px-2 py-0.5 text-[10px] font-bold tracking-wide">REFFY</span>
+              <span className="mt-1.5 bg-black text-white px-2 py-0.5 text-[10px] font-bold tracking-wide">KanasaFY</span>
               <div className="w-px h-12 bg-black/30 mt-4" />
             </div>
 

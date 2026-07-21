@@ -12,7 +12,7 @@ import { EASE } from '@/lib/animations';
 // ==========================================
 // DATA STATIS
 // ==========================================
-const TYPEWRITER_TEXT = "[A POINT OF REFERENCE. ■ A BETTER PERSPECTIVE.]";
+const TYPEWRITER_TEXT = "[A CREATIVE STUDIO. ■ DESIGN & TECHNOLOGY.]";
 
 const GRID_IMAGES = [
   '/images/about-1.jpg', '/images/about-2.jpg', '/images/about-3.jpg', '/images/about-4.jpg',
@@ -54,9 +54,6 @@ const PHILOSOPHY_DATA = [
 ];
 
 export default function AboutPage() {
-  // ==========================================
-  // 1. ZOOM REVEAL & TYPEWRITER — Lenis-compatible
-  // ==========================================
   const containerRef = useRef<HTMLDivElement>(null);
   const [zoomProgress, setZoomProgress] = useState(0);
 
@@ -66,25 +63,15 @@ export default function AboutPage() {
   const gridScale = 0.15 + Math.min(1, Math.max(0, (zoomProgress - 0.25) / 0.55)) * 0.85;
 
   const [displayedText, setDisplayedText] = useState('');
-
-  // Consolidated scroll progress — feeds both zoom-reveal and puzzle parallax
   const puzzleRef = useRef<HTMLDivElement>(null);
-  const [puzzleProgress, setPuzzleProgress] = useState(0);
 
   useEffect(() => {
     const unsub = useScrollStore.subscribe(({ scrollY }) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        const total = rect.height - window.innerHeight;
-        const scrolled = Math.abs(rect.top);
-        setZoomProgress(Math.min(1, Math.max(0, total > 0 ? scrolled / total : 0)));
-      }
-      if (puzzleRef.current) {
-        const rect = puzzleRef.current.getBoundingClientRect();
-        const total = rect.height - window.innerHeight;
-        const scrolled = Math.abs(rect.top);
-        setPuzzleProgress(Math.min(1, Math.max(0, total > 0 ? scrolled / total : 0)));
-      }
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const total = rect.height - window.innerHeight;
+      const scrolled = Math.abs(rect.top);
+      setZoomProgress(Math.min(1, Math.max(0, total > 0 ? scrolled / total : 0)));
     });
     return unsub;
   }, []);
@@ -153,7 +140,7 @@ export default function AboutPage() {
           </div>
           <div className="col-span-1 md:col-span-11 max-w-6xl">
             <h2 className="text-4xl md:text-[4rem] font-medium tracking-tight leading-[1.05]">
-              At REF, we understand the need to merge short-term gains with long-term growth. So we move rapid, but with a purpose—and every quick win builds towards long-lasting, systemic value.
+              Kanasa Creative is a design and technology studio based in Aceh, Indonesia. We build digital products that blend creativity with code — from mobile apps to websites, we craft experiences that matter.
             </h2>
           </div>
         </div>
@@ -179,11 +166,11 @@ export default function AboutPage() {
             <span className="text-xs uppercase font-mono tracking-widest mt-2">Projects</span>
           </Reveal>
           <Reveal delay={0.1} className="flex flex-col mb-8 md:mb-0 bg-[#cec9c0] px-4 pb-12">
-            <span className="text-6xl md:text-[5rem] tracking-tighter font-medium">150</span>
-            <span className="text-xs uppercase font-mono tracking-widest mt-2">Awards</span>
+            <span className="text-6xl md:text-[5rem] tracking-tighter font-medium">2+</span>
+            <span className="text-xs uppercase font-mono tracking-widest mt-2">Years</span>
           </Reveal>
           <Reveal delay={0.2} className="flex flex-col bg-[#cec9c0] px-4 pt-12 border-t border-black">
-            <span className="text-6xl md:text-[5rem] tracking-tighter font-medium">200+</span>
+            <span className="text-6xl md:text-[5rem] tracking-tighter font-medium">5+</span>
             <span className="text-xs uppercase font-mono tracking-widest mt-2">Clients</span>
           </Reveal>
         </div>
@@ -195,7 +182,7 @@ export default function AboutPage() {
           </div>
           <Reveal className="col-span-1 md:col-span-10">
             <h2 className="text-3xl md:text-[3rem] font-medium tracking-tight leading-[1.05] mb-12">
-              A lasting impact is built on talented teams and decisive leadership. By blending bold thinking with deep expertise, we've cultivated a culture of innovation and collaboration that drives success.
+              We're a small but passionate team dedicated to crafting digital products that make a difference. Every project is an opportunity to push boundaries and deliver quality.
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[1, 2, 3, 4, 5, 6].map((item) => (

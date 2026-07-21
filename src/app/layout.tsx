@@ -7,8 +7,8 @@ import PageTransition from "@/components/providers/PageTransition";
 import SplashScreen from "@/components/ui/SplashScreen";
 
 export const metadata: Metadata = {
-  title: "REF — Digital Agency",
-  description: "Move fast, build to last. A digital agency navigating the digital-first economy with quick wins and long games.",
+  title: "Kanasa Creative — Design & Technology",
+  description: "Kanasa Creative — blending design and technology to build digital products that matter.",
 };
 
 export const viewport: Viewport = {

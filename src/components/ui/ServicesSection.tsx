@@ -50,8 +50,8 @@ export default function ServicesSection() {
           </div>
           <div className="col-span-1 md:col-span-9 lg:col-span-8 flex flex-col items-start gap-8 pointer-events-auto">
             <h2 className="text-4xl md:text-[3.25rem] font-medium tracking-tight leading-[1.1] max-w-4xl">
-              At the intersection of strategy and business, tech and design,
-              we&rsquo;ll create your best work yet.
+              From strategy to launch, we bring your ideas to life
+              with clean code and thoughtful design.
             </h2>
             <Link
               href="/services"

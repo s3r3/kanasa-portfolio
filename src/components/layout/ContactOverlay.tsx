@@ -7,10 +7,8 @@ import { AccessibilityIcon } from '@/components/ui/icons';
 import { EASE } from '@/lib/animations';
 
 const SOCIAL_LINKS = [
-  { label: 'INSTAGRAM', url: 'https://instagram.com' },
-  { label: 'LINKEDIN', url: 'https://linkedin.com' },
-  { label: 'BLUESKY', url: 'https://bsky.app' },
-  { label: 'AWWWARDS', url: 'https://awwwards.com' },
+  { label: 'INSTAGRAM', url: 'https://www.instagram.com/cxrnflakesk/' },
+  { label: 'LINKEDIN', url: 'https://www.linkedin.com/in/muhammad-farid-307029300/?locale=en' },
 ];
 
 const staggerItem = {
@@ -66,14 +64,14 @@ export default function ContactOverlay() {
                   <div className="relative w-[120px] h-[120px] bg-gray-400 grayscale bg-cover bg-center shadow-inner" style={{ backgroundImage: 'url(/images/julie.jpg)' }} >
                     <div className="absolute left-2 top-1/2 transform -translate-y-1/2 w-2.5 h-2.5 bg-white rounded-full shadow-sm" />
                   </div>
-                  <div className="uppercase text-[11px] font-mono tracking-wide pt-1">Julie Pilon</div>
+                  <div className="uppercase text-[11px] font-mono tracking-wide pt-1">Muhammad Farid</div>
                   <div className="uppercase text-[11px] font-mono tracking-wide flex flex-col justify-between pt-1">
                     <div>
-                      <p className="mb-1">Partner, President</p>
-                      <a href="mailto:dvlp@ref.digital" className="underline decoration-1 underline-offset-4 hover:italic transition-all">dvlp@ref.digital</a>
+                      <p className="mb-1">Frontend Developer</p>
+                      <a href="mailto:faridmu851@gmail.com" className="underline decoration-1 underline-offset-4 hover:italic transition-all">faridmu851@gmail.com</a>
                     </div>
                     <div className="mt-auto">
-                      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="hover:italic transition-all cursor-pointer inline-block">[ ] SEE LINKEDIN PROFILE</a>
+                      <a href="https://www.linkedin.com/in/muhammad-farid-307029300/?locale=en" target="_blank" rel="noopener noreferrer" className="hover:italic transition-all cursor-pointer inline-block">[ ] SEE LINKEDIN PROFILE</a>
                     </div>
                   </div>
                 </div>
@@ -88,9 +86,9 @@ export default function ContactOverlay() {
                     ))}
                   </div>
                   <div className="flex flex-col gap-3">
-                    <div className="flex items-start gap-8"><span className="w-4">A</span><p className="leading-relaxed">4051 MOLSON STREET<br />SUITE 100, MONTREAL, QC, H1Y 3L1</p></div>
-                    <div className="flex items-start gap-8"><span className="w-4">P</span><p>+1 514 281-8901</p></div>
-                    <div className="flex items-start gap-8"><span className="w-4">E</span><a href="mailto:info@ref.digital" className="underline decoration-1 underline-offset-4 hover:italic transition-all">INFO@REF.DIGITAL</a></div>
+                    <div className="flex items-start gap-8"><span className="w-4">A</span><p className="leading-relaxed">Sigli, Aceh</p></div>
+                    <div className="flex items-start gap-8"><span className="w-4">P</span><p>+6282185254073</p></div>
+                    <div className="flex items-start gap-8"><span className="w-4">E</span><a href="mailto:faridmu851@gmail.com" className="underline decoration-1 underline-offset-4 hover:italic transition-all">FARIDMU851@GMAIL.COM</a></div>
                   </div>
                 </div>
               </motion.div>

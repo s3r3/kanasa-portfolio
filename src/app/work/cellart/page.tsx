@@ -10,7 +10,7 @@ const DATA = {
       { label: 'CLIENT', value: 'CellArt' },
       { label: 'INDUSTRY', value: 'Retail & Consumer Goods' },
       { label: 'CATEGORY', value: 'Website' },
-      { label: 'REF', value: 'PCA-0325' },
+      { label: 'CODE', value: 'PCA-0325' },
     ],
     image: '/images/cellart.jpg',
   },

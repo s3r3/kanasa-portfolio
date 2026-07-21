@@ -10,7 +10,7 @@ const DATA = {
       { label: 'CLIENT', value: 'DIME' },
       { label: 'INDUSTRY', value: 'Retail & Consumer Goods' },
       { label: 'CATEGORY', value: 'E-Commerce' },
-      { label: 'REF', value: 'PDM-1025' },
+      { label: 'KAN', value: 'PDM-1025' },
     ],
     image: '/images/dime-hero.jpg',
   },

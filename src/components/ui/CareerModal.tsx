@@ -55,7 +55,7 @@ export default function CareerModal({ id, onClose }: CareerModalProps) {
         <div className={`${base} w-[500px] rounded-sm overflow-hidden`}>
           <div className="flex border-b border-white/20">
             <button onClick={onClose} className={headerBtn}>×</button>
-            <div className="px-4 py-2 flex items-center gap-2 text-xs uppercase font-medium">📁 PLAYLIST REF 2025</div>
+            <div className="px-4 py-2 flex items-center gap-2 text-xs uppercase font-medium">📁 PLAYLIST Kanasa 2025</div>
             <div className="flex-1" />
           </div>
           <div className="px-4 py-2 flex gap-4 text-xs font-medium border-b border-white/20 bg-[#6d6862]">
@@ -68,7 +68,7 @@ export default function CareerModal({ id, onClose }: CareerModalProps) {
               <div className="flex-1 text-sm font-sans space-y-1">
                 <div>1 <span className="ml-2">Tercel • Les Louanges</span></div>
                 <div>2 <span className="ml-2 bg-white/20 px-1 text-[8px] rounded-sm mr-1">E</span> Body Movin&rsquo; <span className="text-white/60 text-xs">• Beastie Boys</span></div>
-                <div className="mt-4 text-xs text-white/70">REF-MIX-2025 • REF.Digital</div>
+                <div className="mt-4 text-xs text-white/70">Kanasa-MIX-2025 • Kanasa.Digital</div>
               </div>
               <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#28741e] shrink-0 cursor-pointer">▶</div>
             </div>
@@ -189,7 +189,7 @@ export default function CareerModal({ id, onClose }: CareerModalProps) {
             </div>
           </div>
           <div className="bg-black p-3 flex justify-between items-center text-[10px] uppercase font-mono text-white/50 border-t border-white/10">
-            <div>JOËL AUCHU<br/>REF-TJA-0716</div>
+            <div>JOËL AUCHU<br/>Kanasa-TJA-0716</div>
             <div>WELL THIS IS AN EXPENSIVE HOBBY.</div>
             <div className="text-sm">🔁</div>
           </div>

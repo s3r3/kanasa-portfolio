@@ -10,7 +10,7 @@ const DATA = {
       { label: 'CLIENT', value: 'Sopfeu' },
       { label: 'INDUSTRY', value: 'Public & Social Sector' },
       { label: 'CATEGORY', value: 'Mobile App, Website' },
-      { label: 'REF', value: 'PSF-0325' },
+      { label: 'CODE', value: 'PSF-0325' },
     ],
     image: '/images/sopfeu-hero.jpg',
   },

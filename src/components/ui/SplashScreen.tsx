@@ -28,7 +28,7 @@ export default function SplashScreen() {
             transition={{ duration: 1, ease: EASE.reveal }}
             className="text-[8rem] md:text-[12rem] font-medium tracking-tighter leading-none text-black"
           >
-            REF
+            KANASA
           </motion.div>
         </motion.div>
       )}

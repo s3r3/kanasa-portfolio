@@ -19,12 +19,12 @@ export default function Home() {
             <div className="col-span-12 lg:col-span-7 flex flex-col justify-end">
               <Reveal stagger delay={0.2}>
                 <p className="text-[17px] md:text-[22px] leading-[1.35] tracking-[-0.02em] max-w-xl mb-24 md:mb-36 text-black/90">
-                  Some say move fast, break things. REF is a digital agency
+                  Kanasa Creative is a design and technology studio
                   <br className="hidden md:block" />
-                  that believes we&rsquo;ve broken enough things already.
+                  building digital products that matter.
                 </p>
                 <Typewriter
-                  text="Move fast, build to last."
+                  text="Design meets technology."
                   speed={60}
                   className="text-[48px] md:text-[80px] lg:text-[110px] xl:text-[130px] leading-[0.86] tracking-[-0.06em] font-medium text-black"
                 />
@@ -49,20 +49,20 @@ export default function Home() {
       >
         <div className="max-w-6xl mx-auto">
           <Reveal stagger className="flex flex-col gap-8">
-            <span className="text-[10px] font-mono uppercase tracking-widest text-black/40">■ About REF</span>
+            <span className="text-[10px] font-mono uppercase tracking-widest text-black/40">■ About Kanasa</span>
             <h2 className="text-4xl md:text-[4rem] font-medium tracking-tight leading-[1.05]">
-              We help businesses navigate the digital-first
-              economy with quick wins and long games.
+              We blend design and technology to create
+              digital products that people love.
             </h2>
             <p className="text-lg md:text-xl font-medium leading-relaxed text-black/70 max-w-xl">
-              Because it&rsquo;s by doing good that we do well.
+              From concept to launch, we help businesses navigate the digital-first world.
             </p>
             <div className="pt-4">
               <a
                 href="/about"
                 className="inline-block border border-black px-8 py-3 text-xs font-medium uppercase tracking-wider hover:bg-black hover:text-[#efeee8] transition-colors"
               >
-                See what REF is all about &rarr;
+                See what Kanasa is all about &rarr;
               </a>
             </div>
           </Reveal>

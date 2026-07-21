@@ -23,10 +23,10 @@ export default function ServicesPage() {
           <Reveal className="md:col-span-6">
             <span className="text-xs font-mono uppercase tracking-widest text-black/40 mb-4 block">What We Do</span>
             <h1 className="text-5xl md:text-[5.5rem] leading-[1.05] tracking-tight font-medium mb-6">
-              At the intersection of strategy and business, tech and design.
+              Design and technology, brought together.
             </h1>
             <p className="text-lg md:text-xl font-medium leading-relaxed text-black/70 max-w-xl">
-              We help businesses navigate the digital-first economy with quick wins and long games.
+              Kanasa Creative delivers end-to-end digital products — from UI/UX design to full-stack development.
             </p>
           </Reveal>
         </div>
@@ -65,10 +65,10 @@ export default function ServicesPage() {
       <section className="px-6 md:px-12 py-24">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { value: '80', label: 'Projects Delivered' },
-            { value: '40+', label: 'Team Members' },
-            { value: '150', label: 'Awards' },
-            { value: '200+', label: 'Happy Clients' },
+            { value: '10+', label: 'Projects Delivered' },
+            { value: '5', label: 'Technologies' },
+            { value: '2+', label: 'Years Experience' },
+            { value: '5+', label: 'Happy Clients' },
           ].map((s, i) => (
             <Reveal key={s.label} delay={i * 0.05}>
               <div className="flex flex-col items-center text-center">

@@ -10,7 +10,7 @@ const DATA = {
       { label: 'CLIENT', value: 'It Gets Better Canada' },
       { label: 'INDUSTRY', value: 'Health & Education' },
       { label: 'CATEGORY', value: 'Mobile App' },
-      { label: 'REF', value: 'PGL-0925' },
+      { label: 'CODE', value: 'PGL-0925' },
     ],
     image: '/images/igbc.jpg',
   },

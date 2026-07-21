@@ -9,24 +9,24 @@ export interface Project {
 export const FEATURED_PROJECTS: Project[] = [
   {
     id: '1',
-    title: 'DIME',
-    description: 'MODERNIZING AN ICONIC STREETWEAR BRAND',
-    code: 'PDM-1025',
-    image: '/images/dime.jpg',
+    title: 'NURQURAN',
+    description: 'QURAN READER WITH PRAYER TIMES, FASTING CALENDAR & AUDIO',
+    code: 'KAN-NQA-0426',
+    image: '/images/nurquran.jpg',
   },
   {
     id: '2',
-    title: 'SOPFEU',
-    description: 'HARNESSING REAL-TIME DATA TO CREATE THE ULTIMATE PREVENTION TOOL',
-    code: 'PSF-0325',
-    image: '/images/sopfeu.jpg',
+    title: 'FOODIE',
+    description: 'FOOD DELIVERY PLATFORM WITH SEAMLESS ORDERING EXPERIENCE',
+    code: 'KAN-FDE-0226',
+    image: '/images/foodie.jpg',
   },
   {
     id: '3',
-    title: 'HALO DENTAL',
-    description: 'BUILDING TRUST TO PROPEL A NEW PLAYER IN DENTISTRY',
-    code: 'PHD-0524',
-    image: '/images/halo.jpg',
+    title: 'QITCHEN',
+    description: 'RESTAURANT MANAGEMENT & RESERVATION SYSTEM',
+    code: 'KAN-QTC-0726',
+    image: '/images/qitchen.jpg',
   },
 ];
 

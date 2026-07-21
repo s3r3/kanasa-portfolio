@@ -10,7 +10,7 @@ const DATA = {
       { label: 'CLIENT', value: 'Mission 2035' },
       { label: 'INDUSTRY', value: 'Health & Education' },
       { label: 'CATEGORY', value: 'Website' },
-      { label: 'REF', value: 'PHM-0524' },
+      { label: 'CODE', value: 'PHM-0524' },
     ],
     image: '/images/mission.jpg',
   },
