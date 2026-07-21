@@ -2,9 +2,12 @@
 
 import { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Navbar from '@/components/layout/Navbar';
+
 import Footer from '@/components/layout/Footer';
+import Reveal from '@/components/ui/Reveal';
+import ParallaxImage from '@/components/ui/ParallaxImage';
 import { useScrollStore } from '@/store/useScrollStore';
+import { EASE } from '@/lib/animations';
 
 // ==========================================
 // DATA STATIS
@@ -64,13 +67,24 @@ export default function AboutPage() {
 
   const [displayedText, setDisplayedText] = useState('');
 
+  // Consolidated scroll progress — feeds both zoom-reveal and puzzle parallax
+  const puzzleRef = useRef<HTMLDivElement>(null);
+  const [puzzleProgress, setPuzzleProgress] = useState(0);
+
   useEffect(() => {
     const unsub = useScrollStore.subscribe(({ scrollY }) => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const total = rect.height - window.innerHeight;
-      const scrolled = Math.abs(rect.top);
-      setZoomProgress(Math.min(1, Math.max(0, total > 0 ? scrolled / total : 0)));
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const total = rect.height - window.innerHeight;
+        const scrolled = Math.abs(rect.top);
+        setZoomProgress(Math.min(1, Math.max(0, total > 0 ? scrolled / total : 0)));
+      }
+      if (puzzleRef.current) {
+        const rect = puzzleRef.current.getBoundingClientRect();
+        const total = rect.height - window.innerHeight;
+        const scrolled = Math.abs(rect.top);
+        setPuzzleProgress(Math.min(1, Math.max(0, total > 0 ? scrolled / total : 0)));
+      }
     });
     return unsub;
   }, []);
@@ -88,31 +102,10 @@ export default function AboutPage() {
     return () => clearInterval(typingInterval);
   }, []);
 
-  // ==========================================
-  // 2. PARALLAX PUZZLE & ACCORDION
-  // ==========================================
-  const puzzleRef = useRef<HTMLDivElement>(null);
-  const [puzzleProgress, setPuzzleProgress] = useState(0);
-
-  useEffect(() => {
-    const unsub = useScrollStore.subscribe(({ scrollY }) => {
-      if (!puzzleRef.current) return;
-      const rect = puzzleRef.current.getBoundingClientRect();
-      const total = rect.height - window.innerHeight;
-      const scrolled = Math.abs(rect.top);
-      setPuzzleProgress(Math.min(1, Math.max(0, total > 0 ? scrolled / total : 0)));
-    });
-    return unsub;
-  }, []);
-
-  const bgParallax = `${-20 + puzzleProgress * 40}%`;
-
   const [activePhilosophy, setActivePhilosophy] = useState(3);
 
   return (
     <main className="relative bg-[#cec9c0] text-black selection:bg-black selection:text-white">
-      <Navbar />
-
       {/* ============================================================== */}
       {/* SEKSI 1: ZOOM GRID REVEAL & TYPEWRITER                           */}
       {/* ============================================================== */}
@@ -168,31 +161,31 @@ export default function AboutPage() {
         {/* List Data */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-32 border-t border-black pt-12">
            <div className="hidden md:block md:col-span-6"></div>
-           <div className="col-span-1 md:col-span-6 flex flex-col font-mono text-xs md:text-sm uppercase tracking-wide">
+           <Reveal className="col-span-1 md:col-span-6 flex flex-col font-mono text-xs md:text-sm uppercase tracking-wide">
              <div className="grid grid-cols-2 border-b border-black/20 pb-4 mb-4"><span>Strategy</span></div>
              <div className="grid grid-cols-2 border-b border-black/20 pb-4 mb-4"><span>Solid UI / UX</span></div>
              <div className="grid grid-cols-2 border-b border-black/20 pb-4 mb-4"><span>Web Development</span></div>
              <div className="grid grid-cols-2 border-b border-black/20 pb-4 mb-4"><span>App Development</span></div>
              <div className="grid grid-cols-2 border-b border-black/20 pb-4 mb-4"><span>Ongoing Evolution</span></div>
-           </div>
+           </Reveal>
         </div>
 
         {/* Statistik */}
         <div className="w-full relative border-y border-black py-16 flex flex-col md:flex-row justify-between items-end mb-32 overflow-hidden">
           <div className="absolute top-1/2 left-0 w-full h-px bg-black/30 -z-10" />
 
-          <div className="flex flex-col mb-12 md:mb-0 bg-[#cec9c0] px-4">
+          <Reveal delay={0} className="flex flex-col mb-12 md:mb-0 bg-[#cec9c0] px-4">
             <span className="text-6xl md:text-[5rem] tracking-tighter font-medium">80</span>
             <span className="text-xs uppercase font-mono tracking-widest mt-2">Projects</span>
-          </div>
-          <div className="flex flex-col mb-8 md:mb-0 bg-[#cec9c0] px-4 pb-12">
+          </Reveal>
+          <Reveal delay={0.1} className="flex flex-col mb-8 md:mb-0 bg-[#cec9c0] px-4 pb-12">
             <span className="text-6xl md:text-[5rem] tracking-tighter font-medium">150</span>
             <span className="text-xs uppercase font-mono tracking-widest mt-2">Awards</span>
-          </div>
-          <div className="flex flex-col bg-[#cec9c0] px-4 pt-12 border-t border-black">
+          </Reveal>
+          <Reveal delay={0.2} className="flex flex-col bg-[#cec9c0] px-4 pt-12 border-t border-black">
             <span className="text-6xl md:text-[5rem] tracking-tighter font-medium">200+</span>
             <span className="text-xs uppercase font-mono tracking-widest mt-2">Clients</span>
-          </div>
+          </Reveal>
         </div>
 
         {/* Grid Tim */}
@@ -200,7 +193,7 @@ export default function AboutPage() {
           <div className="hidden md:block md:col-span-2">
              <span className="text-[10px] leading-none mt-2 block">■ TEAM</span>
           </div>
-          <div className="col-span-1 md:col-span-10">
+          <Reveal className="col-span-1 md:col-span-10">
             <h2 className="text-3xl md:text-[3rem] font-medium tracking-tight leading-[1.05] mb-12">
               A lasting impact is built on talented teams and decisive leadership. By blending bold thinking with deep expertise, we've cultivated a culture of innovation and collaboration that drives success.
             </h2>
@@ -212,7 +205,7 @@ export default function AboutPage() {
                 </div>
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -222,10 +215,11 @@ export default function AboutPage() {
       <section ref={puzzleRef} className="relative w-full h-[200vh] bg-[#cec9c0]">
         <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
 
-          <motion.div
-            animate={{ y: bgParallax }}
-            className="absolute inset-0 w-full h-[140%] -top-[-20%] bg-cover bg-center -z-10"
-            style={{ backgroundImage: 'url(/images/puzzle-bg.jpg)' }}
+          <ParallaxImage
+            src="/images/puzzle-bg.jpg"
+            alt="Puzzle background"
+            speed={0.4}
+            className="absolute inset-0 w-full h-[140%] -top-[-20%] -z-10"
           />
 
           <div className="relative w-[85%] max-w-[400px] aspect-square bg-[#cec9c0] p-8 flex flex-col justify-between shadow-2xl">
@@ -279,7 +273,7 @@ export default function AboutPage() {
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] }}
+                        transition={{ duration: 0.5, ease: EASE.smooth }}
                         className="overflow-hidden"
                       >
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pb-12 pt-4">

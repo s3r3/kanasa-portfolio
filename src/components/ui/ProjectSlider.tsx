@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { SLIDER_PROJECT } from "@/constants";
+import { EASE as EASE_SHARED } from "@/lib/animations";
 
-const EASE = [0.76, 0, 0.24, 1] as [number, number, number, number];
+const EASE = EASE_SHARED.smooth;
 
 export default function ProjectSlider() {
   const [currentIndex, setCurrentIndex] = useState(2);

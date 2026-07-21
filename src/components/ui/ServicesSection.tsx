@@ -2,6 +2,7 @@
 
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { MAIN_NODES, BG_LINES } from '@/constants';
+import { SPRING } from '@/lib/animations';
 import Link from 'next/link';
 
 export default function ServicesSection() {
@@ -13,11 +14,10 @@ export default function ServicesSection() {
   const rotateX = useTransform(mouseY, [-1, 1], [3, -3]);
   const rotateY = useTransform(mouseX, [-1, 1], [-3, 3]);
 
-  const springConfig = { damping: 50, stiffness: 200, mass: 0.5 };
-  const smoothX = useSpring(moveX, springConfig);
-  const smoothY = useSpring(moveY, springConfig);
-  const smoothRotateX = useSpring(rotateX, springConfig);
-  const smoothRotateY = useSpring(rotateY, springConfig);
+  const smoothX = useSpring(moveX, SPRING.tilt);
+  const smoothY = useSpring(moveY, SPRING.tilt);
+  const smoothRotateX = useSpring(rotateX, SPRING.tilt);
+  const smoothRotateY = useSpring(rotateY, SPRING.tilt);
 
   const handlePointerMove = (e: React.PointerEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();

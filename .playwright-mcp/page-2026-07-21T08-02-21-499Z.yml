@@ -1,0 +1,268 @@
+- generic [ref=e3]:
+  - link "Skip to main content" [ref=e4] [cursor=pointer]:
+    - /url: "#content"
+  - region "We use cookies on this site":
+    - generic [ref=e5]:
+      - paragraph [ref=e10]: Cookies
+      - paragraph [ref=e11]: We use cookies on this site
+      - paragraph [ref=e12]:
+        - text: Our cookies and those of our partners help improve your experience and analyze your use of the website. To learn all about cookies, check our
+        - link "terms of use" [ref=e13] [cursor=pointer]:
+          - /url: /privacy-policy/
+        - text: .
+      - generic [ref=e14]:
+        - button [ref=e15] [cursor=pointer]
+        - button [ref=e21] [cursor=pointer]
+        - button [ref=e27] [cursor=pointer]
+  - generic [ref=e33]:
+    - banner:
+      - generic:
+        - link "REF - Homepage" [ref=e35] [cursor=pointer]:
+          - /url: /
+        - button "Open menu" [ref=e41] [cursor=pointer]:
+          - generic [ref=e42]:
+            - generic [ref=e43]: Menu
+            - generic [ref=e44]: Close
+          - generic [ref=e45]: "[ ]"
+    - banner:
+      - generic:
+        - generic:
+          - generic:
+            - link "REF - Homepage":
+              - /url: /
+        - button "Open menu" [ref=e54] [cursor=pointer]:
+          - generic [ref=e55]:
+            - generic [ref=e56]: Menu
+            - generic [ref=e57]: Close
+          - generic [ref=e58]: "[ ]"
+    - main [ref=e66]:
+      - generic [ref=e67]:
+        - generic [ref=e69]:
+          - heading "Move fast, build to last." [level=1] [ref=e70]
+          - paragraph [ref=e74]:
+            - generic [ref=e75]: Some say move fast, break things. REF is a digital agency that believes we’ve broken enough things already.
+        - region "Projects" [ref=e77]:
+          - link "Halo Dental - View case study" [ref=e78] [cursor=pointer]:
+            - /url: /work/halo-dental/
+          - paragraph:
+            - generic: Halo Dental
+          - paragraph:
+            - generic:
+              - generic: PHD
+              - generic: "0524"
+          - generic:
+            - generic:
+              - 'group "Halo Dental: 1/6"':
+                - generic:
+                  - 'group "Halo Dental: 1/6"'
+              - 'group "Cellart: 2/6"':
+                - generic:
+                  - 'group "Cellart: 2/6"'
+              - 'group "Mission 2035: 3/6"':
+                - generic:
+                  - 'group "Mission 2035: 3/6"'
+              - 'group "Halo Dental: 4/6"':
+                - generic:
+                  - 'group "Halo Dental: 4/6"'
+              - 'group "Cellart: 5/6"':
+                - generic:
+                  - 'group "Cellart: 5/6"'
+              - 'group "Mission 2035: 6/6"':
+                - generic:
+                  - 'group "Mission 2035: 6/6"'
+          - generic [ref=e79]:
+            - list [ref=e85]:
+              - listitem [ref=e86]
+              - listitem [ref=e88]
+              - listitem [ref=e90]
+              - listitem [ref=e92]
+              - listitem [ref=e94]
+              - listitem [ref=e96]
+              - listitem [ref=e98]
+            - button "Previous slide" [ref=e99] [cursor=pointer]: "[]"
+            - button "Next slide" [ref=e102] [cursor=pointer]: "[]"
+        - generic [ref=e105]:
+          - generic [ref=e106]:
+            - heading [level=2] [ref=e107]
+            - generic [ref=e111]:
+              - paragraph [ref=e113]:
+                - generic [ref=e114]: We help businesses navigate the digital-first economy with quick wins and long
+                - generic [ref=e116]: games.
+                - generic [ref=e120]: Because it’s by doing good that we do well.
+              - link [ref=e122] [cursor=pointer]:
+                - /url: /about/
+          - generic [ref=e129]:
+            - generic [ref=e134]:
+              - generic [ref=e135]: Play video
+              - generic [ref=e138]: Play video
+              - generic [ref=e141]: Play video
+              - generic [ref=e144]: Play video
+            - button "Play video Ref vidéo de lancement" [ref=e147] [cursor=pointer]
+        - generic [ref=e148]:
+          - generic [ref=e149]:
+            - heading [level=2] [ref=e150]
+            - generic [ref=e154]:
+              - paragraph [ref=e156]:
+                - generic [ref=e157]: Instead of adapting to change, we shape it.
+              - link [ref=e159] [cursor=pointer]:
+                - /url: /work/
+          - list [ref=e165]:
+            - listitem [ref=e166]:
+              - link "[ ] E-commerce Drive and sustain growth with platforms that mean business." [ref=e167] [cursor=pointer]:
+                - /url: /work/?type=e-commerce
+                - heading "[ ] E-commerce" [level=3] [ref=e170]:
+                  - generic [ref=e171]:
+                    - generic [ref=e172]: "["
+                    - generic [ref=e173]: "]"
+                    - generic [ref=e174]: E-commerce
+                - paragraph [ref=e177]: Drive and sustain growth with platforms that mean business.
+            - listitem [ref=e178]:
+              - link "[ ] Mobile Apps Build purpose-driven apps that stick." [ref=e179] [cursor=pointer]:
+                - /url: /work/?type=mobile-app
+                - heading "[ ] Mobile Apps" [level=3] [ref=e182]:
+                  - generic [ref=e183]:
+                    - generic [ref=e184]: "["
+                    - generic [ref=e185]: "]"
+                    - generic [ref=e186]: Mobile Apps
+                - paragraph [ref=e189]: Build purpose-driven apps that stick.
+            - listitem [ref=e190]:
+              - link "[ ] Websites Deliver immediate impact. Keep scaling from there." [ref=e191] [cursor=pointer]:
+                - /url: /work/?type=website
+                - heading "[ ] Websites" [level=3] [ref=e194]:
+                  - generic [ref=e195]:
+                    - generic [ref=e196]: "["
+                    - generic [ref=e197]: "]"
+                    - generic [ref=e198]: Websites
+                - paragraph [ref=e201]: Deliver immediate impact. Keep scaling from there.
+            - listitem [ref=e202]:
+              - link "[ ] Experiential Create memorable journeys, online and off." [ref=e203] [cursor=pointer]:
+                - /url: /work/?type=experiential
+                - heading "[ ] Experiential" [level=3] [ref=e206]:
+                  - generic [ref=e207]:
+                    - generic [ref=e208]: "["
+                    - generic [ref=e209]: "]"
+                    - generic [ref=e210]: Experiential
+                - paragraph [ref=e213]: Create memorable journeys, online and off.
+        - generic [ref=e215]:
+          - heading [level=2] [ref=e216]
+          - generic [ref=e220]:
+            - paragraph [ref=e222]:
+              - generic [ref=e223]: At the intersection of strategy and business, tech and design, we’ll create your best
+              - generic [ref=e225]: work yet.
+            - link [ref=e227] [cursor=pointer]:
+              - /url: /services/
+    - contentinfo [ref=e234]:
+      - generic [ref=e235]:
+        - generic [ref=e236]:
+          - list [ref=e237]:
+            - listitem [ref=e238]:
+              - link "[ ] Work" [ref=e239] [cursor=pointer]:
+                - /url: /work/
+                - generic [ref=e240]:
+                  - generic [ref=e241]: "["
+                  - generic [ref=e242]: "]"
+                  - generic [ref=e243]: Work
+            - listitem [ref=e246]:
+              - link "[ ] About" [ref=e247] [cursor=pointer]:
+                - /url: /about/
+                - generic [ref=e248]:
+                  - generic [ref=e249]: "["
+                  - generic [ref=e250]: "]"
+                  - generic [ref=e251]: About
+            - listitem [ref=e254]:
+              - link "[ ] Services" [ref=e255] [cursor=pointer]:
+                - /url: /services/
+                - generic [ref=e256]:
+                  - generic [ref=e257]: "["
+                  - generic [ref=e258]: "]"
+                  - generic [ref=e259]: Services
+            - listitem [ref=e262]:
+              - link "[ ] Contact" [ref=e263] [cursor=pointer]:
+                - /url: /contact/
+                - generic [ref=e264]:
+                  - generic [ref=e265]: "["
+                  - generic [ref=e266]: "]"
+                  - generic [ref=e267]: Contact
+          - list [ref=e270]:
+            - listitem [ref=e271]:
+              - link "Instagram (Opens in a new tab)" [ref=e272] [cursor=pointer]:
+                - /url: https://www.instagram.com/we.are.ref
+                - generic [ref=e273]:
+                  - generic [ref=e274]: "["
+                  - generic [ref=e275]: "]"
+                  - generic [ref=e276]: Instagram
+            - listitem [ref=e279]:
+              - link "LinkedIn (Opens in a new tab)" [ref=e280] [cursor=pointer]:
+                - /url: https://www.linkedin.com/company/refdigital/
+                - generic [ref=e281]:
+                  - generic [ref=e282]: "["
+                  - generic [ref=e283]: "]"
+                  - generic [ref=e284]: LinkedIn
+            - listitem [ref=e287]:
+              - link "Bluesky (Opens in a new tab)" [ref=e288] [cursor=pointer]:
+                - /url: https://bsky.app/profile/refdigital.bsky.social
+                - generic [ref=e289]:
+                  - generic [ref=e290]: "["
+                  - generic [ref=e291]: "]"
+                  - generic [ref=e292]: Bluesky
+            - listitem [ref=e295]:
+              - link "Awwwards (Opens in a new tab)" [ref=e296] [cursor=pointer]:
+                - /url: https://www.awwwards.com/ref.digital/
+                - generic [ref=e297]:
+                  - generic [ref=e298]: "["
+                  - generic [ref=e299]: "]"
+                  - generic [ref=e300]: Awwwards
+          - generic [ref=e303]:
+            - generic [ref=e304]:
+              - term [ref=e305]: A
+              - definition [ref=e306]:
+                - generic [ref=e307]: 4051 Molson StreetSuite 100, Montreal, QC, H1Y 3L1
+            - generic [ref=e312]:
+              - term [ref=e313]: P
+              - definition [ref=e314]: +1 514 281-8901
+            - generic [ref=e317]:
+              - term [ref=e318]: E
+              - definition [ref=e319]:
+                - button "info@ref.digital" [ref=e321] [cursor=pointer]
+        - generic [ref=e324]:
+          - link "REF - Homepage" [ref=e326] [cursor=pointer]:
+            - /url: /
+          - list [ref=e331]:
+            - listitem [ref=e332]:
+              - generic [ref=e333]:
+                - generic: "["
+                - generic: "]"
+                - link "Français" [ref=e335] [cursor=pointer]:
+                  - /url: /fr/
+            - listitem [ref=e336]:
+              - link [ref=e337] [cursor=pointer]:
+                - /url: /privacy-policy/
+                - generic [ref=e338]:
+                  - generic: "["
+                  - generic: "]"
+                  - generic [ref=e339]: Privacy policy
+            - listitem [ref=e342]:
+              - link [ref=e343] [cursor=pointer]:
+                - /url: /terms-conditions/
+                - generic [ref=e344]:
+                  - generic: "["
+                  - generic: "]"
+                  - generic [ref=e345]: Terms and conditions
+            - listitem [ref=e348]:
+              - link [ref=e349] [cursor=pointer]:
+                - /url: "#cmp"
+                - generic [ref=e350]:
+                  - generic: "["
+                  - generic: "]"
+                  - generic [ref=e351]: Cookies settings
+          - list [ref=e354]:
+            - listitem [ref=e355]:
+              - link "lg2 website (Opens in a new tab)" [ref=e356] [cursor=pointer]:
+                - /url: https://lg2.com?utm_source=ref_website&utm_medium=lg2ecosystem&utm_campaign=permanent_ecosystem
+            - listitem [ref=e357]:
+              - link "Bcorp (Opens in a new tab)" [ref=e358] [cursor=pointer]:
+                - /url: https://www.bcorporation.net/en-us/find-a-b-corp/company/groupe-lg2-inc/
+                - img "certified b corp logo" [ref=e359]
+            - listitem [ref=e360]:
+              - link "Soda (Opens in a new tab)" [ref=e361] [cursor=pointer]:
+                - /url: https://www.sodaspeaks.com/

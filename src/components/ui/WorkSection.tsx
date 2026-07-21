@@ -3,14 +3,15 @@
 import { useState } from 'react';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import { WORK_CATEGORIES } from '@/constants';
+import { EASE, SPRING } from '@/lib/animations';
 
 export default function WorkSection() {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
-  const cursorXSpring = useSpring(cursorX, { damping: 25, stiffness: 400 });
-  const cursorYSpring = useSpring(cursorY, { damping: 25, stiffness: 400 });
+  const cursorXSpring = useSpring(cursorX, SPRING.cursor);
+  const cursorYSpring = useSpring(cursorY, SPRING.cursor);
 
   const handlePointerMove = (e: React.PointerEvent) => {
     cursorX.set(e.clientX - 60);
@@ -103,7 +104,7 @@ export default function WorkSection() {
                       scale: isHovered ? 1.15 : isAnyHovered ? 0.9 : 1,
                       zIndex: isHovered ? 30 : 10,
                     }}
-                    transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+                    transition={{ duration: 0.5, ease: EASE.spring }}
                     className="relative w-full h-full bg-neutral-300 overflow-hidden shadow-lg"
                   >
                     <div

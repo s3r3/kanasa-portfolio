@@ -1,16 +1,15 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import {
   motion,
   AnimatePresence,
-  useMotionValue,
-  useSpring,
 } from 'framer-motion';
 import Link from 'next/link';
 import Footer from '@/components/layout/Footer';
 import Reveal from '@/components/ui/Reveal';
-import { useScrollStore } from '@/store/useScrollStore';
+import ParallaxImage from '@/components/ui/ParallaxImage';
+import { EASE, SPRING } from '@/lib/animations';
 
 const ALL_WORK_ITEMS = [
   {
@@ -87,7 +86,7 @@ const ALL_WORK_ITEMS = [
   },
 ];
 
-// ponytail: inline parallax card, extract if reused elsewhere
+// ponytail: inline parallax card, now uses ParallaxImage
 function WorkCard({
   item,
   index,
@@ -95,47 +94,29 @@ function WorkCard({
   item: (typeof ALL_WORK_ITEMS)[0];
   index: number;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const y = useMotionValue(0);
-  const smoothY = useSpring(y, { stiffness: 150, damping: 25, mass: 0.5 });
-
-  // Track card position relative to viewport on every Lenis scroll frame
-  useEffect(() => {
-    const unsub = useScrollStore.subscribe(({ scrollY }) => {
-      if (!ref.current) return;
-      const rect = ref.current.getBoundingClientRect();
-      const viewMid = window.innerHeight / 2;
-      const cardMid = rect.top + rect.height / 2;
-      y.set((cardMid - viewMid) * -0.15);
-    });
-    return unsub;
-  }, [y]);
-
   const slug = item.client.toLowerCase().replace(/\s+/g, '-');
 
   return (
     <Link href={`/work/${slug}`} className={`col-span-1 ${item.colSpan}`}>
       <motion.div
-        ref={ref}
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-100px' }}
         transition={{
           duration: 0.6,
           delay: (index % 3) * 0.1,
-          ease: [0.25, 1, 0.5, 1],
+          ease: EASE.spring,
         }}
         className="flex flex-col gap-4 group cursor-pointer"
       >
-        <div
-          className={`relative w-full bg-neutral-300 overflow-hidden ${item.aspect}`}
-        >
+        <div className={`relative w-full overflow-hidden ${item.aspect}`}>
           <motion.div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${item.image})`, y: smoothY }}
             whileHover={{ scale: 1.08 }}
-            transition={{ duration: 0.7, ease: [0.25, 1, 0.5, 1] }}
-          />
+            transition={{ duration: 0.7, ease: EASE.spring }}
+            className="w-full h-full"
+          >
+            <ParallaxImage src={item.image} alt={item.client} speed={0.15} className="w-full h-full" />
+          </motion.div>
         </div>
         <div className="grid grid-cols-2 text-[10px] md:text-xs uppercase font-medium tracking-wide">
           <div className="pr-4">{item.client}</div>

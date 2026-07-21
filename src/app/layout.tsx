@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import ContactOverlay from "@/components/layout/ContactOverlay";
 import SmoothScroll from "@/components/providers/SmoothScroll";
+import PageTransition from "@/components/providers/PageTransition";
 import SplashScreen from "@/components/ui/SplashScreen";
 
 const geistSans = Geist({
@@ -40,7 +41,7 @@ export default function RootLayout({
         <SplashScreen />
         <SmoothScroll>
           <Navbar />
-          {children}
+          <PageTransition>{children}</PageTransition>
           <ContactOverlay />
         </SmoothScroll>
       </body>
