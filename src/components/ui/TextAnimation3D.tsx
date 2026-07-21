@@ -13,14 +13,14 @@ export default function TextAnimation3D({ text = 'KANASA' }: { text?: string }) 
     const mount = mountRef.current;
     if (!mount) return;
 
-    const W = 400, H = 120;
+    const W = 800, H = 200;
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     renderer.setSize(W, H);
     mount.appendChild(renderer.domElement);
 
-    const camera = new THREE.PerspectiveCamera(8, W / H, 1, 10000);
-    camera.position.set(0, 0, 500);
+    const camera = new THREE.PerspectiveCamera(6, W / H, 1, 10000);
+    camera.position.set(0, 0, 800);
     const scene = new THREE.Scene();
 
     const loader = new FontLoader();
@@ -53,7 +53,7 @@ export default function TextAnimation3D({ text = 'KANASA' }: { text?: string }) 
     return () => { renderer.dispose(); };
   }, [text]);
 
-  return <div ref={mountRef} className="w-full max-w-[400px] h-[120px]" />;
+  return <div ref={mountRef} className="w-full h-[200px]" />;
 }
 
 function createTextMesh(font: any, text: string) {

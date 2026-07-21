@@ -121,9 +121,9 @@ function WorkCard({
         </div>
         <div className="grid grid-cols-2 text-[10px] md:text-xs uppercase font-medium tracking-wide">
           <div className="pr-4">{item.client}</div>
-          <div className="flex flex-col text-black/60">
+          <div className="flex flex-col text-fg/60">
             <span className="leading-relaxed">{item.desc}</span>
-            <span className="mt-3 text-black group-hover:italic transition-all">
+            <span className="mt-3 text-fg group-hover:italic transition-all">
               {item.category}
             </span>
           </div>
@@ -137,12 +137,12 @@ export default function WorkPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   return (
-    <main className="relative bg-[#efeee8] text-black min-h-screen">
+    <main className="relative bg-bg text-fg min-h-screen">
       {/* --- HERO TEXT --- */}
       <section className="pt-48 pb-20 px-6 md:px-12 grid grid-cols-1 md:grid-cols-12">
         <div className="hidden md:block md:col-span-6" />
         <Reveal className="md:col-span-6">
-          <p className="text-[17px] md:text-[22px] leading-[1.35] tracking-[-0.02em] text-black/60 mb-8">
+          <p className="text-[17px] md:text-[22px] leading-[1.35] tracking-[-0.02em] text-fg/60 mb-8">
             We build digital products that drive results.
           </p>
           <Typewriter
@@ -154,7 +154,7 @@ export default function WorkPage() {
       </section>
 
       {/* --- FILTER BAR + VIEW TOGGLE (fixed — Lenis breaks sticky) --- */}
-      <div className="fixed top-20 z-30 w-full bg-[#efeee8]/90 backdrop-blur-md px-6 md:px-12 py-4 border-b border-black/20 flex justify-between items-center text-xs md:text-sm font-medium uppercase tracking-wide">
+      <div className="fixed top-20 z-30 w-full bg-bg/90 backdrop-blur-md px-6 md:px-12 py-4 border-b border-fg/20 flex justify-between items-center text-xs md:text-sm font-medium uppercase tracking-wide">
         <div className="flex gap-2">
           <span className="text-[10px] leading-none mt-0.5">■</span>
           <span className="cursor-pointer">
@@ -167,8 +167,8 @@ export default function WorkPage() {
             onClick={() => setViewMode('grid')}
             className={`transition-colors ${
               viewMode === 'grid'
-                ? 'text-black'
-                : 'text-black/40 hover:text-black'
+                ? 'text-fg'
+                : 'text-fg/40 hover:text-fg'
             }`}
           >
             {viewMode === 'grid' ? '[GRID]' : 'GRID'}
@@ -177,8 +177,8 @@ export default function WorkPage() {
             onClick={() => setViewMode('list')}
             className={`transition-colors ${
               viewMode === 'list'
-                ? 'text-black'
-                : 'text-black/40 hover:text-black'
+                ? 'text-fg'
+                : 'text-fg/40 hover:text-fg'
             }`}
           >
             {viewMode === 'list' ? '[LIST]' : 'LIST'}
@@ -216,7 +216,7 @@ export default function WorkPage() {
               className="w-full flex flex-col"
             >
               {/* Header */}
-              <div className="grid grid-cols-5 gap-4 border-b border-black pb-4 text-lg md:text-2xl font-medium tracking-tight mb-4">
+              <div className="grid grid-cols-5 gap-4 border-b border-fg pb-4 text-lg md:text-2xl font-medium tracking-tight mb-4">
                 <div className="col-span-1">Projects</div>
                 <div className="col-span-1">Type</div>
                 <div className="col-span-1">Industries</div>
@@ -229,19 +229,19 @@ export default function WorkPage() {
               {ALL_WORK_ITEMS.map((item) => (
                 <div
                   key={`list-${item.id}`}
-                  className="grid grid-cols-5 gap-4 border-b border-black/10 py-5 text-xs md:text-sm uppercase font-mono tracking-wide cursor-pointer hover:bg-black/5 transition-colors group"
+                  className="grid grid-cols-5 gap-4 border-b border-fg/10 py-5 text-xs md:text-sm uppercase font-mono tracking-wide cursor-pointer hover:bg-black/5 transition-colors group"
                 >
                   <div className="col-span-1 font-sans font-medium group-hover:italic transition-all">
                     {item.client}
                   </div>
-                  <div className="col-span-1 text-black/70">
+                  <div className="col-span-1 text-fg/70">
                     {item.category}
                   </div>
-                  <div className="col-span-1 text-black/70">
+                  <div className="col-span-1 text-fg/70">
                     {item.industry}
                   </div>
-                  <div className="col-span-1 text-black/70">{item.year}</div>
-                  <div className="col-span-1 text-right text-black/70">
+                  <div className="col-span-1 text-fg/70">{item.year}</div>
+                  <div className="col-span-1 text-right text-fg/70">
                     {item.refCode}
                   </div>
                 </div>

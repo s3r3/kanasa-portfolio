@@ -16,19 +16,19 @@ const SERVICE_LIST = [
 
 export default function ServicesPage() {
   return (
-    <main className="relative bg-[#cec9c0] text-black min-h-screen overflow-x-hidden">
+    <main className="relative bg-bg-accent text-fg min-h-screen overflow-x-hidden">
       {/* Hero */}
       <section className="pt-48 pb-24 px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           <div className="hidden md:block md:col-span-6" />
           <Reveal className="md:col-span-6">
-            <span className="text-xs font-mono uppercase tracking-widest text-black/40 mb-4 block">What We Do</span>
+            <span className="text-xs font-mono uppercase tracking-widest text-fg/40 mb-4 block">What We Do</span>
             <Typewriter
               text="Design and technology, brought together."
               speed={50}
               className="text-5xl md:text-[5.5rem] leading-[1.05] tracking-tight font-medium mb-6 block"
             />
-            <p className="text-lg md:text-xl font-medium leading-relaxed text-black/70 max-w-xl">
+            <p className="text-lg md:text-xl font-medium leading-relaxed text-fg/70 max-w-xl">
               Kanasa Creative delivers end-to-end digital products — from UI/UX design to full-stack development.
             </p>
           </Reveal>
@@ -36,7 +36,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Service Grid */}
-      <section className="px-6 md:px-12 py-24 border-t border-black/10">
+      <section className="px-6 md:px-12 py-24 border-t border-fg/10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           <div className="hidden md:block md:col-span-4">
             <div className="sticky top-[120px] flex items-center gap-3 text-xs md:text-sm font-medium uppercase tracking-wide">
@@ -46,13 +46,13 @@ export default function ServicesPage() {
           <div className="col-span-1 md:col-span-8 flex flex-col gap-16">
             {SERVICE_LIST.map((svc, i) => (
               <Reveal key={svc.title} delay={i * 0.05}>
-                <div className="border-t border-black/20 pt-8 flex flex-col md:flex-row md:items-start gap-6 md:gap-16">
-                  <span className="text-xs font-mono uppercase tracking-widest text-black/30 shrink-0 w-8">
+                <div className="border-t border-fg/20 pt-8 flex flex-col md:flex-row md:items-start gap-6 md:gap-16">
+                  <span className="text-xs font-mono uppercase tracking-widest text-fg/30 shrink-0 w-8">
                     {(i + 1).toString().padStart(2, '0')}
                   </span>
                   <div className="flex-1">
                     <h3 className="text-3xl md:text-4xl font-medium tracking-tight mb-4">{svc.title}</h3>
-                    <p className="text-sm md:text-base leading-relaxed text-black/60 max-w-lg">{svc.desc}</p>
+                    <p className="text-sm md:text-base leading-relaxed text-fg/60 max-w-lg">{svc.desc}</p>
                   </div>
                 </div>
               </Reveal>
@@ -76,7 +76,7 @@ export default function ServicesPage() {
             <Reveal key={s.label} delay={i * 0.05}>
               <div className="flex flex-col items-center text-center">
                 <span className="text-5xl md:text-7xl font-medium tracking-tighter">{s.value}</span>
-                <span className="text-xs uppercase font-mono tracking-wide text-black/50 mt-2">{s.label}</span>
+                <span className="text-xs uppercase font-mono tracking-wide text-fg/50 mt-2">{s.label}</span>
               </div>
             </Reveal>
           ))}

@@ -22,7 +22,7 @@ export default function WorkSection() {
   return (
     <section
       id="work"
-      className="relative w-full min-h-screen px-6 py-24 md:py-32 bg-[#efeee8] text-black cursor-default overflow-hidden"
+      className="relative w-full min-h-screen px-6 py-24 md:py-32 bg-bg text-fg cursor-default overflow-hidden"
       onPointerMove={handlePointerMove}
     >
       <motion.div
@@ -51,7 +51,7 @@ export default function WorkSection() {
             <h2 className="text-4xl md:text-5xl font-medium tracking-tight">
               Instead of adapting to change, we shape it.
             </h2>
-            <Link href="/work"><button className="border border-black px-4 py-2 text-xs font-medium uppercase tracking-wider hover:bg-black hover:text-[#efeee8] transition-colors">
+            <Link href="/work"><button className="border border-fg px-4 py-2 text-xs font-medium uppercase tracking-wider hover:bg-black hover:text-[#efeee8] transition-colors">
               See our work
             </button></Link>
           </div>
@@ -78,7 +78,7 @@ export default function WorkSection() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -5 }}
                         transition={{ duration: 0.3 }}
-                        className="text-[10px] md:text-xs uppercase font-mono text-black/60 tracking-wider leading-relaxed"
+                        className="text-[10px] md:text-xs uppercase font-mono text-fg/60 tracking-wider leading-relaxed"
                       >
                         {cat.desc}
                       </motion.p>

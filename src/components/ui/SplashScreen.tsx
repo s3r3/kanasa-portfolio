@@ -11,7 +11,7 @@ export default function SplashScreen() {
 
     // Simpel fade-in fade-out splash
     const el = document.createElement('div');
-    el.className = 'fixed inset-0 z-[100] flex items-center justify-center bg-[#cec9c0] text-black';
+    el.className = 'fixed inset-0 z-[100] flex items-center justify-center bg-bg-accent text-fg';
     el.innerHTML = `<span class="text-[8rem] md:text-[12rem] font-medium tracking-tighter leading-none">KANASA</span>`;
     container.appendChild(el);
 

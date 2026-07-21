@@ -2,13 +2,12 @@
 
 import Link from 'next/link';
 import { useUIStore } from '@/store/useUIStore';
-import TextAnimation3D from '@/components/ui/TextAnimation3D';
 
 export default function Footer() {
   const { toggleContact } = useUIStore();
 
   return (
-    <footer className="bg-[#cec9c0] text-black pt-32 pb-8 px-6 md:px-12 border-t border-black/10 flex flex-col justify-between min-h-[70vh]">
+    <footer className="bg-bg-accent text-fg pt-32 pb-8 px-6 md:px-12 border-t border-fg/10 flex flex-col justify-between min-h-[70vh]">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 w-full mb-24">
         <div className="hidden lg:block lg:col-span-5" />
 
@@ -50,7 +49,6 @@ export default function Footer() {
       </div>
 
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-12 w-full mt-auto">
-        <TextAnimation3D text="KANASA" />
         <div className="text-[10rem] md:text-[14rem] lg:text-[18rem] leading-[0.7] tracking-tighter font-medium -ml-3 md:-ml-4">
           KANASA
         </div>
@@ -62,7 +60,7 @@ export default function Footer() {
           </ul>
 
           <div className="flex items-center gap-6 shrink-0">
-            <span className="text-[10px] uppercase tracking-widest text-black/40">© 2026 Kanasa Creative</span>
+            <span className="text-[10px] uppercase tracking-widest text-fg/40">© 2026 Kanasa Creative</span>
           </div>
         </div>
       </div>

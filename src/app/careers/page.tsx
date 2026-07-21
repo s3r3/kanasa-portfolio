@@ -46,7 +46,7 @@ export default function CareersPage() {
   const [centerHover, setCenterHover] = useState(false);
 
   return (
-    <main className="relative bg-[#cec9c0] text-black min-h-screen overflow-x-hidden selection:bg-black selection:text-white font-mono">
+    <main className="relative bg-bg-accent text-fg min-h-screen overflow-x-hidden selection:bg-black selection:text-white font-mono">
       {/* ========================================== */}
       {/* HERO                                       */}
       {/* ========================================== */}
@@ -66,7 +66,7 @@ export default function CareersPage() {
               speed={50}
               className="text-5xl md:text-[5.5rem] leading-[1.05] tracking-tight font-medium max-w-3xl mb-6 font-sans block"
             />
-            <p className="text-base md:text-lg font-medium leading-relaxed text-black/60 max-w-xl">
+            <p className="text-base md:text-lg font-medium leading-relaxed text-fg/60 max-w-xl">
               Kanasa Creative is always looking for passionate people who love design and technology.
             </p>
           </Reveal>
@@ -75,11 +75,11 @@ export default function CareersPage() {
         {/* View toggle inside hero */}
         <div className="relative z-10 px-6 md:px-12 pb-8">
           <div className="flex items-center gap-4 text-xs font-mono uppercase tracking-wide">
-            <span className="text-black/40">Explore</span>
+            <span className="text-fg/40">Explore</span>
             <button
               onClick={() => setViewMode('node')}
               className={`transition-colors px-3 py-1.5 rounded-full ${
-                viewMode === 'node' ? 'bg-black text-white' : 'border border-black/30 text-black/60 hover:text-black'
+                viewMode === 'node' ? 'bg-black text-white' : 'border border-fg/30 text-fg/60 hover:text-fg'
               }`}
             >
               Mind Map
@@ -87,7 +87,7 @@ export default function CareersPage() {
             <button
               onClick={() => setViewMode('grid')}
               className={`transition-colors px-3 py-1.5 rounded-full ${
-                viewMode === 'grid' ? 'bg-black text-white' : 'border border-black/30 text-black/60 hover:text-black'
+                viewMode === 'grid' ? 'bg-black text-white' : 'border border-fg/30 text-fg/60 hover:text-fg'
               }`}
             >
               Grid
@@ -150,13 +150,13 @@ export default function CareersPage() {
                     style={{ top: item.y, left: item.x }}
                     onClick={() => setActiveModal(item.id)}
                   >
-                    <div className="w-40 h-40 bg-[#dfff80] rounded-xl p-5 flex flex-col justify-between transition-colors duration-300 group-hover:bg-black border border-black/10 shadow-lg">
-                      <div className="w-8 h-8 bg-black text-[#dfff80] rounded-full flex items-center justify-center text-xs transition-colors duration-300 group-hover:bg-[#dfff80] group-hover:text-black">
+                    <div className="w-40 h-40 bg-[#dfff80] rounded-xl p-5 flex flex-col justify-between transition-colors duration-300 group-hover:bg-black border border-fg/10 shadow-lg">
+                      <div className="w-8 h-8 bg-black text-[#dfff80] rounded-full flex items-center justify-center text-xs transition-colors duration-300 group-hover:bg-[#dfff80] group-hover:text-fg">
                         01
                       </div>
                       <div className="flex justify-between items-end font-sans">
-                        <span className="text-2xl font-medium leading-none text-black group-hover:text-[#dfff80]">Jobs<br/>Opening</span>
-                        <span className="text-black group-hover:text-[#dfff80]">[+]</span>
+                        <span className="text-2xl font-medium leading-none text-fg group-hover:text-[#dfff80]">Jobs<br/>Opening</span>
+                        <span className="text-fg group-hover:text-[#dfff80]">[+]</span>
                       </div>
                     </div>
                   </div>
@@ -202,14 +202,14 @@ export default function CareersPage() {
             <div className="w-full max-w-6xl grid grid-cols-2 md:grid-cols-4 gap-y-16 gap-x-8">
               <div
                 onClick={() => setActiveModal('jobs')}
-                className="w-full aspect-square bg-[#dfff80] rounded-xl p-5 flex flex-col justify-between cursor-pointer group hover:bg-black transition-colors border border-black/10 shadow-lg"
+                className="w-full aspect-square bg-[#dfff80] rounded-xl p-5 flex flex-col justify-between cursor-pointer group hover:bg-black transition-colors border border-fg/10 shadow-lg"
               >
-                <div className="w-8 h-8 bg-black text-[#dfff80] rounded-full flex items-center justify-center text-xs group-hover:bg-[#dfff80] group-hover:text-black transition-colors">
+                <div className="w-8 h-8 bg-black text-[#dfff80] rounded-full flex items-center justify-center text-xs group-hover:bg-[#dfff80] group-hover:text-fg transition-colors">
                   01
                 </div>
                 <div className="flex justify-between items-end font-sans">
-                  <span className="text-2xl font-medium leading-none text-black group-hover:text-[#dfff80]">Jobs<br/>Opening</span>
-                  <span className="text-black group-hover:text-[#dfff80]">[+]</span>
+                  <span className="text-2xl font-medium leading-none text-fg group-hover:text-[#dfff80]">Jobs<br/>Opening</span>
+                  <span className="text-fg group-hover:text-[#dfff80]">[+]</span>
                 </div>
               </div>
 
@@ -217,10 +217,10 @@ export default function CareersPage() {
                 <div
                   key={item.id}
                   onClick={() => setActiveModal(item.id)}
-                  className="w-full aspect-square bg-white/40 border border-black/10 rounded-xl p-6 flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-white/80 transition-all shadow-sm"
+                  className="w-full aspect-square bg-white/40 border border-fg/10 rounded-xl p-6 flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-white/80 transition-all shadow-sm"
                 >
                   <div
-                    className="w-20 h-20 rounded-lg bg-cover bg-center border border-black/10 shadow-sm"
+                    className="w-20 h-20 rounded-lg bg-cover bg-center border border-fg/10 shadow-sm"
                     style={{ backgroundImage: `url(${ICON_MAP[item.type] || ICON_MAP[item.id] || '/images/ascii-placeholder.jpg'})` }}
                   />
                   <span className="text-[10px] uppercase tracking-wider font-sans text-center">{item.label}</span>
@@ -234,7 +234,7 @@ export default function CareersPage() {
       {/* ========================================== */}
       {/* OPEN POSITIONS                             */}
       {/* ========================================== */}
-      <section className="px-6 md:px-12 py-24 md:py-32 border-t border-black/10">
+      <section className="px-6 md:px-12 py-24 md:py-32 border-t border-fg/10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           <div className="hidden md:block md:col-span-4">
             <div className="sticky top-30 flex items-center gap-3 text-xs md:text-sm font-medium uppercase tracking-wide">
@@ -244,10 +244,10 @@ export default function CareersPage() {
           <div className="col-span-1 md:col-span-8 flex flex-col gap-6">
             {OPEN_POSITIONS.map((pos, i) => (
               <Reveal key={pos.title} delay={i * 0.05}>
-                <div className="group flex items-center justify-between border-t border-black/20 py-6 cursor-pointer hover:bg-black/5 transition-colors -mx-6 px-6">
+                <div className="group flex items-center justify-between border-t border-fg/20 py-6 cursor-pointer hover:bg-black/5 transition-colors -mx-6 px-6">
                   <div>
                     <h3 className="text-xl md:text-2xl font-medium tracking-tight font-sans">{pos.title}</h3>
-                    <div className="flex items-center gap-4 mt-1 text-[10px] uppercase font-mono tracking-wide text-black/50">
+                    <div className="flex items-center gap-4 mt-1 text-[10px] uppercase font-mono tracking-wide text-fg/50">
                       <span>{pos.type}</span>
                       <span>{pos.location}</span>
                     </div>

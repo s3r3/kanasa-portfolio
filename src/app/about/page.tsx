@@ -93,7 +93,7 @@ export default function AboutPage() {
   const [activePhilosophy, setActivePhilosophy] = useState(3);
 
   return (
-    <main className="relative bg-[#cec9c0] text-black selection:bg-black selection:text-white">
+    <main className="relative bg-bg-accent text-fg selection:bg-black selection:text-white">
       {/* ============================================================== */}
       {/* SEKSI 1: ZOOM GRID REVEAL & TYPEWRITER                           */}
       {/* ============================================================== */}
@@ -132,7 +132,7 @@ export default function AboutPage() {
       {/* ============================================================== */}
       {/* SEKSI 2: KONTEN TEKS, STATISTIK, & TIM                           */}
       {/* ============================================================== */}
-      <section className="relative z-30 bg-[#cec9c0] w-full pt-32 pb-24 px-6 md:px-12 border-t-2 border-black">
+      <section className="relative z-30 bg-bg-accent w-full pt-32 pb-24 px-6 md:px-12 border-t-2 border-fg">
 
         {/* Paragraf Utama */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-32">
@@ -147,30 +147,30 @@ export default function AboutPage() {
         </div>
 
         {/* List Data */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-32 border-t border-black pt-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-32 border-t border-fg pt-12">
            <div className="hidden md:block md:col-span-6"></div>
            <Reveal className="col-span-1 md:col-span-6 flex flex-col font-mono text-xs md:text-sm uppercase tracking-wide">
-             <div className="grid grid-cols-2 border-b border-black/20 pb-4 mb-4"><span>Strategy</span></div>
-             <div className="grid grid-cols-2 border-b border-black/20 pb-4 mb-4"><span>Solid UI / UX</span></div>
-             <div className="grid grid-cols-2 border-b border-black/20 pb-4 mb-4"><span>Web Development</span></div>
-             <div className="grid grid-cols-2 border-b border-black/20 pb-4 mb-4"><span>App Development</span></div>
-             <div className="grid grid-cols-2 border-b border-black/20 pb-4 mb-4"><span>Ongoing Evolution</span></div>
+             <div className="grid grid-cols-2 border-b border-fg/20 pb-4 mb-4"><span>Strategy</span></div>
+             <div className="grid grid-cols-2 border-b border-fg/20 pb-4 mb-4"><span>Solid UI / UX</span></div>
+             <div className="grid grid-cols-2 border-b border-fg/20 pb-4 mb-4"><span>Web Development</span></div>
+             <div className="grid grid-cols-2 border-b border-fg/20 pb-4 mb-4"><span>App Development</span></div>
+             <div className="grid grid-cols-2 border-b border-fg/20 pb-4 mb-4"><span>Ongoing Evolution</span></div>
            </Reveal>
         </div>
 
         {/* Statistik */}
-        <div className="w-full relative border-y border-black py-16 flex flex-col md:flex-row justify-between items-end mb-32 overflow-hidden">
+        <div className="w-full relative border-y border-fg py-16 flex flex-col md:flex-row justify-between items-end mb-32 overflow-hidden">
           <div className="absolute top-1/2 left-0 w-full h-px bg-black/30 -z-10" />
 
-          <Reveal delay={0} className="flex flex-col mb-12 md:mb-0 bg-[#cec9c0] px-4">
+          <Reveal delay={0} className="flex flex-col mb-12 md:mb-0 bg-bg-accent px-4">
             <span className="text-6xl md:text-[5rem] tracking-tighter font-medium">80</span>
             <span className="text-xs uppercase font-mono tracking-widest mt-2">Projects</span>
           </Reveal>
-          <Reveal delay={0.1} className="flex flex-col mb-8 md:mb-0 bg-[#cec9c0] px-4 pb-12">
+          <Reveal delay={0.1} className="flex flex-col mb-8 md:mb-0 bg-bg-accent px-4 pb-12">
             <span className="text-6xl md:text-[5rem] tracking-tighter font-medium">2+</span>
             <span className="text-xs uppercase font-mono tracking-widest mt-2">Years</span>
           </Reveal>
-          <Reveal delay={0.2} className="flex flex-col bg-[#cec9c0] px-4 pt-12 border-t border-black">
+          <Reveal delay={0.2} className="flex flex-col bg-bg-accent px-4 pt-12 border-t border-fg">
             <span className="text-6xl md:text-[5rem] tracking-tighter font-medium">5+</span>
             <span className="text-xs uppercase font-mono tracking-widest mt-2">Clients</span>
           </Reveal>
@@ -196,7 +196,7 @@ export default function AboutPage() {
                 <div key={member.name} className="flex flex-col gap-2">
                   <div className="w-full aspect-3/4 bg-neutral-400 grayscale hover:grayscale-0 transition-all duration-500 bg-cover bg-center" style={{ backgroundImage: `url(/images/team-${i + 1}.jpg)` }} />
                   <span className="text-xs font-mono uppercase tracking-wide">{member.name}</span>
-                  <span className="text-[9px] font-mono text-black/50">{member.role}</span>
+                  <span className="text-[9px] font-mono text-fg/50">{member.role}</span>
                 </div>
               ))}
             </div>
@@ -207,7 +207,7 @@ export default function AboutPage() {
       {/* ============================================================== */}
       {/* SEKSI 3: PARALLAX PUZZLE BOX                                     */}
       {/* ============================================================== */}
-      <section ref={puzzleRef} className="relative w-full h-[200vh] bg-[#cec9c0]">
+      <section ref={puzzleRef} className="relative w-full h-[200vh] bg-bg-accent">
         <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
 
           <div
@@ -218,7 +218,7 @@ export default function AboutPage() {
             }}
           />
 
-          <div className="relative w-[85%] max-w-[400px] aspect-square bg-[#cec9c0] p-8 flex flex-col justify-between shadow-2xl">
+          <div className="relative w-[85%] max-w-[400px] aspect-square bg-bg-accent p-8 flex flex-col justify-between shadow-2xl">
             <div className="absolute -top-[3px] -left-[3px] w-1.5 h-1.5 bg-black" />
             <div className="absolute -top-[3px] -right-[3px] w-1.5 h-1.5 bg-black" />
             <div className="absolute -bottom-[3px] -left-[3px] w-1.5 h-1.5 bg-black" />
@@ -238,7 +238,7 @@ export default function AboutPage() {
       {/* ============================================================== */}
       {/* SEKSI 4: GIANT ACCORDION (PHILOSOPHY LIST)                      */}
       {/* ============================================================== */}
-      <section className="relative w-full bg-[#cec9c0] px-6 md:px-12 py-24 md:py-48 z-20">
+      <section className="relative w-full bg-bg-accent px-6 md:px-12 py-24 md:py-48 z-20">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 w-full relative">
 
           <div className="hidden md:block md:col-span-4 relative h-full">
@@ -253,7 +253,7 @@ export default function AboutPage() {
               const isActive = activePhilosophy === index;
 
               return (
-                <div key={item.id} className="w-full flex flex-col border-t border-black">
+                <div key={item.id} className="w-full flex flex-col border-t border-fg">
                   <button
                     onClick={() => setActivePhilosophy(index)}
                     className="w-full text-left py-8 md:py-12 flex justify-between items-center group cursor-pointer"
@@ -286,7 +286,7 @@ export default function AboutPage() {
                 </div>
               );
             })}
-            <div className="border-t border-black w-full" />
+            <div className="border-t border-fg w-full" />
           </div>
         </div>
       </section>

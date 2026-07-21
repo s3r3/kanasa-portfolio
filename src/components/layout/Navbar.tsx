@@ -6,6 +6,7 @@ import { useUIStore } from '@/store/useUIStore';
 import Link from 'next/link';
 import { FEATURED_PROJECTS } from '@/constants';
 import { EASE } from '@/lib/animations';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 
 const NAV_ITEMS = ['WORK', 'ABOUT', 'SERVICES', 'CAREERS'];
 
@@ -37,7 +38,7 @@ export default function Navbar() {
         borderBottomColor: isScrolled ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0)',
       }}
       transition={{ duration: 0.6, ease: EASE.smooth }}
-      className="fixed top-0 left-0 w-full z-40 bg-[#cec9c0] text-black px-6 flex items-start justify-between border-b"
+      className="fixed top-0 left-0 w-full z-40 bg-bg-accent text-black px-6 flex items-start justify-between border-b"
     >
       {/* Bagian Kiri: Logo Animasi (Besar -> Kecil) */}
       <motion.div
@@ -99,7 +100,7 @@ export default function Navbar() {
                   visible: { transition: { staggerChildren: 0.03, delayChildren: 0.05 } },
                 }}
               >
-                <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.3 } } }} className="bg-[#cec9c0] pt-6 flex flex-col">
+                <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.3 } } }} className="bg-bg-accent pt-6 flex flex-col">
                   <div className="grid grid-cols-2 gap-y-3 gap-x-8 text-[2rem] md:text-[2.25rem] tracking-tight mb-10 text-black">
                     <div className="hover:italic cursor-pointer transition-all flex items-start">Website<sup className="text-xs ml-1 mt-1.5 font-sans">7</sup></div>
                     <div className="hover:italic cursor-pointer transition-all flex items-start">Mobile App<sup className="text-xs ml-1 mt-1.5 font-sans">4</sup></div>
@@ -113,7 +114,7 @@ export default function Navbar() {
                 </motion.div>
                 <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.3 } } }} className="bg-white w-full flex flex-col shadow-2xl pb-2">
                   {FEATURED_PROJECTS.map((project) => (
-                    <Link href="/work" key={project.id} className="group flex items-start gap-4 p-4 border-t border-black/10 hover:bg-neutral-50 transition-colors cursor-pointer">
+                    <Link href="/work" key={project.id} className="group flex items-start gap-4 p-4 border-t border-fg/10 hover:bg-neutral-50 transition-colors cursor-pointer">
                       <img src={project.image} alt={project.title} className="w-[75px] h-[75px] object-cover bg-neutral-200 shrink-0" />
                       <div className="w-[120px] pt-1">
                         <span className="text-[10px] uppercase font-bold tracking-wide text-black leading-tight block">{project.title}</span>
@@ -125,7 +126,7 @@ export default function Navbar() {
                     </Link>
                   ))}
                   <div className="px-4 pt-4 pb-2">
-                    <Link href="/work"><button className="w-full border border-black py-3 text-xs uppercase hover:bg-black hover:text-white transition-colors font-medium tracking-wide">SEE ALL WORK [6]</button></Link>
+                    <Link href="/work"><button className="w-full border border-fg py-3 text-xs uppercase hover:bg-black hover:text-white transition-colors font-medium tracking-wide">SEE ALL WORK [6]</button></Link>
                   </div>
                 </motion.div>
               </motion.div>
@@ -138,17 +139,11 @@ export default function Navbar() {
       <div className="flex items-center space-x-2 pt-2 z-50">
         <button
           onClick={toggleContact}
-          className="border border-black px-4 py-1.5 text-sm uppercase hover:bg-black hover:text-white transition-colors"
+          className="border border-fg px-4 py-1.5 text-sm uppercase hover:bg-black hover:text-white transition-colors"
         >
           Contact
         </button>
-        <button className="border border-black px-3 py-1.5 text-sm hover:bg-black hover:text-white transition-colors flex items-center justify-center">
-          <span className="sr-only">Accessibility</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="12" cy="4" r="2"></circle>
-            <path d="M12 7v7M8 10h8M10 21l2-7 2 7"></path>
-          </svg>
-        </button>
+        <ThemeToggle />
       </div>
     </motion.header>
   );

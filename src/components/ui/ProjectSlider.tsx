@@ -49,7 +49,7 @@ export default function ProjectSlider() {
   ];
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-[#efeee8] text-black">
+    <section className="relative h-screen w-full overflow-hidden bg-bg text-fg">
       {/* Kursor Kustom (tengah gambar saat hover) */}
       <motion.div
         style={{ x: cursorXSpring, y: cursorYSpring }}
@@ -76,17 +76,17 @@ export default function ProjectSlider() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -40 }}
             transition={{ duration: 0.8, ease: EASE }}
-            className="relative w-[55vw] max-w-[1100px] aspect-[16/10] overflow-hidden bg-neutral-200 border border-black/10 cursor-pointer"
+            className="relative w-[55vw] max-w-[1100px] aspect-[16/10] overflow-hidden bg-neutral-200 border border-fg/10 cursor-pointer"
           >
             {/* Nomor project kiri atas */}
-            <div className="absolute left-5 top-5 z-10 text-[15px] tracking-[0.15em] font-mono text-black/70">
+            <div className="absolute left-5 top-5 z-10 text-[15px] tracking-[0.15em] font-mono text-fg/70">
               {String(currentIndex + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
             </div>
             <div
               className="absolute inset-0 bg-cover bg-center"
               style={{ backgroundImage: `url(${images[currentIndex]})` }}
             >
-              <div className="w-full h-full border border-black/5 flex items-center justify-center text-black/30">
+              <div className="w-full h-full border border-fg/5 flex items-center justify-center text-fg/30">
                 Slide {currentIndex + 1} Main Image
               </div>
             </div>
@@ -116,7 +116,7 @@ export default function ProjectSlider() {
             </button>
 
             {/* Film strip dengan border-x */}
-            <div className="flex overflow-hidden border-x border-black/20">
+            <div className="flex overflow-hidden border-x border-fg/20">
               {visibleSlides.map((idx) => {
                 const isActive = idx === currentIndex;
 
@@ -139,7 +139,7 @@ export default function ProjectSlider() {
                     {isActive && (
                       <motion.div
                         layoutId="active-frame"
-                        className="absolute inset-[-6px] border border-black pointer-events-none"
+                        className="absolute inset-[-6px] border border-fg pointer-events-none"
                       />
                     )}
                   </motion.div>

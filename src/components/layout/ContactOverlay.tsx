@@ -38,7 +38,7 @@ export default function ContactOverlay() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ ease: EASE.smooth, duration: 0.6 }}
-            className="fixed top-0 right-0 w-full md:w-[750px] h-auto z-50 bg-[#cec9c0] text-black border-l border-b border-black/10 shadow-2xl overflow-hidden"
+            className="fixed top-0 right-0 w-full md:w-[750px] h-auto z-50 bg-bg-accent text-fg border-l border-b border-fg/10 shadow-2xl overflow-hidden"
           >
             <motion.div
               initial="hidden"
@@ -50,18 +50,18 @@ export default function ContactOverlay() {
               className="p-8 md:p-10 flex flex-col"
             >
               <motion.div variants={staggerItem} className="flex justify-between items-start mb-6">
-                <h2 className="text-4xl md:text-[3.25rem] tracking-tight leading-[1.05] font-medium text-black">
+                <h2 className="text-4xl md:text-[3.25rem] tracking-tight leading-[1.05] font-medium text-fg">
                   Get in touch.<br />And let&rsquo;s get to work.
                 </h2>
                 <div className="flex items-center gap-2 shrink-0 ml-4">
                   <button onClick={closeContact} className="bg-black text-white px-3 py-1.5 text-xs font-mono uppercase flex items-center hover:bg-black/80 transition-colors tracking-widest">CLOSE[x]</button>
-                  <button className="border border-black px-3 py-1.5 text-sm hover:bg-black hover:text-white transition-colors flex items-center justify-center"><span className="sr-only">Accessibility</span><AccessibilityIcon /></button>
+                  <button className="border border-fg px-3 py-1.5 text-sm hover:bg-black hover:text-white transition-colors flex items-center justify-center"><span className="sr-only">Accessibility</span><AccessibilityIcon /></button>
                 </div>
               </motion.div>
-              <motion.p variants={staggerItem} className="text-sm font-medium mb-12 max-w-sm leading-relaxed text-black/90">
+              <motion.p variants={staggerItem} className="text-sm font-medium mb-12 max-w-sm leading-relaxed text-fg/90">
                 If you have a project in mind, we&rsquo;d love to hear about it.<br />We typically respond within 5 business days.
               </motion.p>
-              <motion.div variants={staggerItem} className="border-t border-black/10 py-6">
+              <motion.div variants={staggerItem} className="border-t border-fg/10 py-6">
                 <div className="grid grid-cols-[120px_1fr_1.5fr] gap-6">
                   <div className="relative w-[120px] h-[120px] bg-gray-400 grayscale bg-cover bg-center shadow-inner" style={{ backgroundImage: 'url(/images/profile.jpg)' }}>
                     <div className="absolute left-2 top-1/2 transform -translate-y-1/2 w-2.5 h-2.5 bg-white rounded-full shadow-sm" />
@@ -78,7 +78,7 @@ export default function ContactOverlay() {
                   </div>
                 </div>
               </motion.div>
-              <motion.div variants={staggerItem} className="border-t border-black/10 pt-6">
+              <motion.div variants={staggerItem} className="border-t border-fg/10 pt-6">
                 <div className="grid grid-cols-2 gap-8 text-[11px] font-mono uppercase tracking-wide">
                   <div className="flex flex-col gap-2">
                     {SOCIAL_LINKS.map((s) => (
