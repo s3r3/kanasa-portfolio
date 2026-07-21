@@ -50,10 +50,10 @@ export default function LoadingScreen() {
 
     // Dimensi — canvas lebih kecil, ga full layar
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const W = 380;
-    const H = 320;
-    const gridW = Math.min(30, Math.floor(W / 14));
-    const gridH = Math.min(22, Math.floor(H / 16));
+    const W = 480;
+    const H = 400;
+    const gridW = Math.min(36, Math.floor(W / 14));
+    const gridH = Math.min(28, Math.floor(H / 16));
     const cellW = W / (gridW - 1);
     const cellH = H / (gridH - 1);
 
