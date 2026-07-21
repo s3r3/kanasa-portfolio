@@ -3,6 +3,7 @@ import WorkSection from '@/components/ui/WorkSection';
 import ServicesSection from '@/components/ui/ServicesSection';
 import Footer from '@/components/layout/Footer';
 import Reveal from '@/components/ui/Reveal';
+import Typewriter from '@/components/ui/Typewriter';
 
 export default function Home() {
   return (
@@ -16,15 +17,18 @@ export default function Home() {
             <div className="col-span-12 lg:col-span-5" />
 
             <div className="col-span-12 lg:col-span-7 flex flex-col justify-end">
-              <p className="text-[17px] md:text-[22px] leading-[1.35] tracking-[-0.02em] max-w-xl mb-24 md:mb-36 text-black/90">
-                Some say move fast, break things. REF is a digital agency
-                <br className="hidden md:block" />
-                that believes we&rsquo;ve broken enough things already.
-              </p>
-
-              <h1 className="text-[72px] md:text-[120px] lg:text-[170px] xl:text-[190px] leading-[0.86] tracking-[-0.06em] font-medium text-black">
-                Move fast, build to last.
-              </h1>
+              <Reveal stagger delay={0.2}>
+                <p className="text-[17px] md:text-[22px] leading-[1.35] tracking-[-0.02em] max-w-xl mb-24 md:mb-36 text-black/90">
+                  Some say move fast, break things. REF is a digital agency
+                  <br className="hidden md:block" />
+                  that believes we&rsquo;ve broken enough things already.
+                </p>
+                <Typewriter
+                  text="Move fast, build to last."
+                  speed={60}
+                  className="text-[48px] md:text-[80px] lg:text-[110px] xl:text-[130px] leading-[0.86] tracking-[-0.06em] font-medium text-black"
+                />
+              </Reveal>
             </div>
           </div>
 
@@ -44,7 +48,7 @@ export default function Home() {
         className="relative w-full px-6 py-32 md:py-40 border-t border-black/10 bg-[#efeee8]"
       >
         <div className="max-w-6xl mx-auto">
-          <Reveal className="flex flex-col gap-6">
+          <Reveal stagger className="flex flex-col gap-8">
             <span className="text-[10px] font-mono uppercase tracking-widest text-black/40">■ About REF</span>
             <h2 className="text-4xl md:text-[4rem] font-medium tracking-tight leading-[1.05]">
               We help businesses navigate the digital-first
