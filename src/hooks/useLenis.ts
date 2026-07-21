@@ -20,6 +20,8 @@ export function useLenis() {
       rafId = requestAnimationFrame(raf);
     }
     rafId = requestAnimationFrame(raf);
+    // ponytail: resize after mount so Lenis catches animated page height
+    requestAnimationFrame(() => lenis.resize());
 
     return () => {
       cancelAnimationFrame(rafId);

@@ -184,11 +184,18 @@ export default function AboutPage() {
             <h2 className="text-3xl md:text-[3rem] font-medium tracking-tight leading-[1.05] mb-12">
               We're a small but passionate team dedicated to crafting digital products that make a difference. Every project is an opportunity to push boundaries and deliver quality.
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {[1, 2, 3, 4, 5, 6].map((item) => (
-                <div key={item} className="flex flex-col gap-2">
-                  <div className="w-full aspect-3/4 bg-neutral-400 grayscale hover:grayscale-0 transition-all duration-500 bg-cover bg-center" style={{ backgroundImage: `url(/images/team-${item}.jpg)` }} />
-                  <span className="text-xs font-mono uppercase tracking-wide">MEMBER {item}</span>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              {[
+                { name: 'AL FURQAN', role: 'Backend Developer' },
+                { name: 'AHMAD KUSYAIRI', role: 'UI/UX Designer' },
+                { name: 'MUH. FADHIL', role: 'Mobile Developer' },
+                { name: 'MUH. ALGHIFARI', role: 'Full Stack Developer' },
+                { name: 'IKSAL AL FARISI', role: 'Frontend Developer' },
+              ].map((member, i) => (
+                <div key={member.name} className="flex flex-col gap-2">
+                  <div className="w-full aspect-3/4 bg-neutral-400 grayscale hover:grayscale-0 transition-all duration-500 bg-cover bg-center" style={{ backgroundImage: `url(/images/team-${i + 1}.jpg)` }} />
+                  <span className="text-xs font-mono uppercase tracking-wide">{member.name}</span>
+                  <span className="text-[9px] font-mono text-black/50">{member.role}</span>
                 </div>
               ))}
             </div>
