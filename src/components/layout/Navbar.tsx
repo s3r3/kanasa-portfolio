@@ -101,7 +101,7 @@ export default function Navbar() {
                 }}
               >
                 <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.3 } } }} className="bg-bg-accent pt-6 flex flex-col">
-                  <div className="grid grid-cols-2 gap-y-3 gap-x-8 text-[2rem] md:text-[2.25rem] tracking-tight mb-10 text-black">
+                  <div className="grid grid-cols-2 gap-y-3 gap-x-8 text-[2rem] md:text-[2.25rem] tracking-tight mb-10 text-fg">
                     <div className="hover:italic cursor-pointer transition-all flex items-start">Website<sup className="text-xs ml-1 mt-1.5 font-sans">7</sup></div>
                     <div className="hover:italic cursor-pointer transition-all flex items-start">Mobile App<sup className="text-xs ml-1 mt-1.5 font-sans">4</sup></div>
                     <div className="hover:italic cursor-pointer transition-all flex items-start">Experiential<sup className="text-xs ml-1 mt-1.5 font-sans">4</sup></div>
@@ -126,7 +126,7 @@ export default function Navbar() {
                     </Link>
                   ))}
                   <div className="px-4 pt-4 pb-2">
-                    <Link href="/work"><button className="w-full border border-fg py-3 text-xs uppercase hover:bg-black hover:text-white transition-colors font-medium tracking-wide">SEE ALL WORK [6]</button></Link>
+                    <Link href="/work"><button className="w-full border border-black py-3 text-xs uppercase hover:bg-black hover:text-white text-black transition-colors font-medium tracking-wide">SEE ALL WORK [6]</button></Link>
                   </div>
                 </motion.div>
               </motion.div>
@@ -143,7 +143,9 @@ export default function Navbar() {
         >
           Contact
         </button>
-        <ThemeToggle />
+        <div className="border border-fg px-3 py-1.5 flex items-center justify-center hover:bg-fg/5 transition-colors rounded-none">
+          <ThemeToggle />
+        </div>
       </div>
     </motion.header>
   );
