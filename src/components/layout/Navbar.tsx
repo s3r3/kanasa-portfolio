@@ -38,7 +38,7 @@ export default function Navbar() {
         borderBottomColor: isScrolled ? 'rgba(0,0,0,0.1)' : 'rgba(0,0,0,0)',
       }}
       transition={{ duration: 0.6, ease: EASE.smooth }}
-      className="fixed top-0 left-0 w-full z-40 bg-bg-accent text-black px-6 flex items-start justify-between border-b"
+      className="fixed top-0 left-0 w-full z-40 bg-bg-accent text-fg px-6 flex items-start justify-between border-b"
     >
       {/* Bagian Kiri: Logo Animasi (Besar -> Kecil) */}
       <motion.div
@@ -101,13 +101,13 @@ export default function Navbar() {
                 }}
               >
                 <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.3 } } }} className="bg-bg-accent pt-6 flex flex-col">
-                  <div className="grid grid-cols-2 gap-y-3 gap-x-8 text-[2rem] md:text-[2.25rem] tracking-tight mb-10 text-black">
+                  <div className="grid grid-cols-2 gap-y-3 gap-x-8 text-[2rem] md:text-[2.25rem] tracking-tight mb-10 text-fg">
                     <div className="hover:italic cursor-pointer transition-all flex items-start">Website<sup className="text-xs ml-1 mt-1.5 font-sans">7</sup></div>
                     <div className="hover:italic cursor-pointer transition-all flex items-start">Mobile App<sup className="text-xs ml-1 mt-1.5 font-sans">4</sup></div>
                     <div className="hover:italic cursor-pointer transition-all flex items-start">Experiential<sup className="text-xs ml-1 mt-1.5 font-sans">4</sup></div>
                     <div className="hover:italic cursor-pointer transition-all flex items-start">E-commerce<sup className="text-xs ml-1 mt-1.5 font-sans">3</sup></div>
                   </div>
-                  <div className="bg-white inline-flex items-center gap-2 px-5 py-3 pr-10 text-[10px] font-bold tracking-widest uppercase relative top-[1px] w-max text-black" style={{ clipPath: 'polygon(0 0, 90% 0, 100% 100%, 0 100%)' }}>
+                  <div className="bg-white inline-flex items-center gap-2 px-5 py-3 pr-10 text-[10px] font-bold tracking-widest uppercase relative top-[1px] w-max text-fg" style={{ clipPath: 'polygon(0 0, 90% 0, 100% 100%, 0 100%)' }}>
                     <svg width="14" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-1.22-1.8A2 2 0 0 0 7.53 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path></svg>
                     FEATURED PROJECTS
                   </div>
@@ -117,12 +117,12 @@ export default function Navbar() {
                     <Link href="/work" key={project.id} className="group flex items-start gap-4 p-4 border-t border-fg/10 hover:bg-neutral-50 transition-colors cursor-pointer">
                       <img src={project.image} alt={project.title} className="w-[75px] h-[75px] object-cover bg-neutral-200 shrink-0" />
                       <div className="w-[120px] pt-1">
-                        <span className="text-[10px] uppercase font-bold tracking-wide text-black leading-tight block">{project.title}</span>
+                        <span className="text-[10px] uppercase font-bold tracking-wide text-fg leading-tight block">{project.title}</span>
                       </div>
                       <div className="flex-1 pt-1 px-2">
-                        <span className="text-[10px] uppercase leading-[1.6] text-black/80 font-medium line-clamp-3">{project.description}</span>
+                        <span className="text-[10px] uppercase leading-[1.6] text-fg/80 font-medium line-clamp-3">{project.description}</span>
                       </div>
-                      <div className="text-[10px] uppercase tracking-wide text-black pt-1 shrink-0 font-medium">{project.code}</div>
+                      <div className="text-[10px] uppercase tracking-wide text-fg pt-1 shrink-0 font-medium">{project.code}</div>
                     </Link>
                   ))}
                   <div className="px-4 pt-4 pb-2">

@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { EASE } from '@/lib/animations';
 
 interface CareerModalProps {
   id: string | null;
@@ -27,7 +28,7 @@ export default function CareerModal({ id, onClose }: CareerModalProps) {
     >
       {/* JOBS */}
       {id === 'jobs' && (
-        <div className="bg-white w-[600px] border border-black/20 font-sans">
+        <div className="bg-bg w-[600px] border border-black/20 font-sans">
           <div className="flex border-b border-black/20">
             <button onClick={onClose} className="px-4 py-2 hover:bg-neutral-100 border-r border-black/20 text-lg">×</button>
             <div className="px-4 py-2 flex items-center gap-2 text-xs uppercase font-medium">📁 JOBS LISTING</div>
@@ -59,7 +60,7 @@ export default function CareerModal({ id, onClose }: CareerModalProps) {
             <div className="flex-1" />
           </div>
           <div className="px-4 py-2 flex gap-4 text-xs font-medium border-b border-white/20 bg-[#6d6862]">
-            <span className="bg-white text-black px-2 py-0.5 rounded-sm">SPOTIFY</span>
+            <span className="bg-bg text-fg px-2 py-0.5 rounded-sm">SPOTIFY</span>
             <span className="px-2 py-0.5 text-white/60">DEEZER</span>
           </div>
           <div className="p-4 bg-[#6d6862]">
@@ -67,10 +68,10 @@ export default function CareerModal({ id, onClose }: CareerModalProps) {
               <div className="w-24 h-24 rounded-md bg-neutral-500 shrink-0 bg-cover bg-center" style={{ backgroundImage: 'url(/images/slide-1.jpg)' }} />
               <div className="flex-1 text-sm font-sans space-y-1">
                 <div>1 <span className="ml-2">Tercel • Les Louanges</span></div>
-                <div>2 <span className="ml-2 bg-white/20 px-1 text-[8px] rounded-sm mr-1">E</span> Body Movin&rsquo; <span className="text-white/60 text-xs">• Beastie Boys</span></div>
+                <div>2 <span className="ml-2 bg-bg/20 px-1 text-[8px] rounded-sm mr-1">E</span> Body Movin&rsquo; <span className="text-white/60 text-xs">• Beastie Boys</span></div>
                 <div className="mt-4 text-xs text-white/70">Kanasa-MIX-2025 • Kanasa.Digital</div>
               </div>
-              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#28741e] shrink-0 cursor-pointer">▶</div>
+              <div className="w-8 h-8 bg-bg rounded-full flex items-center justify-center text-[#28741e] shrink-0 cursor-pointer">▶</div>
             </div>
           </div>
         </div>
@@ -78,7 +79,7 @@ export default function CareerModal({ id, onClose }: CareerModalProps) {
 
       {/* EMPLOYEE */}
       {id === 'employee' && (
-        <div className="bg-white w-[450px] border border-black/20 font-mono text-[10px]">
+        <div className="bg-bg w-[450px] border border-black/20 font-mono text-[10px]">
           <div className="flex border-b border-black/20">
             <button onClick={onClose} className="px-4 py-2 hover:bg-neutral-100 border-r border-black/20 text-lg font-sans">×</button>
             <div className="px-4 py-2 flex items-center gap-2 uppercase font-bold">📁 EMPLOYEE OF THE MONTH</div>
@@ -144,7 +145,7 @@ export default function CareerModal({ id, onClose }: CareerModalProps) {
 
       {/* BENEFITS */}
       {id === 'benefits' && (
-        <div className="bg-white w-[500px] border border-black/20 font-mono text-[10px]">
+        <div className="bg-bg w-[500px] border border-black/20 font-mono text-[10px]">
           <div className="flex border-b border-black/20">
             <button onClick={onClose} className="px-4 py-2 hover:bg-neutral-100 border-r border-black/20 text-lg font-sans">×</button>
             <div className="px-4 py-2 flex items-center gap-2 uppercase font-bold">📁 JOBS BENEFITS</div>
@@ -164,7 +165,7 @@ export default function CareerModal({ id, onClose }: CareerModalProps) {
                 ['INSURANCES', 'Comprehensive health, dental, and life insurance packages tailored to keep you and your loved ones protected.'],
               ].map(([title, desc]) => (
                 <div key={title}>
-                  <strong className="text-black font-bold">// {title}</strong>
+                  <strong className="text-fg font-bold">// {title}</strong>
                   <p className="mt-1 opacity-80 font-sans text-xs">{desc}</p>
                 </div>
               ))}
@@ -177,7 +178,7 @@ export default function CareerModal({ id, onClose }: CareerModalProps) {
       {id === 'rabbit' && (
         <div className="bg-black text-white w-[600px] border border-white/20 rounded-sm overflow-hidden font-sans">
           <div className="flex bg-[#2a2a2a] border-b border-white/10">
-            <button onClick={onClose} className="px-4 py-2 hover:bg-white/10 border-r border-white/10 text-lg">×</button>
+            <button onClick={onClose} className="px-4 py-2 hover:bg-bg/10 border-r border-white/10 text-lg">×</button>
             <div className="px-4 py-2 flex items-center gap-2 text-xs uppercase font-medium bg-black">📁 RABBIT_HOLE</div>
             <div className="flex-1 bg-black" />
           </div>
