@@ -1,164 +1,141 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
-import { SLIDER_PROJECT } from "@/constants";
-import { EASE as EASE_SHARED } from "@/lib/animations";
+import { useState, useEffect, useRef } from 'react';
+import { SLIDER_PROJECT } from '@/constants';
 
-const EASE = EASE_SHARED.smooth;
-
+/* ponytail: card-stack slider — active card on top, prev/next scaled & offset */
 export default function ProjectSlider() {
-  const [currentIndex, setCurrentIndex] = useState(2);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
-  const images = SLIDER_PROJECT.images;
+  const sliderRef = useRef<HTMLUListElement>(null);
+  const { images, slides } = SLIDER_PROJECT;
+  const len = images.length;
 
-  // Kursor Kustom
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
-  const springConfig = { damping: 25, stiffness: 400 };
-  const cursorXSpring = useSpring(cursorX, springConfig);
-  const cursorYSpring = useSpring(cursorY, springConfig);
-
-  // Auto-Slide
+  // Auto-play
   useEffect(() => {
     if (isHovering) return;
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    }, 4000);
-    return () => clearInterval(timer);
-    // images.length stable (from constant)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isHovering]);
+    const t = setInterval(() => setCurrentIndex((p) => (p + 1) % len), 4000);
+    return () => clearInterval(t);
+  }, [isHovering, len]);
 
-  const handlePointerMove = (e: React.PointerEvent) => {
-    cursorX.set(e.clientX);
-    cursorY.set(e.clientY);
+  // Move DOM nodes — next: append first to end, prev: prepend last to front
+  const moveNode = (dir: 'next' | 'prev') => {
+    const ul = sliderRef.current;
+    if (!ul) return;
+    const items = ul.children;
+    if (!items.length) return;
+    if (dir === 'next') {
+      ul.appendChild(items[0]);
+    } else {
+      ul.prepend(items[items.length - 1]);
+    }
   };
 
-  const nextSlide = () => setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  const prevSlide = () => setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  const next = () => {
+    moveNode('next');
+    setCurrentIndex((p) => (p + 1) % len);
+  };
 
-  // Film strip: slide aktif di tengah, bergeser terus
-  const visibleSlides = [
-    (currentIndex + images.length - 2) % images.length,
-    (currentIndex + images.length - 1) % images.length,
-    currentIndex,
-    (currentIndex + 1) % images.length,
-    (currentIndex + 2) % images.length,
-  ];
+  const prev = () => {
+    moveNode('prev');
+    setCurrentIndex((p) => (p - 1 + len) % len);
+  };
+
+  const active = slides[currentIndex] || slides[0];
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-[#efeee8] text-black">
-      {/* Kursor Kustom (tengah gambar saat hover) */}
-      <motion.div
-        style={{ x: cursorXSpring, y: cursorYSpring }}
-        animate={{ opacity: isHovering ? 1 : 0, scale: isHovering ? 1 : 0.8 }}
-        transition={{ duration: 0.2 }}
-        className="fixed top-0 left-0 z-50 pointer-events-none flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black text-white px-4 py-2 text-[10px] tracking-[0.2em] uppercase"
-      >
-        View Case
-      </motion.div>
-
-      {/* Area Gambar Utama — margin kiri-kanan lega, gambar ke kanan */}
-      <div
-        className="relative flex flex-1 items-center justify-center px-24 pt-16 pb-20 cursor-none"
-        onPointerEnter={() => setIsHovering(true)}
-        onPointerLeave={() => setIsHovering(false)}
-        onPointerMove={handlePointerMove}
-        onClick={nextSlide}
-      >
-        <AnimatePresence mode="wait">
-          <Link href={`/work`}>
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, y: 80 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -40 }}
-            transition={{ duration: 0.8, ease: EASE }}
-            className="relative w-[55vw] max-w-[1100px] aspect-[16/10] overflow-hidden bg-neutral-200 border border-black/10 cursor-pointer"
+    <section className="relative w-full min-h-[600px] md:min-h-[700px] flex items-center justify-center bg-[#efeee8] overflow-hidden">
+      <div className="relative w-full max-w-6xl mx-auto px-6">
+        {/* Card Stack */}
+        <div className="relative flex items-center justify-center" style={{ perspective: '1000px' }}>
+          <ul
+            ref={sliderRef}
+            className="relative w-[280px] h-[400px] md:w-[380px] md:h-[520px]"
+            onPointerEnter={() => setIsHovering(true)}
+            onPointerLeave={() => setIsHovering(false)}
           >
-            {/* Nomor project kiri atas */}
-            <div className="absolute left-5 top-5 z-10 text-[15px] tracking-[0.15em] font-mono text-black/70">
-              {String(currentIndex + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
-            </div>
-            <div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${images[currentIndex]})` }}
-            >
-              <div className="w-full h-full border border-black/5 flex items-center justify-center text-black/30">
-                Slide {currentIndex + 1} Main Image
-              </div>
-            </div>
-          </motion.div>
-          </Link>
-        </AnimatePresence>
-      </div>
+            {images.map((img, i) => {
+              const isActive = i === currentIndex;
+              const isPrev = i === (currentIndex - 1 + len) % len;
+              const isNext = i === (currentIndex + 1) % len;
 
-      {/* Layout Bawah Editorial */}
-      <div className="grid grid-cols-[1fr_auto_1fr] items-end px-10 pb-14">
-        {/* Kiri: Judul (naik, lebih ke kiri) */}
-        <div className="text-[54px] leading-none tracking-[-0.04em] font-medium">
-          {SLIDER_PROJECT.title}
+              const style: React.CSSProperties = {
+                backgroundImage: `url(${img})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                position: 'absolute',
+                inset: 0,
+                listStyle: 'none',
+                borderRadius: '12px',
+                transition: 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+              };
+
+              if (isActive) {
+                style.transform = 'scale(1) translateX(0)';
+                style.zIndex = 30;
+                style.opacity = 1;
+              } else if (isPrev) {
+                style.transform = 'scale(0.85) translateX(-60px) rotateY(5deg)';
+                style.zIndex = 20;
+                style.opacity = 0.6;
+              } else if (isNext) {
+                style.transform = 'scale(0.85) translateX(60px) rotateY(-5deg)';
+                style.zIndex = 20;
+                style.opacity = 0.6;
+              } else {
+                style.transform = 'scale(0.7) translateX(0)';
+                style.zIndex = 10;
+                style.opacity = 0;
+              }
+
+              return (
+                <li key={i} style={style} className="cursor-pointer" onClick={next}>
+                  <div className="absolute inset-0 bg-black/20 rounded-xl" />
+                </li>
+              );
+            })}
+          </ul>
         </div>
 
-        {/* Tengah: Thumbnail Navigasi (naik 40px) */}
-        <div className="flex flex-col items-center relative -mt-10">
-          {/* Garis tipis 160px lebih transparan */}
-          <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-40 h-px bg-black/15" />
+        {/* Active slide metadata */}
+        <div className="text-center mt-8">
+          <h3 className="text-2xl md:text-3xl font-medium tracking-tight">{active.title}</h3>
+          <p className="text-sm md:text-base text-black/60 mt-2 max-w-md mx-auto">{active.description}</p>
+        </div>
 
-          <div className="flex items-center gap-4">
-            <button
-              onClick={prevSlide}
-              className="font-mono text-[12px] tracking-[0.25em] hover:opacity-60 transition-opacity"
-            >
-              &lt;
-            </button>
-
-            {/* Film strip dengan border-x */}
-            <div className="flex overflow-hidden border-x border-black/20">
-              {visibleSlides.map((idx) => {
-                const isActive = idx === currentIndex;
-
-                return (
-                  <motion.div
-                    layout
-                    key={idx}
-                    onClick={() => setCurrentIndex(idx)}
-                    whileHover={{ scale: 1.05 }}
-                    className={`relative w-[92px] h-[58px] transition-all duration-500 cursor-none ${
-                      isActive
-                        ? "brightness-100 scale-100"
-                        : "brightness-[.7] scale-95 hover:brightness-100"
-                    }`}
-                  >
-                    <div
-                      className="w-full h-full bg-cover bg-center bg-neutral-300"
-                      style={{ backgroundImage: `url(${images[idx]})` }}
-                    />
-                    {isActive && (
-                      <motion.div
-                        layoutId="active-frame"
-                        className="absolute inset-[-6px] border border-black pointer-events-none"
-                      />
-                    )}
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            <button
-              onClick={nextSlide}
-              className="font-mono text-[12px] tracking-[0.25em] hover:opacity-60 transition-opacity"
-            >
-              &gt;
-            </button>
+        {/* Controls */}
+        <div className="flex items-center justify-center gap-6 mt-8">
+          <button
+            onClick={prev}
+            className="text-xs font-mono tracking-[0.2em] hover:opacity-60 transition-opacity uppercase"
+          >
+            Prev
+          </button>
+          <div className="flex gap-2">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  const diff = i - currentIndex;
+                  for (let d = 0; d < Math.abs(diff); d++) {
+                    if (diff > 0) moveNode('next');
+                    else moveNode('prev');
+                  }
+                  setCurrentIndex(i);
+                }}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  i === currentIndex ? 'bg-black scale-125' : 'bg-black/30'
+                }`}
+              />
+            ))}
           </div>
-        </div>
-
-        {/* Kanan: Kode (44px, lebih ke kanan, tidak simetris) */}
-        <div className="text-right text-[44px] tracking-[-0.05em] font-light">
-          {SLIDER_PROJECT.code}
+          <button
+            onClick={next}
+            className="text-xs font-mono tracking-[0.2em] hover:opacity-60 transition-opacity uppercase"
+          >
+            Next
+          </button>
         </div>
       </div>
     </section>

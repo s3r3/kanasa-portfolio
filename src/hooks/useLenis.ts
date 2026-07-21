@@ -11,6 +11,7 @@ export function useLenis() {
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      autoResize: true,
     });
 
     let rafId: number;
@@ -20,11 +21,16 @@ export function useLenis() {
       rafId = requestAnimationFrame(raf);
     }
     rafId = requestAnimationFrame(raf);
-    // ponytail: resize after mount so Lenis catches animated page height
-    requestAnimationFrame(() => lenis.resize());
+
+    const observer = new ResizeObserver(() => lenis.resize());
+    observer.observe(document.body);
+
+    // ponytail: one extra resize after fonts/images load
+    setTimeout(() => lenis.resize(), 1000);
 
     return () => {
       cancelAnimationFrame(rafId);
+      observer.disconnect();
       lenis.destroy();
     };
   }, [setScrollY]);

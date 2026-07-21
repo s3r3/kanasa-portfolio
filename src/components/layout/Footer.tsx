@@ -24,7 +24,7 @@ export default function Footer() {
 
           {/* Social */}
           <ul className="flex flex-col gap-3 font-medium">
-            <li><a href="https://www.instagram.com/cxrnflakesk/" target="_blank" rel="noopener noreferrer" className="hover:italic transition-all w-max">[ ] INSTAGRAM</a></li>
+            <li><a href="https://www.instagram.com/kanasacreative/" target="_blank" rel="noopener noreferrer" className="hover:italic transition-all w-max">[ ] INSTAGRAM</a></li>
             <li><a href="https://www.linkedin.com/in/muhammad-farid-307029300/?locale=en" target="_blank" rel="noopener noreferrer" className="hover:italic transition-all w-max">[ ] LINKEDIN</a></li>
             <li><a href="https://github.com/s3r3" target="_blank" rel="noopener noreferrer" className="hover:italic transition-all w-max">[ ] GITHUB</a></li>
             <li><a href="https://www.behance.net/kanasa_creative" target="_blank" rel="noopener noreferrer" className="hover:italic transition-all w-max">[ ] BEHANCE</a></li>
@@ -42,7 +42,7 @@ export default function Footer() {
             </div>
             <div className="grid grid-cols-[24px_1fr] items-start">
               <span>E</span>
-              <a href="mailto:faridmu851@gmail.com" className="underline decoration-1 underline-offset-4 hover:italic transition-all">FARIDMU851@GMAIL.COM</a>
+              <a href="mailto:creativekanasa@gmail.com" className="underline decoration-1 underline-offset-4 hover:italic transition-all">creativekanasa@gmail.com</a>
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ import Link from 'next/link';
 import Footer from '@/components/layout/Footer';
 import Reveal from '@/components/ui/Reveal';
 import ParallaxImage from '@/components/ui/ParallaxImage';
+import Typewriter from '@/components/ui/Typewriter';
 import { EASE, SPRING } from '@/lib/animations';
 
 const ALL_WORK_ITEMS = [
@@ -141,11 +142,14 @@ export default function WorkPage() {
       <section className="pt-48 pb-20 px-6 md:px-12 grid grid-cols-1 md:grid-cols-12">
         <div className="hidden md:block md:col-span-6" />
         <Reveal className="md:col-span-6">
-          <h1 className="text-5xl md:text-[5.5rem] leading-[0.95] tracking-tighter font-medium">
-            Digital products
-            <br />
-            built with purpose.
-          </h1>
+          <p className="text-[17px] md:text-[22px] leading-[1.35] tracking-[-0.02em] text-black/60 mb-8">
+            We build digital products that drive results.
+          </p>
+          <Typewriter
+            text="Digital products built with purpose."
+            speed={50}
+            className="text-5xl md:text-[5.5rem] leading-[0.95] tracking-tighter font-medium"
+          />
         </Reveal>
       </section>
 

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import ServicesSection from '@/components/ui/ServicesSection';
 import Reveal from '@/components/ui/Reveal';
+import Typewriter from '@/components/ui/Typewriter';
 import Footer from '@/components/layout/Footer';
 
 const SERVICE_LIST = [
@@ -22,9 +23,11 @@ export default function ServicesPage() {
           <div className="hidden md:block md:col-span-6" />
           <Reveal className="md:col-span-6">
             <span className="text-xs font-mono uppercase tracking-widest text-black/40 mb-4 block">What We Do</span>
-            <h1 className="text-5xl md:text-[5.5rem] leading-[1.05] tracking-tight font-medium mb-6">
-              Design and technology, brought together.
-            </h1>
+            <Typewriter
+              text="Design and technology, brought together."
+              speed={50}
+              className="text-5xl md:text-[5.5rem] leading-[1.05] tracking-tight font-medium mb-6 block"
+            />
             <p className="text-lg md:text-xl font-medium leading-relaxed text-black/70 max-w-xl">
               Kanasa Creative delivers end-to-end digital products — from UI/UX design to full-stack development.
             </p>

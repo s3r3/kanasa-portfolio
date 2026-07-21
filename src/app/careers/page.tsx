@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Footer from '@/components/layout/Footer';
 import Reveal from '@/components/ui/Reveal';
+import Typewriter from '@/components/ui/Typewriter';
 import CareerModal from '@/components/ui/CareerModal';
 
 // ==========================================
@@ -60,10 +61,11 @@ export default function CareersPage() {
             <div className="flex items-center gap-3 text-xs font-medium uppercase tracking-wide mb-6">
               <span className="text-[10px] leading-none">■</span> Careers
             </div>
-            <h1 className="text-5xl md:text-[5.5rem] leading-[1.05] tracking-tight font-medium max-w-3xl mb-6 font-sans">
-              Let&rsquo;s build something<br />
-              great together.
-            </h1>
+            <Typewriter
+              text="Let's build something great together."
+              speed={50}
+              className="text-5xl md:text-[5.5rem] leading-[1.05] tracking-tight font-medium max-w-3xl mb-6 font-sans block"
+            />
             <p className="text-base md:text-lg font-medium leading-relaxed text-black/60 max-w-xl">
               Kanasa Creative is always looking for passionate people who love design and technology.
             </p>

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import Footer from '@/components/layout/Footer';
 import Reveal from '@/components/ui/Reveal';
+import Typewriter from '@/components/ui/Typewriter';
 import ParallaxImage from '@/components/ui/ParallaxImage';
 import { useScrollStore } from '@/store/useScrollStore';
 import { EASE } from '@/lib/animations';

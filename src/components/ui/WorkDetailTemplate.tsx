@@ -101,7 +101,7 @@ export default function WorkDetailTemplate({ data }: { data: WorkDetailData }) {
       className="relative min-h-screen bg-[#04142b] text-white"
     >
       {/* --- 1. HERO --- */}
-      <section className="pt-48 pb-12 px-6 md:px-12">
+      <section className="pt-72 pb-12 px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           <div className="hidden md:block md:col-span-6" />
           <div className="col-span-1 md:col-span-6">

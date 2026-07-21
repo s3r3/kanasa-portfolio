@@ -7,7 +7,7 @@ import { AccessibilityIcon } from '@/components/ui/icons';
 import { EASE } from '@/lib/animations';
 
 const SOCIAL_LINKS = [
-  { label: 'INSTAGRAM', url: 'https://www.instagram.com/cxrnflakesk/' },
+  { label: 'INSTAGRAM', url: 'https://www.instagram.com/kanasacreative/' },
   { label: 'LINKEDIN', url: 'https://www.linkedin.com/in/muhammad-farid-307029300/?locale=en' },
   { label: 'GITHUB', url: 'https://github.com/s3r3' },
   { label: 'BEHANCE', url: 'https://www.behance.net/kanasa_creative' },
@@ -31,7 +31,7 @@ export default function ContactOverlay() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeContact}
-            className="fixed inset-0 z-[45] bg-transparent cursor-pointer"
+            className="fixed inset-0 z-45 bg-transparent cursor-pointer"
           />
           <motion.div
             initial={{ x: '100%' }}
@@ -69,8 +69,8 @@ export default function ContactOverlay() {
                   <div className="uppercase text-[11px] font-mono tracking-wide pt-1">Muhammad Farid</div>
                   <div className="uppercase text-[11px] font-mono tracking-wide flex flex-col justify-between pt-1">
                     <div>
-                      <p className="mb-1">Frontend Developer</p>
-                      <a href="mailto:faridmu851@gmail.com" className="underline decoration-1 underline-offset-4 hover:italic transition-all">faridmu851@gmail.com</a>
+                      <p className="mb-1">FullStack Developer</p>
+                      <a href="mailto:creativekanasa@gmail.com" className="underline decoration-1 underline-offset-4 hover:italic transition-all">creativekanasa@gmail.com</a>
                     </div>
                     <div className="mt-auto">
                       <a href="https://www.linkedin.com/in/muhammad-farid-307029300/?locale=en" target="_blank" rel="noopener noreferrer" className="hover:italic transition-all cursor-pointer inline-block">[ ] SEE LINKEDIN PROFILE</a>
@@ -90,7 +90,7 @@ export default function ContactOverlay() {
                   <div className="flex flex-col gap-3">
                     <div className="flex items-start gap-8"><span className="w-4">A</span><p className="leading-relaxed">Sigli, Aceh</p></div>
                     <div className="flex items-start gap-8"><span className="w-4">P</span><p>+6282185254073</p></div>
-                    <div className="flex items-start gap-8"><span className="w-4">E</span><a href="mailto:faridmu851@gmail.com" className="underline decoration-1 underline-offset-4 hover:italic transition-all">FARIDMU851@GMAIL.COM</a></div>
+                    <div className="flex items-start gap-8"><span className="w-4">E</span><a href="mailto:creativekanasa@gmail.com" className="underline decoration-1 underline-offset-4 hover:italic transition-all">creativekanasa@gmail.com</a></div>
                   </div>
                 </div>
               </motion.div>
