@@ -1,143 +1,210 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { SLIDER_PROJECT } from '@/constants';
 
-/* ponytail: card-stack slider — active card on top, prev/next scaled & offset */
+/* ponytail: card-stack slider — pure CSS nth-child positioning, JS just moves DOM nodes */
 export default function ProjectSlider() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovering, setIsHovering] = useState(false);
   const sliderRef = useRef<HTMLUListElement>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval>>(undefined);
   const { images, slides } = SLIDER_PROJECT;
-  const len = images.length;
 
-  // Auto-play
-  useEffect(() => {
-    if (isHovering) return;
-    const t = setInterval(() => setCurrentIndex((p) => (p + 1) % len), 4000);
-    return () => clearInterval(t);
-  }, [isHovering, len]);
-
-  // Move DOM nodes — next: append first to end, prev: prepend last to front
-  const moveNode = (dir: 'next' | 'prev') => {
+  const go = (dir: 'next' | 'prev') => {
     const ul = sliderRef.current;
     if (!ul) return;
+    clearInterval(timerRef.current);
     const items = ul.children;
     if (!items.length) return;
-    if (dir === 'next') {
-      ul.appendChild(items[0]);
-    } else {
-      ul.prepend(items[items.length - 1]);
-    }
+    if (dir === 'next') ul.appendChild(items[0]);
+    else ul.prepend(items[items.length - 1]);
+    timerRef.current = setInterval(() => go('next'), 4000);
   };
 
-  const next = () => {
-    moveNode('next');
-    setCurrentIndex((p) => (p + 1) % len);
+  useEffect(() => {
+    timerRef.current = setInterval(() => go('next'), 4000);
+    return () => clearInterval(timerRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleClick = (e: React.MouseEvent<HTMLUListElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('button')) return; // let buttons work
+    go(target.closest('.prev') ? 'prev' : 'next');
   };
 
-  const prev = () => {
-    moveNode('prev');
-    setCurrentIndex((p) => (p - 1 + len) % len);
-  };
-
-  const active = slides[currentIndex] || slides[0];
+  /* Slider data — first slide is the "hero" bg */
+  const firstSlides = slides.slice(0, 4);
+  while (firstSlides.length < 6) firstSlides.push(slides[firstSlides.length % slides.length]);
+  const displaySlides = firstSlides.slice(0, 6);
 
   return (
-    <section className="relative w-full min-h-[600px] md:min-h-[700px] flex items-center justify-center bg-[#efeee8] overflow-hidden">
-      <div className="relative w-full max-w-6xl mx-auto px-6">
-        {/* Card Stack */}
-        <div className="relative flex items-center justify-center" style={{ perspective: '1000px' }}>
-          <ul
-            ref={sliderRef}
-            className="relative w-[280px] h-[400px] md:w-[380px] md:h-[520px]"
-            onPointerEnter={() => setIsHovering(true)}
-            onPointerLeave={() => setIsHovering(false)}
+    <section className="relative w-full min-h-screen overflow-hidden bg-black select-none">
+      {/* CSS entry animation */}
+      <style>{`
+        @keyframes showSlideContent {
+          0% { filter: blur(5px); transform: translateY(calc(-50% + 75px)); }
+          100% { opacity: 1; filter: blur(0); transform: translateY(-50%); }
+        }
+      `}</style>
+
+      <ul
+        ref={sliderRef}
+        onClick={handleClick}
+        className="slider relative w-full h-full min-h-screen"
+      >
+        {displaySlides.map((slide, i) => (
+          <li
+            key={i}
+            className="item"
+            style={{ backgroundImage: `url(${images[i % images.length]})` }}
           >
-            {images.map((img, i) => {
-              const isActive = i === currentIndex;
-              const isPrev = i === (currentIndex - 1 + len) % len;
-              const isNext = i === (currentIndex + 1) % len;
+            <div className="content">
+              <h2 className="title">{slide.title}</h2>
+              <p className="description">{slide.description}</p>
+              <Link href="/work">
+                <button>View Project</button>
+              </Link>
+            </div>
+          </li>
+        ))}
+      </ul>
 
-              const style: React.CSSProperties = {
-                backgroundImage: `url(${img})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                position: 'absolute',
-                inset: 0,
-                listStyle: 'none',
-                borderRadius: '12px',
-                transition: 'all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
-              };
+      <nav className="nav">
+        <button className="btn prev" onClick={() => go('prev')} aria-label="Previous">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button className="btn next" onClick={() => go('next')} aria-label="Next">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </nav>
 
-              if (isActive) {
-                style.transform = 'scale(1) translateX(0)';
-                style.zIndex = 30;
-                style.opacity = 1;
-              } else if (isPrev) {
-                style.transform = 'scale(0.85) translateX(-60px) rotateY(5deg)';
-                style.zIndex = 20;
-                style.opacity = 0.6;
-              } else if (isNext) {
-                style.transform = 'scale(0.85) translateX(60px) rotateY(-5deg)';
-                style.zIndex = 20;
-                style.opacity = 0.6;
-              } else {
-                style.transform = 'scale(0.7) translateX(0)';
-                style.zIndex = 10;
-                style.opacity = 0;
-              }
-
-              return (
-                <li key={i} style={style} className="cursor-pointer" onClick={next}>
-                  <div className="absolute inset-0 bg-black/20 rounded-xl" />
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
-        {/* Active slide metadata */}
-        <div className="text-center mt-8">
-          <h3 className="text-2xl md:text-3xl font-medium tracking-tight">{active.title}</h3>
-          <p className="text-sm md:text-base text-black/60 mt-2 max-w-md mx-auto">{active.description}</p>
-        </div>
-
-        {/* Controls */}
-        <div className="flex items-center justify-center gap-6 mt-8">
-          <button
-            onClick={prev}
-            className="text-xs font-mono tracking-[0.2em] hover:opacity-60 transition-opacity uppercase"
-          >
-            Prev
-          </button>
-          <div className="flex gap-2">
-            {images.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => {
-                  const diff = i - currentIndex;
-                  for (let d = 0; d < Math.abs(diff); d++) {
-                    if (diff > 0) moveNode('next');
-                    else moveNode('prev');
-                  }
-                  setCurrentIndex(i);
-                }}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  i === currentIndex ? 'bg-black scale-125' : 'bg-black/30'
-                }`}
-              />
-            ))}
-          </div>
-          <button
-            onClick={next}
-            className="text-xs font-mono tracking-[0.2em] hover:opacity-60 transition-opacity uppercase"
-          >
-            Next
-          </button>
-        </div>
-      </div>
+      {/* Slider CSS */}
+      <style jsx>{`
+        .slider {
+          position: relative;
+          width: 100%;
+          height: 100vh;
+        }
+        .item {
+          width: 200px;
+          height: 300px;
+          list-style: none;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 1;
+          background-position: center;
+          background-size: cover;
+          border-radius: 20px;
+          box-shadow: 0 20px 30px rgba(255,255,255,0.15) inset;
+          transition: transform 0.1s, left 0.75s, top 0.75s, width 0.75s, height 0.75s;
+        }
+        .item:nth-child(1),
+        .item:nth-child(2) {
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          transform: none;
+          border-radius: 0;
+          box-shadow: none;
+          opacity: 1;
+        }
+        .item:nth-child(3) { left: 50%; }
+        .item:nth-child(4) { left: calc(50% + 220px); }
+        .item:nth-child(5) { left: calc(50% + 440px); }
+        .item:nth-child(6) { left: calc(50% + 660px); opacity: 0; }
+        .content {
+          width: min(30vw, 400px);
+          position: absolute;
+          top: 50%;
+          left: 3rem;
+          transform: translateY(-50%);
+          color: white;
+          text-shadow: 0 3px 8px rgba(0,0,0,0.5);
+          opacity: 0;
+          display: none;
+          pointer-events: none;
+        }
+        .content .title {
+          font-family: 'Habitus', Arial, Helvetica, sans-serif;
+          text-transform: uppercase;
+          font-size: 1.8rem;
+          font-weight: 500;
+          letter-spacing: -0.03em;
+        }
+        .content .description {
+          line-height: 1.7;
+          margin: 1rem 0 1.5rem;
+          font-size: 0.8rem;
+          opacity: 0.9;
+        }
+        .content button {
+          pointer-events: auto;
+          width: fit-content;
+          background: rgba(0,0,0,0.2);
+          color: white;
+          border: 2px solid white;
+          border-radius: 0.25rem;
+          padding: 0.75rem 1.25rem;
+          cursor: pointer;
+          font-size: 0.75rem;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          transition: background 0.3s;
+        }
+        .content button:hover {
+          background: rgba(255,255,255,0.2);
+        }
+        .item:nth-of-type(2) .content {
+          display: block;
+          animation: showSlideContent 0.75s ease-in-out 0.3s forwards;
+        }
+        .nav {
+          position: absolute;
+          bottom: 2rem;
+          left: 50%;
+          transform: translateX(-50%);
+          z-index: 5;
+          display: flex;
+          gap: 0.5rem;
+        }
+        .btn {
+          background: rgba(255,255,255,0.5);
+          color: rgba(0,0,0,0.7);
+          border: 2px solid rgba(0,0,0,0.6);
+          padding: 0.75rem;
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: background 0.3s;
+        }
+        .btn:hover {
+          background: rgba(255,255,255,0.3);
+        }
+        @media (max-width: 900px) {
+          .content .title { font-size: 1rem; }
+          .content .description { font-size: 0.7rem; }
+          .content button { font-size: 0.7rem; }
+          .item { width: 160px; height: 270px; }
+          .item:nth-child(4) { left: calc(50% + 170px); }
+          .item:nth-child(5) { left: calc(50% + 340px); }
+          .item:nth-child(6) { left: calc(50% + 510px); opacity: 0; }
+        }
+        @media (max-width: 650px) {
+          .content { left: 1.5rem; }
+          .content .title { font-size: 0.9rem; }
+          .content .description { font-size: 0.65rem; }
+          .content button { font-size: 0.7rem; }
+          .item { width: 130px; height: 220px; }
+          .item:nth-child(4) { left: calc(50% + 140px); }
+          .item:nth-child(5) { left: calc(50% + 280px); }
+          .item:nth-child(6) { left: calc(50% + 420px); opacity: 0; }
+        }
+      `}</style>
     </section>
   );
 }

@@ -210,11 +210,12 @@ export default function AboutPage() {
       <section ref={puzzleRef} className="relative w-full h-[200vh] bg-[#cec9c0]">
         <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
 
-          <ParallaxImage
-            src="/images/puzzle-bg.jpg"
-            alt="Puzzle background"
-            speed={0.4}
-            className="absolute inset-0 w-full h-[140%] -top-[-20%] -z-10"
+          <div
+            className="absolute inset-0 w-full h-full -z-10 bg-cover bg-center"
+            style={{
+              backgroundImage: 'url(/images/puzzle-bg.jpg)',
+              backgroundAttachment: 'fixed',
+            }}
           />
 
           <div className="relative w-[85%] max-w-[400px] aspect-square bg-[#cec9c0] p-8 flex flex-col justify-between shadow-2xl">
