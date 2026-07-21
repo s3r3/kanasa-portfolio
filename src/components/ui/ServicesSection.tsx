@@ -4,8 +4,10 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { MAIN_NODES, BG_LINES } from '@/constants';
 import { SPRING } from '@/lib/animations';
 import Link from 'next/link';
+import { useI18nStore } from '@/store/useI18n';
 
 export default function ServicesSection() {
+  const { t } = useI18nStore();
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -45,19 +47,18 @@ export default function ServicesSection() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 w-full relative z-20 pointer-events-none">
           <div className="col-span-1 md:col-span-3 lg:col-span-4 relative h-full">
             <div className="sticky top-[120px] flex items-center gap-3 text-xs md:text-sm font-medium uppercase tracking-wide">
-              <span className="text-[10px] leading-none">■</span> Services
+              <span className="text-[10px] leading-none">■</span> {t('srvSection.label')}
             </div>
           </div>
           <div className="col-span-1 md:col-span-9 lg:col-span-8 flex flex-col items-start gap-8 pointer-events-auto">
             <h2 className="text-4xl md:text-[3.25rem] font-medium tracking-tight leading-[1.1] max-w-4xl">
-              From strategy to launch, we bring your ideas to life
-              with clean code and thoughtful design.
+              {t('srvSection.title').split('\n').map((l, i) => <span key={i}>{l}<br /></span>)}
             </h2>
             <Link
               href="/services"
               className="border border-black px-4 py-2 text-xs md:text-sm font-medium uppercase tracking-wider hover:bg-black hover:text-[#cec9c0] transition-colors cursor-pointer"
             >
-              See our capabilities
+              {t('srvSection.link')}
             </Link>
           </div>
         </div>

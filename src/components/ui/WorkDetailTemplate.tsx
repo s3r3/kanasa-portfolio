@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Footer from '@/components/layout/Footer';
 import Reveal from '@/components/ui/Reveal';
 import { useScrollStore } from '@/store/useScrollStore';
+import { useI18nStore } from '@/store/useI18n';
 
 interface MetadataItem {
   label: string;
@@ -45,6 +46,7 @@ function lerpColor(a: string, b: string, t: number): string {
 }
 
 export default function WorkDetailTemplate({ data }: { data: WorkDetailData }) {
+  const { t } = useI18nStore();
   const mainRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
   const activeRef = useRef(0);
@@ -134,7 +136,7 @@ export default function WorkDetailTemplate({ data }: { data: WorkDetailData }) {
           <Reveal className="col-span-1 md:col-span-6 flex flex-col gap-12 max-w-lg">
             <div>
               <h3 className="text-xs uppercase font-mono tracking-wide mb-6">
-                The Brief
+                {t('workDetail.brief')}
               </h3>
               <p className="text-lg md:text-xl font-medium leading-relaxed">
                 {data.brief.text}
@@ -142,7 +144,7 @@ export default function WorkDetailTemplate({ data }: { data: WorkDetailData }) {
             </div>
             <div>
               <h3 className="text-xs uppercase font-mono tracking-wide mb-6">
-                The Solution
+                {t('workDetail.solution')}
               </h3>
               <p className="text-lg md:text-xl font-medium leading-relaxed">
                 {data.brief.solution}

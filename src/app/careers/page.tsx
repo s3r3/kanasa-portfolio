@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer';
 import Reveal from '@/components/ui/Reveal';
 import Typewriter from '@/components/ui/Typewriter';
 import CareerModal from '@/components/ui/CareerModal';
+import { useI18nStore } from '@/store/useI18n';
 
 // ==========================================
 // DATA
@@ -35,12 +36,13 @@ const ICON_MAP: Record<string, string> = {
 };
 
 const OPEN_POSITIONS = [
-  { title: 'Digital Strategist', type: 'Full-time', location: 'Montreal' },
-  { title: 'Art Director', type: 'Full-time', location: 'Montreal' },
-  { title: 'Full-Stack Developer', type: 'Contract', location: 'Remote' },
+  { titleKey: 'digitalStrategist', type: 'Full-time', location: 'Montreal' },
+  { titleKey: 'artDirector', type: 'Full-time', location: 'Montreal' },
+  { titleKey: 'fullstackDev', type: 'Contract', location: 'Remote' },
 ];
 
 export default function CareersPage() {
+  const { t } = useI18nStore();
   const [viewMode, setViewMode] = useState<'node' | 'grid'>('node');
   const [activeModal, setActiveModal] = useState<string | null>(null);
   const [centerHover, setCenterHover] = useState(false);
@@ -59,15 +61,15 @@ export default function CareersPage() {
         <div className="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-12 pt-32">
           <Reveal>
             <div className="flex items-center gap-3 text-xs font-medium uppercase tracking-wide mb-6">
-              <span className="text-[10px] leading-none">■</span> Careers
+              <span className="text-[10px] leading-none">■</span> {t('nav.careers')}
             </div>
             <Typewriter
-              text="Let's build something great together."
+              text={t('careers.typewriter')}
               speed={50}
               className="text-5xl md:text-[5.5rem] leading-[1.05] tracking-tight font-medium max-w-3xl mb-6 font-sans block"
             />
             <p className="text-base md:text-lg font-medium leading-relaxed text-fg/60 max-w-xl">
-              Kanasa Creative is always looking for passionate people who love design and technology.
+              {t('careers.hero.desc')}
             </p>
           </Reveal>
         </div>
@@ -75,14 +77,14 @@ export default function CareersPage() {
         {/* View toggle inside hero */}
         <div className="relative z-10 px-6 md:px-12 pb-8">
           <div className="flex items-center gap-4 text-xs font-mono uppercase tracking-wide">
-            <span className="text-fg/40">Explore</span>
+            <span className="text-fg/40">{t('careers.explore')}</span>
             <button
               onClick={() => setViewMode('node')}
               className={`transition-colors px-3 py-1.5 rounded-full ${
                 viewMode === 'node' ? 'bg-black text-white' : 'border border-fg/30 text-fg/60 hover:text-fg'
               }`}
             >
-              Mind Map
+              {t('careers.mindMap')}
             </button>
             <button
               onClick={() => setViewMode('grid')}
@@ -90,7 +92,7 @@ export default function CareersPage() {
                 viewMode === 'grid' ? 'bg-black text-white' : 'border border-fg/30 text-fg/60 hover:text-fg'
               }`}
             >
-              Grid
+              {t('careers.grid')}
             </button>
           </div>
         </div>
@@ -134,8 +136,8 @@ export default function CareersPage() {
 
                 {centerHover && (
                   <div className="absolute top-full mt-2 w-max flex flex-col items-center gap-0.5 z-30">
-                    <span className="bg-black text-white px-2 py-1 text-[10px] uppercase whitespace-nowrap">CONVINCED TO JOIN US?</span>
-                    <span className="bg-black text-white px-2 py-1 text-[10px] uppercase whitespace-nowrap">YOU WON&rsquo;T REGRET IT.</span>
+                    <span className="bg-black text-white px-2 py-1 text-[10px] uppercase whitespace-nowrap">{t('careers.convinced')}</span>
+                    <span className="bg-black text-white px-2 py-1 text-[10px] uppercase whitespace-nowrap">{t('careers.noRegret')}</span>
                   </div>
                 )}
               </div>
@@ -155,7 +157,7 @@ export default function CareersPage() {
                         01
                       </div>
                       <div className="flex justify-between items-end font-sans">
-                        <span className="text-2xl font-medium leading-none text-fg group-hover:text-[#dfff80]">Jobs<br/>Opening</span>
+                        <span className="text-2xl font-medium leading-none text-fg group-hover:text-[#dfff80]">{t('careers.jobsOpening').split('\n').map((l, i) => <span key={i}>{l}<br /></span>)}</span>
                         <span className="text-fg group-hover:text-[#dfff80]">[+]</span>
                       </div>
                     </div>
@@ -177,7 +179,7 @@ export default function CareersPage() {
                       style={{ backgroundImage: `url(${ICON_MAP[item.type] || ICON_MAP[item.id] || '/images/ascii-placeholder.jpg'})` }}
                     />
                   </div>
-                  <span className="text-[10px] uppercase tracking-wider font-sans whitespace-nowrap bg-white/60 px-1.5 py-0.5 rounded-sm">{item.label}</span>
+                  <span className="text-[10px] uppercase tracking-wider font-sans whitespace-nowrap bg-white/60 px-1.5 py-0.5 rounded-sm">{({playlist: t('careers.playlist'), employee: t('careers.employee'), admin: t('careers.admin'), rabbit: t('careers.rabbit'), shoes: t('careers.shoes'), pets: t('careers.pets'), launch: t('careers.launch'), terrace: t('careers.terrace'), benefits: t('careers.benefits')} as Record<string,string>)[item.id]}</span>
                 </div>
               ))}
             </div>
@@ -208,7 +210,7 @@ export default function CareersPage() {
                   01
                 </div>
                 <div className="flex justify-between items-end font-sans">
-                  <span className="text-2xl font-medium leading-none text-fg group-hover:text-[#dfff80]">Jobs<br/>Opening</span>
+                  <span className="text-2xl font-medium leading-none text-fg group-hover:text-[#dfff80]">{t('careers.jobsOpening').split('\n').map((l, i) => <span key={i}>{l}<br /></span>)}</span>
                   <span className="text-fg group-hover:text-[#dfff80]">[+]</span>
                 </div>
               </div>
@@ -223,7 +225,7 @@ export default function CareersPage() {
                     className="w-20 h-20 rounded-lg bg-cover bg-center border border-fg/10 shadow-sm"
                     style={{ backgroundImage: `url(${ICON_MAP[item.type] || ICON_MAP[item.id] || '/images/ascii-placeholder.jpg'})` }}
                   />
-                  <span className="text-[10px] uppercase tracking-wider font-sans text-center">{item.label}</span>
+                  <span className="text-[10px] uppercase tracking-wider font-sans text-center">{({playlist: t('careers.playlist'), employee: t('careers.employee'), admin: t('careers.admin'), rabbit: t('careers.rabbit'), shoes: t('careers.shoes'), pets: t('careers.pets'), launch: t('careers.launch'), terrace: t('careers.terrace'), benefits: t('careers.benefits')} as Record<string,string>)[item.id]}</span>
                 </div>
               ))}
             </div>
@@ -238,15 +240,15 @@ export default function CareersPage() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           <div className="hidden md:block md:col-span-4">
             <div className="sticky top-30 flex items-center gap-3 text-xs md:text-sm font-medium uppercase tracking-wide">
-              <span className="text-[10px] leading-none">■</span> Open Positions
+              <span className="text-[10px] leading-none">■</span> {t('careers.openPositions')}
             </div>
           </div>
           <div className="col-span-1 md:col-span-8 flex flex-col gap-6">
             {OPEN_POSITIONS.map((pos, i) => (
-              <Reveal key={pos.title} delay={i * 0.05}>
+              <Reveal key={pos.titleKey} delay={i * 0.05}>
                 <div className="group flex items-center justify-between border-t border-fg/20 py-6 cursor-pointer hover:bg-black/5 transition-colors -mx-6 px-6">
                   <div>
-                    <h3 className="text-xl md:text-2xl font-medium tracking-tight font-sans">{pos.title}</h3>
+                    <h3 className="text-xl md:text-2xl font-medium tracking-tight font-sans">{t(`careers.${pos.titleKey}`)}</h3>
                     <div className="flex items-center gap-4 mt-1 text-[10px] uppercase font-mono tracking-wide text-fg/50">
                       <span>{pos.type}</span>
                       <span>{pos.location}</span>

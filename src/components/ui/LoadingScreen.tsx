@@ -62,19 +62,23 @@ class Constraint {
 
 /* ---- Audio: wind chime (init on user gesture) ---- */
 let audioCtx: AudioContext | null = null;
-let chimeThrottle = 0;
+let lastChime = 0;
 function initAudio() { if (!audioCtx) audioCtx = new AudioContext(); }
 function chime() {
+  const t = Date.now();
+  if (t - lastChime < 600) return; // one chime per 600ms max
+  lastChime = t;
   try {
     if (!audioCtx) return;
     if (audioCtx.state === 'suspended') audioCtx.resume();
     const now = audioCtx.currentTime;
-    for (let h = 0; h < 3; h++) {
+    const n = 1 + Math.floor(Math.random() * 2); // 1-2 partials instead of 3
+    for (let h = 0; h < n; h++) {
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = 'sine';
       osc.frequency.value = 520 + h * 170 + Math.random() * 80;
-      gain.gain.setValueAtTime(0.015, now);
+      gain.gain.setValueAtTime(0.01, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 1.5 + Math.random());
       osc.connect(gain).connect(audioCtx.destination);
       osc.start(now + h * 0.12);
@@ -139,8 +143,16 @@ export default function LoadingScreen() {
 
     const ctx = c.getContext('2d')!;
 
-    /* ---- char canvases (source code of this component) ---- */
-    const code = LoadingScreen.toString();
+    /* ---- char canvases (multilingual proverb) ---- */
+    /* ponytail: "The best deed is worship, the best livelihood is farming" in various scripts */
+    const code = [
+      'Pang Ulee Buet Ibadat Pang Ule Hareukat Meugoe.',
+      'The best deed is worship, the best livelihood is farming.',
+      'أفضل العبادة وأفضل الرزق الزراعة.',
+      '至善之功乃拜，至丰之生乃耕。',
+      'अनुत्तमं भक्तिः, अनुत्तमं जीविका कृषिः।',
+      'ᨀᨒᨙᨅᨗᨀᨙ ᨕᨒᨙᨄ ᨕᨙᨒᨚ',
+    ].join('\n');
     const fontSize = Math.max(12, cellHeight * 1.2);
     const box = Math.ceil(fontSize * 1.4);
     const charCanvases: Record<string, HTMLCanvasElement> = {};
@@ -232,11 +244,7 @@ export default function LoadingScreen() {
           p.applyForce(new Vec2(Math.cos(a) * strength, Math.sin(a) * strength));
 
           // chime on strong movement
-          chimeThrottle++;
-          if (chimeThrottle > 30 && ls < 5000 && ls > 100) {
-            chimeThrottle = 0;
-            chime();
-          }
+          if (ls < 5000 && ls > 100) chime();
         }
       }
     };

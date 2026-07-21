@@ -36,6 +36,14 @@ yarn-error.log*
 # vercel
 .vercel
 
+# claude
+.claude
+.playwright-mcp
+.superpowers
+AGENTS.md
+CLAUDE.md
+docs/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

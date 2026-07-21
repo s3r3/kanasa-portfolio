@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useUIStore } from '@/store/useUIStore';
 import { AccessibilityIcon } from '@/components/ui/icons';
 import { EASE } from '@/lib/animations';
+import { useI18nStore } from '@/store/useI18n';
 
 const SOCIAL_LINKS = [
   { label: 'INSTAGRAM', url: 'https://www.instagram.com/kanasacreative/' },
@@ -20,6 +21,7 @@ const staggerItem = {
 
 export default function ContactOverlay() {
   const { isContactOpen, closeContact } = useUIStore();
+  const { t } = useI18nStore();
   const [hoveredSocial, setHoveredSocial] = useState<string | null>(null);
 
   return (
@@ -51,15 +53,15 @@ export default function ContactOverlay() {
             >
               <motion.div variants={staggerItem} className="flex justify-between items-start mb-6">
                 <h2 className="text-4xl md:text-[3.25rem] tracking-tight leading-[1.05] font-medium text-fg">
-                  Get in touch.<br />And let&rsquo;s get to work.
+                  {t('contact.title').split('\n').map((l, i) => <span key={i}>{l}<br /></span>)}
                 </h2>
                 <div className="flex items-center gap-2 shrink-0 ml-4">
-                  <button onClick={closeContact} className="bg-black text-white px-3 py-1.5 text-xs font-mono uppercase flex items-center hover:bg-black/80 transition-colors tracking-widest">CLOSE[x]</button>
+                  <button onClick={closeContact} className="bg-black text-white px-3 py-1.5 text-xs font-mono uppercase flex items-center hover:bg-black/80 transition-colors tracking-widest">{t('contact.close')}</button>
                   <button className="border border-fg px-3 py-1.5 text-sm hover:bg-black hover:text-white transition-colors flex items-center justify-center"><span className="sr-only">Accessibility</span><AccessibilityIcon /></button>
                 </div>
               </motion.div>
               <motion.p variants={staggerItem} className="text-sm font-medium mb-12 max-w-sm leading-relaxed text-fg/90">
-                If you have a project in mind, we&rsquo;d love to hear about it.<br />We typically respond within 5 business days.
+                {t('contact.subtitle').split('\n').map((l, i) => <span key={i}>{l}<br /></span>)}
               </motion.p>
               <motion.div variants={staggerItem} className="border-t border-fg/10 py-6">
                 <div className="grid grid-cols-[120px_1fr_1.5fr] gap-6">
@@ -69,11 +71,11 @@ export default function ContactOverlay() {
                   <div className="uppercase text-[11px] font-mono tracking-wide pt-1">Muhammad Farid</div>
                   <div className="uppercase text-[11px] font-mono tracking-wide flex flex-col justify-between pt-1">
                     <div>
-                      <p className="mb-1">FullStack Developer</p>
+                      <p className="mb-1">{t('contact.role')}</p>
                       <a href="mailto:creativekanasa@gmail.com" className="underline decoration-1 underline-offset-4 hover:italic transition-all">creativekanasa@gmail.com</a>
                     </div>
                     <div className="mt-auto">
-                      <a href="https://www.linkedin.com/in/muhammad-farid-307029300/?locale=en" target="_blank" rel="noopener noreferrer" className="hover:italic transition-all cursor-pointer inline-block">[ ] SEE LINKEDIN PROFILE</a>
+                      <a href="https://www.linkedin.com/in/muhammad-farid-307029300/?locale=en" target="_blank" rel="noopener noreferrer" className="hover:italic transition-all cursor-pointer inline-block">{t('contact.seeLinkedin')}</a>
                     </div>
                   </div>
                 </div>

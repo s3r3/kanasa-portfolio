@@ -5,9 +5,11 @@ import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motio
 import Link from 'next/link';
 import { WORK_CATEGORIES } from '@/constants';
 import { EASE, SPRING } from '@/lib/animations';
+import { useI18nStore } from '@/store/useI18n';
 
 export default function WorkSection() {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const { t } = useI18nStore();
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -35,24 +37,24 @@ export default function WorkSection() {
         className="fixed top-0 left-0 z-50 pointer-events-none bg-black text-white px-3 py-1 whitespace-nowrap"
       >
         <span className="text-[10px] tracking-widest uppercase font-mono">
-          VIEW {hoveredId !== null ? WORK_CATEGORIES[hoveredId].title : ''}
+          {t('workSection.view')} {hoveredId !== null ? ({0:t('workSection.ecommerce'),1:t('workSection.mobile'),2:t('workSection.websites'),3:t('workSection.experiential')} as Record<number,string>)[hoveredId] : ''}
         </span>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 w-full h-full relative">
         <div className="hidden md:block md:col-span-3 lg:col-span-4 relative h-full">
           <div className="sticky top-[120px] flex items-center gap-3 text-sm font-medium uppercase tracking-wide">
-            <span className="text-[10px] leading-none">■</span> Work
+            <span className="text-[10px] leading-none">■</span> {t('workSection.label')}
           </div>
         </div>
 
         <div className="col-span-1 md:col-span-9 lg:col-span-8 flex flex-col min-h-[80vh] relative">
           <div className="flex flex-col gap-6 items-center md:items-start mb-24 z-10">
             <h2 className="text-4xl md:text-5xl font-medium tracking-tight">
-              Instead of adapting to change, we shape it.
+              {t('workSection.title')}
             </h2>
             <Link href="/work"><button className="border border-fg px-4 py-2 text-xs font-medium uppercase tracking-wider hover:bg-black hover:text-[#efeee8] transition-colors">
-              See our work
+              {t('workSection.link')}
             </button></Link>
           </div>
 
@@ -69,7 +71,7 @@ export default function WorkSection() {
               return (
                 <div key={`title-${cat.id}`} className={`absolute ${posClasses} z-10 flex flex-col gap-2 max-w-[200px]`}>
                   <h3 className="text-3xl md:text-4xl font-medium tracking-tight">
-                    {cat.title}
+                    {({0:t('workSection.ecommerce'),1:t('workSection.mobile'),2:t('workSection.websites'),3:t('workSection.experiential')} as Record<number,string>)[cat.id]}
                   </h3>
                   <AnimatePresence>
                     {isHovered && (
@@ -80,7 +82,7 @@ export default function WorkSection() {
                         transition={{ duration: 0.3 }}
                         className="text-[10px] md:text-xs uppercase font-mono text-fg/60 tracking-wider leading-relaxed"
                       >
-                        {cat.desc}
+                        {({0:t('workSection.ecommerce.desc'),1:t('workSection.mobile.desc'),2:t('workSection.websites.desc'),3:t('workSection.experiential.desc')} as Record<number,string>)[cat.id]}
                       </motion.p>
                     )}
                   </AnimatePresence>

@@ -7,14 +7,17 @@ import Link from 'next/link';
 import { FEATURED_PROJECTS } from '@/constants';
 import { EASE } from '@/lib/animations';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import LangToggle from '@/components/ui/LangToggle';
+import { useI18nStore } from '@/store/useI18n';
 
-const NAV_ITEMS = ['WORK', 'ABOUT', 'SERVICES', 'CAREERS'];
+const NAV_ITEMS = ['WORK', 'ABOUT', 'SERVICES', 'CAREERS'] as const;
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const [isWorkMenuOpen, setIsWorkMenuOpen] = useState(false);
   const { toggleContact } = useUIStore();
+  const { t } = useI18nStore();
 
   // Deteksi event scroll
   useEffect(() => {
@@ -75,7 +78,7 @@ export default function Navbar() {
               href={`/${item.toLowerCase()}`}
               className="uppercase cursor-pointer transition-all duration-200 inline-block"
             >
-              {hoveredNav === item || (item === 'WORK' && isWorkMenuOpen) ? `[${item}]` : item}
+              {hoveredNav === item || (item === 'WORK' && isWorkMenuOpen) ? `[${t(`nav.${item.toLowerCase()}`)}]` : t(`nav.${item.toLowerCase()}`)}
             </Link>
           </div>
         ))}
@@ -102,14 +105,14 @@ export default function Navbar() {
               >
                 <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.3 } } }} className="bg-bg-accent pt-6 flex flex-col">
                   <div className="grid grid-cols-2 gap-y-3 gap-x-8 text-[2rem] md:text-[2.25rem] tracking-tight mb-10 text-fg">
-                    <div className="hover:italic cursor-pointer transition-all flex items-start">Website<sup className="text-xs ml-1 mt-1.5 font-sans">7</sup></div>
-                    <div className="hover:italic cursor-pointer transition-all flex items-start">Mobile App<sup className="text-xs ml-1 mt-1.5 font-sans">4</sup></div>
-                    <div className="hover:italic cursor-pointer transition-all flex items-start">Experiential<sup className="text-xs ml-1 mt-1.5 font-sans">4</sup></div>
-                    <div className="hover:italic cursor-pointer transition-all flex items-start">E-commerce<sup className="text-xs ml-1 mt-1.5 font-sans">3</sup></div>
+                    <div className="hover:italic cursor-pointer transition-all flex items-start">{t('nav.mega.website')}<sup className="text-xs ml-1 mt-1.5 font-sans">7</sup></div>
+                    <div className="hover:italic cursor-pointer transition-all flex items-start">{t('nav.mega.mobile')}<sup className="text-xs ml-1 mt-1.5 font-sans">4</sup></div>
+                    <div className="hover:italic cursor-pointer transition-all flex items-start">{t('nav.mega.experiential')}<sup className="text-xs ml-1 mt-1.5 font-sans">4</sup></div>
+                    <div className="hover:italic cursor-pointer transition-all flex items-start">{t('nav.mega.ecommerce')}<sup className="text-xs ml-1 mt-1.5 font-sans">3</sup></div>
                   </div>
                   <div className="bg-white inline-flex items-center gap-2 px-5 py-3 pr-10 text-[10px] font-bold tracking-widest uppercase relative top-[1px] w-max text-black" style={{ clipPath: 'polygon(0 0, 90% 0, 100% 100%, 0 100%)' }}>
                     <svg width="14" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-1.22-1.8A2 2 0 0 0 7.53 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"></path></svg>
-                    FEATURED PROJECTS
+                    {t('nav.mega.featured')}
                   </div>
                 </motion.div>
                 <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.3 } } }} className="bg-white w-full flex flex-col shadow-2xl pb-2">
@@ -120,13 +123,15 @@ export default function Navbar() {
                         <span className="text-[10px] uppercase font-bold tracking-wide text-black leading-tight block">{project.title}</span>
                       </div>
                       <div className="flex-1 pt-1 px-2">
-                        <span className="text-[10px] uppercase leading-[1.6] text-black/80 font-medium line-clamp-3">{project.description}</span>
+                        <span className="text-[10px] uppercase leading-[1.6] text-black/80 font-medium line-clamp-3">
+                          {project.id === '1' ? t('nav.mega.project.nurquran') : project.id === '2' ? t('nav.mega.project.foodie') : t('nav.mega.project.qitchen')}
+                        </span>
                       </div>
                       <div className="text-[10px] uppercase tracking-wide text-black pt-1 shrink-0 font-medium">{project.code}</div>
                     </Link>
                   ))}
                   <div className="px-4 pt-4 pb-2">
-                    <Link href="/work"><button className="w-full border border-black py-3 text-xs uppercase hover:bg-black hover:text-white text-black transition-colors font-medium tracking-wide">SEE ALL WORK [6]</button></Link>
+                    <Link href="/work"><button className="w-full border border-black py-3 text-xs uppercase hover:bg-black hover:text-white text-black transition-colors font-medium tracking-wide">{t('nav.mega.seeAll')}</button></Link>
                   </div>
                 </motion.div>
               </motion.div>
@@ -141,11 +146,10 @@ export default function Navbar() {
           onClick={toggleContact}
           className="border border-fg px-4 py-1.5 text-sm uppercase hover:bg-black hover:text-white transition-colors"
         >
-          Contact
+          {t('nav.contact')}
         </button>
-        <div className="border border-fg px-3 py-1.5 flex items-center justify-center hover:bg-fg/5 transition-colors rounded-none">
-          <ThemeToggle />
-        </div>
+        <LangToggle />
+        <ThemeToggle />
       </div>
     </motion.header>
   );

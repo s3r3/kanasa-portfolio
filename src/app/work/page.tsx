@@ -11,6 +11,7 @@ import Reveal from '@/components/ui/Reveal';
 import ParallaxImage from '@/components/ui/ParallaxImage';
 import Typewriter from '@/components/ui/Typewriter';
 import { EASE, SPRING } from '@/lib/animations';
+import { useI18nStore } from '@/store/useI18n';
 
 const ALL_WORK_ITEMS = [
   {
@@ -91,9 +92,11 @@ const ALL_WORK_ITEMS = [
 function WorkCard({
   item,
   index,
+  t,
 }: {
   item: (typeof ALL_WORK_ITEMS)[0];
   index: number;
+  t: (key: string) => string;
 }) {
   const slug = item.client.toLowerCase().replace(/\s+/g, '-');
 
@@ -122,9 +125,9 @@ function WorkCard({
         <div className="grid grid-cols-2 text-[10px] md:text-xs uppercase font-medium tracking-wide">
           <div className="pr-4">{item.client}</div>
           <div className="flex flex-col text-fg/60">
-            <span className="leading-relaxed">{item.desc}</span>
+            <span className="leading-relaxed">{({1:t('work.desc.nurquran'),2:t('work.desc.foodie'),3:t('work.desc.qitchen'),4:t('work.desc.vrada'),5:t('work.desc.skillbridge'),6:t('work.desc.sethmilot')} as Record<number,string>)[item.id]}</span>
             <span className="mt-3 text-fg group-hover:italic transition-all">
-              {item.category}
+              {item.category === 'MOBILE APP' ? t('work.category.mobile') : t('work.category.website')}
             </span>
           </div>
         </div>
@@ -134,6 +137,7 @@ function WorkCard({
 }
 
 export default function WorkPage() {
+  const { t } = useI18nStore();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
 
   return (
@@ -143,10 +147,10 @@ export default function WorkPage() {
         <div className="hidden md:block md:col-span-6" />
         <Reveal className="md:col-span-6">
           <p className="text-[17px] md:text-[22px] leading-[1.35] tracking-[-0.02em] text-fg/60 mb-8">
-            We build digital products that drive results.
+            {t('work.hero.desc')}
           </p>
           <Typewriter
-            text="Digital products built with purpose."
+            text={t('work.hero.typewriter')}
             speed={50}
             className="text-5xl md:text-[5.5rem] leading-[0.95] tracking-tighter font-medium"
           />
@@ -158,7 +162,7 @@ export default function WorkPage() {
         <div className="flex gap-2">
           <span className="text-[10px] leading-none mt-0.5">■</span>
           <span className="cursor-pointer">
-            ALL WORK [{ALL_WORK_ITEMS.length}]
+            {t('work.all').replace('{n}', String(ALL_WORK_ITEMS.length))}
           </span>
         </div>
 
@@ -171,7 +175,7 @@ export default function WorkPage() {
                 : 'text-fg/40 hover:text-fg'
             }`}
           >
-            {viewMode === 'grid' ? '[GRID]' : 'GRID'}
+            {viewMode === 'grid' ? `[${t('work.grid')}]` : t('work.grid')}
           </span>
           <span
             onClick={() => setViewMode('list')}
@@ -181,7 +185,7 @@ export default function WorkPage() {
                 : 'text-fg/40 hover:text-fg'
             }`}
           >
-            {viewMode === 'list' ? '[LIST]' : 'LIST'}
+            {viewMode === 'list' ? `[${t('work.list')}]` : t('work.list')}
           </span>
         </div>
       </div>
@@ -200,7 +204,7 @@ export default function WorkPage() {
               className="grid grid-cols-1 md:grid-cols-12 gap-x-4 gap-y-16 md:gap-y-24"
             >
               {ALL_WORK_ITEMS.map((item, index) => (
-                <WorkCard key={item.id} item={item} index={index} />
+                <WorkCard key={item.id} item={item} index={index} t={t} />
               ))}
             </motion.div>
           )}
@@ -217,13 +221,13 @@ export default function WorkPage() {
             >
               {/* Header */}
               <div className="grid grid-cols-5 gap-4 border-b border-fg pb-4 text-lg md:text-2xl font-medium tracking-tight mb-4">
-                <div className="col-span-1">Projects</div>
-                <div className="col-span-1">Type</div>
-                <div className="col-span-1">Industries</div>
+                <div className="col-span-1">{t('work.projects')}</div>
+                <div className="col-span-1">{t('work.type')}</div>
+                <div className="col-span-1">{t('work.industries')}</div>
                 <div className="col-span-1 flex items-center gap-2">
-                  Year <span className="text-sm">▼</span>
+                  {t('work.year')} <span className="text-sm">▼</span>
                 </div>
-                <div className="col-span-1 text-right">Ref.</div>
+                <div className="col-span-1 text-right">{t('work.ref')}</div>
               </div>
 
               {ALL_WORK_ITEMS.map((item) => (
@@ -235,10 +239,10 @@ export default function WorkPage() {
                     {item.client}
                   </div>
                   <div className="col-span-1 text-fg/70">
-                    {item.category}
+                    {item.category === 'MOBILE APP' ? t('work.category.mobile') : t('work.category.website')}
                   </div>
                   <div className="col-span-1 text-fg/70">
-                    {item.industry}
+                    {({1:t('work.industry.islamic'),2:t('work.industry.fnb'),3:t('work.industry.fnb'),4:t('work.industry.retail'),5:t('work.industry.education'),6:t('work.industry.creative')} as Record<number,string>)[item.id]}
                   </div>
                   <div className="col-span-1 text-fg/70">{item.year}</div>
                   <div className="col-span-1 text-right text-fg/70">
@@ -254,14 +258,14 @@ export default function WorkPage() {
       {/* --- LOAD MORE --- */}
       <section className="px-6 md:px-12 pb-32 flex justify-start">
         <button className="bg-black text-white px-8 py-3 text-xs uppercase font-medium tracking-wider hover:bg-black/80 transition-colors">
-          Load More
+          {t('work.loadMore')}
         </button>
       </section>
 
       {/* --- ARCHIVE --- */}
       <section className="bg-[#cec9c0] w-full px-6 md:px-12 py-24 flex flex-col gap-12">
         <div className="flex items-center gap-3 text-xs font-medium uppercase tracking-wide">
-          <span className="text-[10px] leading-none">■</span> Archive
+          <span className="text-[10px] leading-none">■</span> {t('work.archive')}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

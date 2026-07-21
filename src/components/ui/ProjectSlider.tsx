@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import { SLIDER_PROJECT } from "@/constants";
 import { EASE as EASE_SHARED } from "@/lib/animations";
+import { useI18nStore } from "@/store/useI18n";
 
 const EASE = EASE_SHARED.smooth;
 
@@ -12,6 +13,8 @@ export default function ProjectSlider() {
   const [currentIndex, setCurrentIndex] = useState(2);
   const [isHovering, setIsHovering] = useState(false);
   const { images, slides, codes } = SLIDER_PROJECT;
+
+  const { t } = useI18nStore();
 
   // Kursor Kustom
   const cursorX = useMotionValue(-100);
@@ -57,7 +60,7 @@ export default function ProjectSlider() {
         transition={{ duration: 0.2 }}
         className="fixed top-0 left-0 z-50 pointer-events-none flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black text-white px-4 py-2 text-[10px] tracking-[0.2em] uppercase"
       >
-        View Case
+        {t('slider.viewCase')}
       </motion.div>
 
       {/* Area Gambar Utama — margin kiri-kanan lega, gambar ke kanan */}
