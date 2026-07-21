@@ -2,11 +2,14 @@
 
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import * as BAS from 'three-bas';
 import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
 import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 import gsap from 'gsap';
 
+/* =================================================================
+   SplashScreen — 3D "KANASA" with face-by-face floating animation
+   Uses custom vertex shader (no BAS dependency, works with Three.js r152)
+   ================================================================= */
 export default function SplashScreen() {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -14,7 +17,6 @@ export default function SplashScreen() {
     const container = containerRef.current;
     if (!container) return;
 
-    /* ---- Scene setup ---- */
     const renderer = new THREE.WebGLRenderer({ antialias: false });
     renderer.setClearColor(0xffffff);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -23,22 +25,21 @@ export default function SplashScreen() {
     const camera = new THREE.PerspectiveCamera(10, window.innerWidth / window.innerHeight, 1, 10000);
     camera.position.set(0, 0, 1400);
     const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xffffff);
 
-    /* ---- Font loader ---- */
     const loader = new FontLoader();
     loader.load('/helvetiker_bold.typeface.json', (font: any) => {
-      const textAnim = createTextAnimation(font, 'KANASA');
-      scene.add(textAnim);
+      const mesh = createTextMesh(font, 'KANASA');
+      scene.add(mesh);
 
       const tween = gsap.fromTo(
-        textAnim,
-        { animationProgress: 0 },
-        { animationProgress: 1, duration: 4, ease: 'power1.inOut', repeat: -1, yoyo: true }
+        mesh,
+        { progress: 0 },
+        { progress: 1, duration: 4, ease: 'power1.inOut', repeat: -1, yoyo: true }
       );
       createScrubber(tween);
     });
 
-    /* ---- Resize ---- */
     const resize = () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
@@ -47,7 +48,6 @@ export default function SplashScreen() {
     resize();
     window.addEventListener('resize', resize);
 
-    /* ---- RAF ---- */
     let raf: number;
     const tick = () => { renderer.render(scene, camera); raf = requestAnimationFrame(tick); };
     raf = requestAnimationFrame(tick);
@@ -63,9 +63,10 @@ export default function SplashScreen() {
   return <div ref={containerRef} className="fixed inset-0 z-[100]" />;
 }
 
-/* ---------- Text Animation ---------- */
-function createTextAnimation(font: any, text: string) {
-  const geometry = new TextGeometry(text, {
+/* —— Create 3D text with per-face vertex animation —— */
+function createTextMesh(font: any, text: string) {
+  // Build geometry
+  const geo = new TextGeometry(text, {
     size: 14,
     height: 0,
     font,
@@ -73,117 +74,102 @@ function createTextAnimation(font: any, text: string) {
     bevelThickness: 0.5,
     bevelEnabled: true,
   });
-  geometry.computeBoundingBox();
-  const bb = geometry.boundingBox!;
-  const size = { width: bb.max.x - bb.min.x, height: bb.max.y - bb.min.y, depth: bb.max.z - bb.min.z };
-  geometry.translate(-size.width / 2, -size.height / 2, -size.depth / 2);
-  (geometry as any).userData.size = size;
+  geo.computeBoundingBox();
+  const bb = geo.boundingBox!;
+  const sz = {
+    w: bb.max.x - bb.min.x,
+    h: bb.max.y - bb.min.y,
+    d: bb.max.z - bb.min.z,
+  };
+  geo.translate(-sz.w / 2, -sz.h / 2, -sz.d / 2);
 
-  const nonIndexed = geometry.toNonIndexed();
-  // patch faces for BAS (removed in Three.js r125+)
-  const pos = nonIndexed.attributes.position;
+  // Non-indexed so each triangle is independent
+  const ngeo = geo.toNonIndexed();
+  const pos = ngeo.attributes.position;
   const vertCount = pos.count;
-  const fakeFaces: { a: THREE.Vector3; b: THREE.Vector3; c: THREE.Vector3; vertexIndex: number[] }[] = [];
-  for (let i = 0; i < vertCount; i += 3) {
-    const a = new THREE.Vector3().fromBufferAttribute(pos, i);
-    const b = new THREE.Vector3().fromBufferAttribute(pos, i + 1);
-    const c = new THREE.Vector3().fromBufferAttribute(pos, i + 2);
-    fakeFaces.push({ a, b, c, vertexIndex: [i, i + 1, i + 2] });
-  }
-  (nonIndexed as unknown as Record<string, unknown>).faces = fakeFaces;
-  const bufGeo = new BAS.ModelBufferGeometry(nonIndexed);
-  const faceCount = bufGeo.faceCount;
+  const faceCount = vertCount / 3;
 
-  const aAnim = bufGeo.createAttribute('aAnimation', 2);
-  const aCtrl0 = bufGeo.createAttribute('aControl0', 3);
-  const aCtrl1 = bufGeo.createAttribute('aControl1', 3);
+  // Per-face animation data: delay + duration + control points
+  const aDelay = new Float32Array(vertCount);
+  const aDuration = new Float32Array(vertCount);
+  const aCtrl = new Float32Array(vertCount * 3); // x,y,z control direction
 
-  for (let i = 0; i < faceCount; i++) {
-    const centroid = getCentroid(geometry, i);
-    const dirX = centroid.x > 0 ? 1 : -1;
-    const dirY = centroid.y > 0 ? 1 : -1;
-    const delay = centroid.length() * THREE.MathUtils.randFloat(0.03, 0.06);
-    const dur = THREE.MathUtils.randFloat(2, 4);
+  const tmp = new THREE.Vector3();
+  for (let f = 0; f < faceCount; f++) {
+    const vi = f * 9;
+    const cx = (pos.array[vi] + pos.array[vi + 3] + pos.array[vi + 6]) / 3;
+    const cy = (pos.array[vi + 1] + pos.array[vi + 4] + pos.array[vi + 7]) / 3;
+    const cz = (pos.array[vi + 2] + pos.array[vi + 5] + pos.array[vi + 8]) / 3;
 
-    for (let v = 0; v < 6; v += 2) {
-      (aAnim.array as any)[i * 6 + v] = delay + Math.random();
-      (aAnim.array as any)[i * 6 + v + 1] = dur;
-    }
+    const centroid = tmp.set(cx, cy, cz);
+    const len = centroid.length();
+    const delay = len * THREE.MathUtils.randFloat(0.03, 0.06);
+    const duration = THREE.MathUtils.randFloat(2, 4);
+    const dirX = cx > 0 ? 1 : -1;
+    const dirY = cy > 0 ? 1 : -1;
 
-    const c0 = [
-      THREE.MathUtils.randFloat(0, 30) * dirX,
-      THREE.MathUtils.randFloat(60, 120) * dirY,
-      THREE.MathUtils.randFloat(-20, 20),
-    ];
-    const c1 = [
-      THREE.MathUtils.randFloat(30, 60) * dirX,
-      THREE.MathUtils.randFloat(0, 60) * dirY,
-      THREE.MathUtils.randFloat(-20, 20),
-    ];
-    for (let v = 0; v < 9; v += 3) {
-      (aCtrl0.array as any)[i * 9 + v] = c0[0];
-      (aCtrl0.array as any)[i * 9 + v + 1] = c0[1];
-      (aCtrl0.array as any)[i * 9 + v + 2] = c0[2];
-      (aCtrl1.array as any)[i * 9 + v] = c1[0];
-      (aCtrl1.array as any)[i * 9 + v + 1] = c1[1];
-      (aCtrl1.array as any)[i * 9 + v + 2] = c1[2];
+    const c0x = THREE.MathUtils.randFloat(0, 30) * dirX;
+    const c0y = THREE.MathUtils.randFloat(60, 120) * dirY;
+    const c0z = THREE.MathUtils.randFloat(-20, 20);
+
+    for (let v = 0; v < 3; v++) {
+      const idx = f * 3 + v;
+      aDelay[idx] = delay + Math.random();
+      aDuration[idx] = duration;
+      aCtrl[idx * 3] = c0x;
+      aCtrl[idx * 3 + 1] = c0y;
+      aCtrl[idx * 3 + 2] = c0z;
     }
   }
 
-  const mat = new BAS.BasicAnimationMaterial(
-    {
-      side: THREE.DoubleSide,
-      uniforms: { uTime: { value: 0 } },
-      shaderFunctions: [BAS.ShaderChunk.cubic_bezier],
-      shaderParameters: [
-        'uniform float uTime;',
-        'attribute vec2 aAnimation;',
-        'attribute vec3 aControl0;',
-        'attribute vec3 aControl1;',
-      ],
-      shaderVertexInit: [
-        'float tDelay = aAnimation.x;',
-        'float tDuration = aAnimation.y;',
-        'float tTime = clamp(uTime - tDelay, 0.0, tDuration);',
-        'float tProgress = tTime / tDuration;',
-      ],
-      shaderTransformPosition: [
-        'vec3 tPosition = transformed;',
-        'tPosition *= 1.0 - tProgress;',
-        'tPosition += cubicBezier(transformed, aControl0, aControl1, vec3(0.0), tProgress);',
-        'transformed = tPosition;',
-      ],
-    },
-    { diffuse: 0x000000 }
-  );
+  ngeo.setAttribute('aDelay', new THREE.BufferAttribute(aDelay, 1));
+  ngeo.setAttribute('aDuration', new THREE.BufferAttribute(aDuration, 1));
+  ngeo.setAttribute('aControl', new THREE.BufferAttribute(aCtrl, 3));
 
-  const mesh = new THREE.Mesh(bufGeo, mat);
+  // Custom shader material
+  const mat = new THREE.ShaderMaterial({
+    side: THREE.DoubleSide,
+    uniforms: { uTime: { value: 0 } },
+    vertexShader: `
+      attribute float aDelay;
+      attribute float aDuration;
+      attribute vec3 aControl;
+      uniform float uTime;
+
+      void main() {
+        vec3 pos = position;
+        float t = clamp((uTime - aDelay) / aDuration, 0.0, 1.0);
+        // ease-out cubic
+        float ease = 1.0 - pow(1.0 - t, 3.0);
+        pos *= (1.0 - ease);
+        pos += aControl * ease;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+      }
+    `,
+    fragmentShader: `
+      void main() {
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+      }
+    `,
+  });
+
+  const mesh = new THREE.Mesh(ngeo, mat);
   mesh.frustumCulled = false;
-  (mesh as any).animationDuration = size.width * 0.02 + 5;
 
-  Object.defineProperty(mesh, 'animationProgress', {
+  // Expose progress property for GSAP
+  const totalDuration = sz.w * 0.02 + 5;
+  Object.defineProperty(mesh, 'progress', {
     get() { return (this as any)._p || 0; },
     set(v: number) {
       (this as any)._p = v;
-      mat.uniforms.uTime.value = ((mesh as any).animationDuration) * v;
+      mat.uniforms.uTime.value = totalDuration * v;
     },
   });
 
   return mesh;
 }
 
-/* Get face centroid from non-indexed geometry */
-function getCentroid(geo: THREE.BufferGeometry, faceIdx: number): THREE.Vector3 {
-  const pos = geo.attributes.position;
-  const i = faceIdx * 9;
-  return new THREE.Vector3(
-    (pos.array[i] + pos.array[i + 3] + pos.array[i + 6]) / 3,
-    (pos.array[i + 1] + pos.array[i + 4] + pos.array[i + 7]) / 3,
-    (pos.array[i + 2] + pos.array[i + 5] + pos.array[i + 8]) / 3,
-  );
-}
-
-/* ---------- Drag Scrubber ---------- */
+/* —— Drag scrubber —— */
 function createScrubber(tween: gsap.core.Tween) {
   let down = false;
   let cx = 0;
