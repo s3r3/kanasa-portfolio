@@ -1,68 +1,128 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { SLIDER_PROJECT } from '@/constants';
 
-/* ponytail: card-stack slider — pure CSS nth-child positioning, JS just moves DOM nodes */
+const SLUGS = ['nurquran', 'foodie', 'qitchen', 'vrada', 'skillbridge', 'sethmilot'];
+
+/* ponytail: React-friendly card-stack slider. State-driven, no DOM fighting. */
 export default function ProjectSlider() {
-  const sliderRef = useRef<HTMLUListElement>(null);
-  const timerRef = useRef<ReturnType<typeof setInterval>>(undefined);
   const { images, slides } = SLIDER_PROJECT;
+  const len = images.length;
 
-  const go = (dir: 'next' | 'prev') => {
-    const ul = sliderRef.current;
-    if (!ul) return;
-    clearInterval(timerRef.current);
-    const items = ul.children;
-    if (!items.length) return;
-    if (dir === 'next') ul.appendChild(items[0]);
-    else ul.prepend(items[items.length - 1]);
-    timerRef.current = setInterval(() => go('next'), 4000);
-  };
+  // startIdx = which slide is currently the "first" (the hero bg)
+  const [startIdx, setStartIdx] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStart = useRef(0);
+  const dragDelta = useRef(0);
+  const sectionRef = useRef<HTMLElement>(null);
 
+  // Build 6 visible items cyclically from startIdx
+  const visible = Array.from({ length: 6 }, (_, i) => {
+    const idx = (startIdx + i) % len;
+    return {
+      idx,
+      slide: slides[idx] || slides[0],
+      img: images[idx] || images[0],
+      slug: SLUGS[idx] || 'work',
+    };
+  });
+
+  const go = useCallback((dir: 'next' | 'prev') => {
+    setStartIdx((prev) => (dir === 'next' ? (prev + 1) % len : (prev - 1 + len) % len));
+  }, [len]);
+
+  const goTo = useCallback((i: number) => setStartIdx(i % len), [len]);
+
+  // Auto-play
   useEffect(() => {
-    timerRef.current = setInterval(() => go('next'), 4000);
-    return () => clearInterval(timerRef.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (isHovering || isDragging) return;
+    const t = setInterval(() => go('next'), 4000);
+    return () => clearInterval(t);
+  }, [isHovering, isDragging, go]);
 
-  const handleClick = (e: React.MouseEvent<HTMLUListElement>) => {
-    const target = e.target as HTMLElement;
-    if (target.closest('button')) return; // let buttons work
-    go(target.closest('.prev') ? 'prev' : 'next');
+  // Progress bar — 0..1 over 4s, direct DOM update
+  const barRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const bar = barRef.current;
+    if (!bar) return;
+    if (isHovering || isDragging) { bar.style.width = '0%'; return; }
+    const start = performance.now();
+    let raf: number;
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / 4000);
+      bar.style.width = `${p * 100}%`;
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [startIdx, isHovering, isDragging]);
+
+  // Pointer drag/swipe
+  const onPointerDown = (e: React.PointerEvent) => {
+    setIsDragging(true);
+    dragStart.current = e.clientX;
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
   };
-
-  /* Slider data — first slide is the "hero" bg */
-  const firstSlides = slides.slice(0, 4);
-  while (firstSlides.length < 6) firstSlides.push(slides[firstSlides.length % slides.length]);
-  const displaySlides = firstSlides.slice(0, 6);
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!isDragging) return;
+    dragDelta.current = e.clientX - dragStart.current;
+  };
+  const onPointerUp = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    if (Math.abs(dragDelta.current) > 50) {
+      go(dragDelta.current < 0 ? 'next' : 'prev');
+    }
+    dragDelta.current = 0;
+  };
 
   return (
-    <section className="relative w-full min-h-screen overflow-hidden bg-black select-none">
-      {/* CSS entry animation */}
+    <section
+      ref={sectionRef}
+      className="relative w-full min-h-screen overflow-hidden bg-black select-none"
+      onPointerEnter={() => setIsHovering(true)}
+      onPointerLeave={() => { setIsHovering(false); setIsDragging(false); }}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      style={{ touchAction: 'pan-y' }}
+    >
+      {/* Keyframes */}
       <style>{`
         @keyframes showSlideContent {
           0% { filter: blur(5px); transform: translateY(calc(-50% + 75px)); }
           100% { opacity: 1; filter: blur(0); transform: translateY(-50%); }
         }
+        @keyframes progressShrink {
+          from { width: 100%; }
+          to { width: 0%; }
+        }
       `}</style>
 
-      <ul
-        ref={sliderRef}
-        onClick={handleClick}
-        className="slider relative w-full h-full min-h-screen"
-      >
-        {displaySlides.map((slide, i) => (
+      {/* Progress bar */}
+      <div className="absolute top-0 left-0 w-full h-1 z-20 bg-white/20">
+        <div
+          ref={barRef}
+          className="h-full bg-white/60 transition-none"
+          style={{ width: '0%' }}
+        />
+      </div>
+
+      {/* Slides */}
+      <ul className="slider relative w-full h-screen">
+        {visible.map((item, i) => (
           <li
-            key={i}
+            key={`${startIdx}-${i}`}
             className="item"
-            style={{ backgroundImage: `url(${images[i % images.length]})` }}
+            style={{ backgroundImage: `url(${item.img})` }}
           >
             <div className="content">
-              <h2 className="title">{slide.title}</h2>
-              <p className="description">{slide.description}</p>
-              <Link href="/work">
+              <h2 className="title">{item.slide.title}</h2>
+              <p className="description">{item.slide.description}</p>
+              <Link href={`/work/${item.slug}`} onClick={(e) => e.stopPropagation()}>
                 <button>View Project</button>
               </Link>
             </div>
@@ -70,16 +130,43 @@ export default function ProjectSlider() {
         ))}
       </ul>
 
+      {/* Click nav on slider (not on content buttons) */}
+      <div className="absolute inset-0 z-10 flex cursor-pointer" onClick={() => go('next')}>
+        <div className="w-1/3 h-full" onClick={(e) => { e.stopPropagation(); go('prev'); }} />
+        <div className="w-2/3 h-full" />
+      </div>
+
+      {/* Bottom nav buttons */}
       <nav className="nav">
-        <button className="btn prev" onClick={() => go('prev')} aria-label="Previous">
+        <button className="btn prev" onClick={(e) => { e.stopPropagation(); go('prev'); }} aria-label="Previous">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
-        <button className="btn next" onClick={() => go('next')} aria-label="Next">
+
+        {/* Dot indicators */}
+        <div className="flex items-center gap-2 px-4">
+          {Array.from({ length: len }, (_, i) => (
+            <button
+              key={i}
+              onClick={(e) => { e.stopPropagation(); goTo(i); }}
+              className={`w-2 h-2 rounded-full transition-all ${
+                i === startIdx ? 'bg-white scale-125' : 'bg-white/40 hover:bg-white/70'
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+
+        <button className="btn next" onClick={(e) => { e.stopPropagation(); go('next'); }} aria-label="Next">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>
         </button>
       </nav>
 
-      {/* Slider CSS */}
+      {/* Counter */}
+      <div className="absolute bottom-8 right-8 z-20 text-white/60 text-xs font-mono tracking-widest">
+        {String(startIdx + 1).padStart(2, '0')} / {String(len).padStart(2, '0')}
+      </div>
+
+      {/* Styles */}
       <style jsx>{`
         .slider {
           position: relative;
@@ -115,6 +202,7 @@ export default function ProjectSlider() {
         .item:nth-child(4) { left: calc(50% + 220px); }
         .item:nth-child(5) { left: calc(50% + 440px); }
         .item:nth-child(6) { left: calc(50% + 660px); opacity: 0; }
+
         .content {
           width: min(30vw, 400px);
           position: absolute;
@@ -140,8 +228,10 @@ export default function ProjectSlider() {
           font-size: 0.8rem;
           opacity: 0.9;
         }
-        .content button {
+        .content a {
           pointer-events: auto;
+        }
+        .content button {
           width: fit-content;
           background: rgba(0,0,0,0.2);
           color: white;
@@ -161,13 +251,15 @@ export default function ProjectSlider() {
           display: block;
           animation: showSlideContent 0.75s ease-in-out 0.3s forwards;
         }
+
         .nav {
           position: absolute;
           bottom: 2rem;
           left: 50%;
           transform: translateX(-50%);
-          z-index: 5;
+          z-index: 20;
           display: flex;
+          align-items: center;
           gap: 0.5rem;
         }
         .btn {
@@ -185,6 +277,7 @@ export default function ProjectSlider() {
         .btn:hover {
           background: rgba(255,255,255,0.3);
         }
+
         @media (max-width: 900px) {
           .content .title { font-size: 1rem; }
           .content .description { font-size: 0.7rem; }
