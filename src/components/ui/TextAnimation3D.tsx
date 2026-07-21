@@ -27,34 +27,30 @@ export default function TextAnimation3D({ text = 'KANASA' }: { text?: string }) 
     loader.load('/helvetiker_bold.typeface.json', (font: any) => {
       const mesh = createTextMesh(font, text);
       scene.add(mesh);
+      renderer.render(scene, camera);
 
-      // auto-loop yoyo sekali — 0→1→0
-      let start = performance.now();
-      const totalDur = 6000; // 3s forward + 3s back
-      const loop = () => {
-        const t = ((performance.now() - start) % totalDur) / totalDur;
-        const p = t < 0.5 ? t * 2 : 2 - t * 2; // 0→1→0
-        (mesh as any).progress = p;
-        renderer.render(scene, camera);
-        raf = requestAnimationFrame(loop);
-      };
-      let raf = requestAnimationFrame(loop);
-      (window as any).__textRaf = raf;
+      // play once when footer enters viewport
+      let played = false;
+      const obs = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting && !played) {
+          played = true;
+          const start = performance.now();
+          const dur = 3000;
+          const raf = () => {
+            const elapsed = performance.now() - start;
+            const p = Math.min(1, elapsed / dur);
+            (mesh as any).progress = p;
+            renderer.render(scene, camera);
+            if (p < 1) requestAnimationFrame(raf);
+          };
+          requestAnimationFrame(raf);
+          obs.disconnect();
+        }
+      }, { threshold: 0.3 });
+      obs.observe(mount);
     });
 
-    const resize = () => {
-      const W2 = mount.clientWidth || 400;
-      renderer.setSize(W2, H);
-      camera.aspect = W2 / H;
-      camera.updateProjectionMatrix();
-    };
-    window.addEventListener('resize', resize);
-
-    return () => {
-      cancelAnimationFrame((window as any).__textRaf);
-      window.removeEventListener('resize', resize);
-      renderer.dispose();
-    };
+    return () => { renderer.dispose(); };
   }, [text]);
 
   return <div ref={mountRef} className="w-full max-w-[400px] h-[120px]" />;
