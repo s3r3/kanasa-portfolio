@@ -48,24 +48,20 @@ export default function LoadingScreen() {
       if (ti > 7) clearInterval(typer);
     }, 120);
 
-    // Dimensi
-    const VW = window.innerWidth;
-    const VH = window.innerHeight;
+    // Dimensi — canvas lebih kecil, ga full layar
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const W = Math.min(420, VW - 60);
-    const H = Math.min(420, VH - 200);
-    const gridW = Math.min(36, Math.floor(W / 12));
-    const gridH = Math.min(28, Math.floor(H / 16));
+    const W = 380;
+    const H = 320;
+    const gridW = Math.min(30, Math.floor(W / 14));
+    const gridH = Math.min(22, Math.floor(H / 16));
     const cellW = W / (gridW - 1);
     const cellH = H / (gridH - 1);
-    const ox = (VW - W) / 2;
-    const oy = (VH - H) / 2;
 
     // Resize canvas
-    c.style.width = VW + 'px';
-    c.style.height = VH + 'px';
-    c.width = VW * dpr;
-    c.height = VH * dpr;
+    c.style.width = W + 'px';
+    c.style.height = H + 'px';
+    c.width = W * dpr;
+    c.height = H * dpr;
 
     // Char canvases
     const chars = 'KANASA CREATIVE DESIGN 0123456789';
@@ -113,12 +109,12 @@ export default function LoadingScreen() {
       }
     }
 
-    // Mouse — grid-space coordinates
+    // Mouse — grid-space coordinates (canvas now starts at 0,0 since style matches size)
     const mouse = { x: -9999, y: -9999 };
     const onMove = (e: PointerEvent) => {
       const rect = c.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left - ox;
-      mouse.y = e.clientY - rect.top - oy;
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
     };
     c.addEventListener('pointermove', onMove);
 
@@ -181,7 +177,7 @@ export default function LoadingScreen() {
         }
       }
 
-      // Draw
+      // Draw (no offset — canvas size matches style size)
       ctx.save();
       for (const p of pts) {
         if (!p.char || p.char === ' ' || !atlas[p.char]) continue;
@@ -191,9 +187,7 @@ export default function LoadingScreen() {
           const a = Math.atan2(p.down.pos.y - p.pos.y, p.down.pos.x - p.pos.x) - Math.PI / 2;
           cos = Math.cos(a); sin = Math.sin(a);
         }
-        const tx = p.pos.x + ox;
-        const ty = p.pos.y + oy;
-        ctx.setTransform(dpr * cos, dpr * sin, -dpr * sin, dpr * cos, dpr * tx, dpr * ty);
+        ctx.setTransform(dpr * cos, dpr * sin, -dpr * sin, dpr * cos, dpr * p.pos.x, dpr * p.pos.y);
         const s = (img as unknown as Record<string, number>)._s;
         ctx.drawImage(img, -s / 2, -s / 2, s, s);
       }
