@@ -37,12 +37,12 @@ yarn-error.log*
 .vercel
 
 # claude
-.claude
-.playwright-mcp
-.superpowers
-AGENTS.md
-CLAUDE.md
-docs/
+/.claude
+/.playwright-mcp
+/.superpowers
+/AGENTS.md
+/CLAUDE.md
+/docs/
 
 # typescript
 *.tsbuildinfo
