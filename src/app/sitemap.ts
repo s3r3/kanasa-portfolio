@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 
 // ponytail: try/catch karena sitemap dipanggil di build time, DB belum tentu ready
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://kanasacreative.com';
+  const baseUrl = 'https://kanasa.cc.cd';
   const now = new Date();
 
   let blogs: { slug: string; updatedAt: Date }[] = [];
