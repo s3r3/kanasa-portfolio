@@ -1,3 +1,0 @@
-[     782ms] [ERROR] Failed to load resource: the server responded with a status of 503 () @ https://ref.digital/_nuxt/BDP8dd4B.js:0
-[ 1303705ms] [ERROR] Failed to load resource: net::ERR_NETWORK_CHANGED @ https://ref.digital/cdn-cgi/media/mode=video,width=1440,height=810/https://a.storyblok.com/f/285561750510308/x/d8259d9389/ref_mission2035_04-assets-carousel.mp4:0
-[ 1568604ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_CLOSED @ https://ref.digital/cdn-cgi/media/mode=video,width=1440,height=810/https://a.storyblok.com/f/285561750510308/x/fea6ec7f23/02-2_halo-features_low.mp4:0
