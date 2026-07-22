@@ -1,10 +1,31 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
 
+interface PodcastItem {
+  id: string; title: string; author: string; duration: string; image: string; slug: string;
+}
+
 export default function PodcastsPage() {
+  const [podcasts, setPodcasts] = useState<PodcastItem[]>([]);
+  const [featured, setFeatured] = useState<PodcastItem | null>(null);
+
+  useEffect(() => {
+    fetch('/api/podcast')
+      .then(r => r.json())
+      .then((data: { episodeNo: number; title: string; author: string; duration: string; image: string; slug: string }[]) => {
+        const items = data.map(p => ({
+          id: String(p.episodeNo), title: p.title, author: p.author,
+          duration: p.duration, image: p.image, slug: p.slug,
+        }));
+        setPodcasts(items);
+        if (items.length > 0) setFeatured(items[0]);
+      })
+      .catch(() => {});
+  }, []);
   return (
     <main className="relative bg-[#efeee8] text-black min-h-screen selection:bg-black selection:text-white">
       <Navbar />
@@ -64,33 +85,34 @@ export default function PodcastsPage() {
           </div>
 
           {/* KOLOM KANAN: Featured Episode Banner Besar */}
+          {featured && (
           <div className="lg:col-span-7">
-            <Link href="/blog/podcasts/remote-revolution" className="group block">
+            <Link href={`/blog/podcasts/${featured.slug}`} className="group block">
               <div className="border border-black p-3 md:p-4 bg-white/40 hover:bg-white/90 transition-all duration-300 shadow-sm hover:shadow-xl">
-                
+
                 {/* Header Jendela Kartu */}
                 <div className="flex justify-between items-center border-b border-black/20 pb-2 mb-4 text-[10px] md:text-xs font-mono uppercase text-black/60">
                   <span>○○○</span>
                   <span className="tracking-[0.3em] font-bold text-black border-x border-black/20 px-8">FEATURED</span>
-                  <span className="tracking-widest">[EP. 004]</span>
+                  <span className="tracking-widest">[EP. {featured.id}]</span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                   {/* Gambar Cover Podcast Featured di Kiri */}
                   <div className="md:col-span-6 w-full aspect-square bg-neutral-200 relative overflow-hidden border border-black/10">
-                    <div 
+                    <div
                       className="absolute inset-0 bg-cover bg-center"
-                      style={{ backgroundImage: 'url(/images/podcast-featured.jpg)' }} // Ganti path gambar Anda
+                      style={{ backgroundImage: `url(${featured.image})` }}
                     />
                   </div>
 
                   {/* Teks Deskripsi Featured di Kanan */}
                   <div className="md:col-span-6 flex flex-col justify-between py-2">
                     <h2 className="text-2xl md:text-4xl font-serif font-medium tracking-tight leading-snug mb-4 group-hover:italic transition-all">
-                      The remote revolution – rethinking work and culture
+                      {featured.title}
                     </h2>
                     <div className="text-xs font-mono uppercase text-black/60 pt-4 border-t border-black/10">
-                      by William Parker &nbsp;|&nbsp; 3hr 06min
+                      by {featured.author} &nbsp;|&nbsp; {featured.duration}
                     </div>
                   </div>
                 </div>
@@ -98,6 +120,7 @@ export default function PodcastsPage() {
               </div>
             </Link>
           </div>
+          )}
 
         </div>
       </section>
@@ -123,47 +146,14 @@ export default function PodcastsPage() {
 
         {/* Grid 2 Kolom untuk Episode Lainnya */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {[
-            {
-              id: '003',
-              title: 'How design is changing in the digital age',
-              author: 'William Parker',
-              duration: '1hr 25min',
-              image: '/images/podcast-1.jpg',
-              slug: 'design-changing-digital-age'
-            },
-            {
-              id: '002',
-              title: 'Education in a connected world',
-              author: 'Emily Johnson',
-              duration: '2hr 23min',
-              image: '/images/podcast-2.jpg',
-              slug: 'education-connected-world'
-            },
-            {
-              id: '002',
-              title: 'The money mindset – simplifying modern finance',
-              author: 'Emily Johnson',
-              duration: '1hr 50min',
-              image: '/images/podcast-3.jpg',
-              slug: 'money-mindset-modern-finance'
-            },
-            {
-              id: '001',
-              title: 'Learning in a connected world',
-              author: 'Michael Smith',
-              duration: '2hr 10min',
-              image: '/images/podcast-4.jpg',
-              slug: 'learning-connected-world'
-            },
-          ].map((pod, index) => (
-            <div key={index} className="border border-black p-3 md:p-4 bg-white/40 shadow-sm flex flex-col sm:flex-row gap-6 items-center">
-              
+          {podcasts.slice(1).map((pod) => (
+            <div key={pod.slug} className="border border-black p-3 md:p-4 bg-white/40 shadow-sm flex flex-col sm:flex-row gap-6 items-center">
+
               {/* Cover Podcast */}
               <div className="w-full sm:w-1/2 aspect-square bg-neutral-200 relative overflow-hidden border border-black/10 shrink-0">
                 <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${pod.image})` }} />
                 <div className="absolute top-2 left-2 text-[9px] font-mono uppercase bg-white/80 px-2 py-0.5 border border-black/20">
-                  ○○○ [EP. 00{pod.id}]
+                  ○○○ [EP. {pod.id}]
                 </div>
               </div>
 
@@ -180,9 +170,9 @@ export default function PodcastsPage() {
 
                 <div className="flex flex-col gap-4">
                   {/* Tombol Play Episode */}
-                  <button className="bg-black text-white px-4 py-2.5 text-xs font-mono uppercase tracking-wider font-bold hover:bg-black/80 transition-colors flex items-center justify-center gap-2 w-full">
+                  <Link href={`/blog/podcasts/${pod.slug}`} className="bg-black text-white px-4 py-2.5 text-xs font-mono uppercase tracking-wider font-bold hover:bg-black/80 transition-colors flex items-center justify-center gap-2 w-full text-center">
                     <span>▶</span> PLAY EPISODE
-                  </button>
+                  </Link>
 
                   {/* Ikon Platform Listen On */}
                   <div className="flex items-center gap-3 text-[11px] font-mono uppercase text-black/60 pt-2 border-t border-black/10">

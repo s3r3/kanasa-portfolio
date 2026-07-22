@@ -7,6 +7,14 @@ import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
 import Lenis from 'lenis';
 
+interface BlogItem {
+  id: string; category: string; author: string; readTime: string;
+  title: string; image: string; slug: string;
+}
+interface PodcastItem {
+  id: string; title: string; author: string; duration: string; image: string; slug: string;
+}
+
 // Topik untuk Marquee
 const TOPICS = [
   'UI/UX DESIGN',
@@ -69,6 +77,31 @@ export default function BlogHomePage() {
     const raf = (time: number) => { lenis.raf(time); requestAnimationFrame(raf); };
     requestAnimationFrame(raf);
     return () => lenis.destroy();
+  }, []);
+
+  const [recentPosts, setRecentPosts] = useState<BlogItem[]>([]);
+  const [watchPosts, setWatchPosts] = useState<BlogItem[]>([]);
+  const [podcasts, setPodcasts] = useState<PodcastItem[]>([]);
+
+  useEffect(() => {
+    fetch('/api/blog')
+      .then(r => r.json())
+      .then(data => {
+        const blogs: BlogItem[] = data.map((b: { id: string; category: string; author: string; readTime: string; title: string; image: string; slug: string }) => ({
+          id: b.id.slice(0, 3), category: b.category, author: b.author,
+          readTime: b.readTime, title: b.title, image: b.image, slug: b.slug,
+        }));
+        setRecentPosts(blogs.slice(0, 6));
+        setWatchPosts(blogs.filter(b => b.category === 'Health' || b.category === 'Tech').slice(0, 3));
+      })
+      .catch(() => {});
+    fetch('/api/podcast')
+      .then(r => r.json())
+      .then((data: { episodeNo: number; title: string; author: string; duration: string; image: string; slug: string }[]) => setPodcasts(data.map(p => ({
+        id: String(p.episodeNo), title: p.title, author: p.author,
+        duration: p.duration, image: p.image, slug: p.slug,
+      }))))
+      .catch(() => {});
   }, []);
 
   return (
@@ -216,63 +249,8 @@ export default function BlogHomePage() {
 
         {/* Grid 3 Kolom untuk Recent Posts */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-          {[
-            {
-              id: '022',
-              category: 'Tech',
-              author: 'Emily Johnson',
-              readTime: '7 min read',
-              title: 'How e-commerce is redefining global shopping trends',
-              image: '/images/recent-1.jpg',
-              slug: 'ecommerce-global-shopping-trends'
-            },
-            {
-              id: '021',
-              category: 'Lifestyle',
-              author: 'Jacob Anderson',
-              readTime: '6 min read',
-              title: 'Exploring minimalist living: a beginner\'s perspective',
-              image: '/images/recent-2.jpg',
-              slug: 'minimalist-living-beginners-perspective'
-            },
-            {
-              id: '020',
-              category: 'Travel',
-              author: 'Sophia Harris',
-              readTime: '5 min read',
-              title: 'Five underrated destinations for your next holiday',
-              image: '/images/recent-3.jpg',
-              slug: 'underrated-destinations-holiday'
-            },
-            {
-              id: '017',
-              category: 'Design & Art',
-              author: 'Ethan Miller',
-              readTime: '6 min read',
-              title: 'The fusion of digital code and brutalist web aesthetics',
-              image: '/images/recent-4.jpg',
-              slug: 'fusion-digital-code-brutalist-aesthetics'
-            },
-            {
-              id: '014',
-              category: 'UI/UX',
-              author: 'Emily Johnson',
-              readTime: '6 min read',
-              title: 'Healthy habits that actually improve your sleep',
-              image: '/images/recent-5.jpg',
-              slug: 'healthy-habits-improve-sleep'
-            },
-            {
-              id: '013',
-              category: 'Business',
-              author: 'Jacob Anderson',
-              readTime: '5 min read',
-              title: 'Simple strategies to improve your daily focus',
-              image: '/images/recent-6.jpg',
-              slug: 'strategies-improve-daily-focus'
-            },
-          ].map((post) => (
-            <Link key={post.id} href={`/blog/${post.slug}`} className="group">
+          {recentPosts.map((post) => (
+            <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
               <div className="border border-black p-3 bg-white/40 hover:bg-white/90 transition-all duration-300 shadow-sm hover:shadow-xl flex flex-col h-full">
 
                 {/* Header Jendela Kartu */}
@@ -432,36 +410,8 @@ export default function BlogHomePage() {
 
           {/* Grid 3 Kolom untuk Watch Lainnya di Bawah */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                id: '015',
-                category: 'Tech',
-                author: 'Jacob Anderson',
-                readTime: '5 min read',
-                title: 'The future of electric cars explained simply',
-                image: '/images/watch-1.jpg',
-                slug: 'future-electric-cars-explained'
-              },
-              {
-                id: '012',
-                category: 'Travel',
-                author: 'Sophia Harris',
-                readTime: '4 min read',
-                title: 'How to create stunning travel vlogs easily',
-                image: '/images/watch-2.jpg',
-                slug: 'create-stunning-travel-vlogs'
-              },
-              {
-                id: '011',
-                category: 'Food',
-                author: 'Michael Smith',
-                readTime: '3 min read',
-                title: 'Exploring top street foods around the world',
-                image: '/images/watch-3.jpg',
-                slug: 'top-street-foods-around-the-world'
-              },
-            ].map((video) => (
-              <Link key={video.id} href={`/blog/${video.slug}`} className="group">
+            {watchPosts.map((video) => (
+              <Link key={video.slug} href={`/blog/${video.slug}`} className="group">
                 <div className="border border-white/20 p-3 bg-neutral-900/40 hover:bg-neutral-900 transition-all duration-300 shadow-md flex flex-col h-full">
 
                   {/* Header Jendela Kartu */}
@@ -702,25 +652,8 @@ export default function BlogHomePage() {
 
           {/* Grid 2 Kolom untuk Podcast */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            {[
-              {
-                id: '006',
-                title: 'How design is changing in the digital age',
-                author: 'William Parker',
-                duration: '1hr 25min',
-                image: '/images/podcast-1.jpg',
-                slug: 'podcast-design-digital-age'
-              },
-              {
-                id: '004',
-                title: 'The remote revolution &ndash; rethinking work and culture',
-                author: 'William Parker',
-                duration: '3hr 06min',
-                image: '/images/podcast-2.jpg',
-                slug: 'podcast-remote-revolution'
-              },
-            ].map((pod) => (
-              <Link key={pod.id} href={`/blog/podcasts/${pod.slug}`} className="border border-black p-3 md:p-4 bg-white/40 shadow-sm flex flex-col sm:flex-row gap-6 items-center group">
+            {podcasts.slice(0, 2).map((pod) => (
+              <Link key={pod.slug} href={`/blog/podcasts/${pod.slug}`} className="border border-black p-3 md:p-4 bg-white/40 shadow-sm flex flex-col sm:flex-row gap-6 items-center group">
 
                 {/* Gambar Cover Podcast */}
                 <div className="w-full sm:w-1/2 aspect-square bg-neutral-200 relative overflow-hidden border border-black/10 shrink-0">

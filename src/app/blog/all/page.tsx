@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -21,98 +21,29 @@ const MARQUEE_ITEMS = [...TOPICS, ...TOPICS, ...TOPICS, ...TOPICS];
 // Daftar Kategori
 const CATEGORIES = ['ALL', 'FINANCE', 'HEALTH', 'BUSINESS', 'FOOD', 'TRAVEL', 'LIFESTYLE', 'TECH'];
 
-// Data Semua Artikel
-const ALL_ARTICLES = [
-  {
-    id: '022',
-    category: 'Tech',
-    author: 'Emily Johnson',
-    readTime: '7 min read',
-    title: 'How e-commerce is redefining global shopping trends',
-    image: '/images/recent-1.jpg',
-    slug: 'ecommerce-global-shopping-trends'
-  },
-  {
-    id: '021',
-    category: 'Lifestyle',
-    author: 'Jacob Anderson',
-    readTime: '6 min read',
-    title: 'Exploring minimalist living: a beginner’s perspective',
-    image: '/images/recent-2.jpg',
-    slug: 'minimalist-living-beginners-perspective'
-  },
-  {
-    id: '020',
-    category: 'Travel',
-    author: 'Sophia Harris',
-    readTime: '5 min read',
-    title: 'Five underrated destinations for your next holiday',
-    image: '/images/recent-3.jpg',
-    slug: 'underrated-destinations-holiday'
-  },
-  {
-    id: '019',
-    category: 'Tech',
-    author: 'Michael Smith',
-    readTime: '7 min read',
-    title: 'Best productivity hacks for creative freelancers today',
-    image: '/images/featured-blog.jpg',
-    slug: 'best-productivity-hacks-freelancers'
-  },
-  {
-    id: '018',
-    category: 'Lifestyle',
-    author: 'Benjamin Scott',
-    readTime: '7 min read',
-    title: 'How remote work is reshaping modern lifestyles',
-    image: '/images/editors-choice.jpg',
-    slug: 'remote-work-reshaping-modern-lifestyles'
-  },
-  {
-    id: '017',
-    category: 'Food',
-    author: 'Ethan Miller',
-    readTime: '6 min read',
-    title: 'Ten easy recipes for busy weeknight cooking',
-    image: '/images/recent-4.jpg',
-    slug: 'ten-easy-recipes-weeknight-cooking'
-  },
-  {
-    id: '016',
-    category: 'Health',
-    author: 'William Parker',
-    readTime: '6 min read',
-    title: 'Quick fitness routines you can do anywhere',
-    image: '/images/watch-featured.jpg',
-    slug: 'quick-fitness-routines-anywhere'
-  },
-  {
-    id: '015',
-    category: 'Tech',
-    author: 'Jacob Anderson',
-    readTime: '6 min read',
-    title: 'The future of electric cars explained simply',
-    image: '/images/watch-1.jpg',
-    slug: 'future-electric-cars-explained'
-  },
-  {
-    id: '014',
-    category: 'Tech',
-    author: 'Emily Johnson',
-    readTime: '6 min read',
-    title: 'Healthy habits that actually improve your sleep',
-    image: '/images/recent-5.jpg',
-    slug: 'healthy-habits-improve-sleep'
-  },
-];
+interface BlogItem {
+  id: string; category: string; author: string; readTime: string;
+  title: string; image: string; slug: string;
+}
 
 export default function BlogListPage() {
   const [selectedCategory, setSelectedCategory] = useState('ALL');
+  const [articles, setArticles] = useState<BlogItem[]>([]);
+
+  useEffect(() => {
+    fetch('/api/blog')
+      .then(r => r.json())
+      .then((data: { id: string; category: string; author: string; readTime: string; title: string; image: string; slug: string }[]) => setArticles(data.map(b => ({
+        id: b.id.slice(0, 3), category: b.category, author: b.author,
+        readTime: b.readTime, title: b.title, image: b.image, slug: b.slug,
+      }))))
+      .catch(() => {});
+  }, []);
 
   // Filter artikel berdasarkan kategori yang diklik
   const filteredArticles = selectedCategory === 'ALL'
-    ? ALL_ARTICLES
-    : ALL_ARTICLES.filter(article => article.category.toUpperCase() === selectedCategory);
+    ? articles
+    : articles.filter(article => article.category.toUpperCase() === selectedCategory);
 
   return (
     <main className="relative bg-[#efeee8] text-black min-h-screen selection:bg-black selection:text-white">
