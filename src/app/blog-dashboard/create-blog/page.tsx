@@ -1,30 +1,62 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import Link from "next/link";
 
+function LoginForm({ onLogin }: { onLogin: () => void }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const res = await fetch('/api/auth/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+    if (res.ok) onLogin();
+    else setError('Invalid credentials');
+  };
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[#efeee8]">
+      <form onSubmit={handleSubmit} className="border border-black p-8 bg-white max-w-sm w-full">
+        <h1 className="text-2xl font-serif mb-6">Admin Login</h1>
+        <input value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" className="w-full border border-black/30 px-3 py-2 mb-3 text-sm font-mono" />
+        <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" className="w-full border border-black/30 px-3 py-2 mb-3 text-sm font-mono" />
+        {error && <p className="text-red-600 text-xs mb-2">{error}</p>}
+        <button type="submit" className="bg-black text-white px-4 py-2 text-xs font-mono uppercase w-full">Login</button>
+      </form>
+    </div>
+  );
+}
+
 export default function CreateBlogPage() {
+  const [isAuthed, setIsAuthed] = useState<boolean | null>(null);
+
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [category, setCategory] = useState("Tech");
   const [tags, setTags] = useState("");
   const [author, setAuthor] = useState("Admin");
   const [coverImage, setCoverImage] = useState("");
-  const [excerpt, setExcerpt] = useState(""); // Ringkasan untuk kartu preview
+  const [excerpt, setExcerpt] = useState("");
 
-  // State untuk dynamic photo blocks (Tanpa batas maksimal)
   const [extraPhotos, setExtraPhotos] = useState<string[]>([]);
 
   const [mainContent, setMainContent] = useState("");
 
-  // State untuk dynamic text/content blocks (Tanpa batas maksimal)
   const [extraSections, setExtraSections] = useState<string[]>([]);
 
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [seoTitle, setSeoTitle] = useState("");
   const [seoDesc, setSeoDesc] = useState("");
+
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then(r => { if (!r.ok) throw new Error(); setIsAuthed(true); })
+      .catch(() => setIsAuthed(false));
+  }, []);
 
   // Auto-generate slug dari judul
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +69,7 @@ export default function CreateBlogPage() {
     setSlug(generatedSlug);
   };
 
-  // Fungsi Tambah Foto (Tanpa Batasan)
+  // Fungsi Tambah Foto
   const handleAddPhoto = () => {
     setExtraPhotos([...extraPhotos, ""]);
   };
@@ -52,7 +84,7 @@ export default function CreateBlogPage() {
     setExtraPhotos(extraPhotos.filter((_, i) => i !== index));
   };
 
-  // Fungsi Tambah Blok Konten Teks (Tanpa Batasan)
+  // Fungsi Tambah Blok Konten Teks
   const handleAddSection = () => {
     setExtraSections([...extraSections, ""]);
   };
@@ -67,11 +99,32 @@ export default function CreateBlogPage() {
     setExtraSections(extraSections.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (status: "draft" | "published") => {
-    alert(
-      `Artikel berhasil disimpan sebagai ${status === "draft" ? "Draft" : "Published"}!`,
-    );
+  const handleSubmit = async (status: "draft" | "published") => {
+    const readTime = `${Math.ceil(mainContent.split(' ').filter(Boolean).length / 200)} min read`;
+    const res = await fetch('/api/blog', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title,
+        slug,
+        category,
+        tags: tags || undefined,
+        author,
+        readTime,
+        image: coverImage,
+        excerpt,
+        content: JSON.stringify([{ type: 'text', content: mainContent }]),
+        seoTitle: seoTitle || undefined,
+        seoDesc: seoDesc || undefined,
+        youtubeUrl: youtubeUrl || undefined,
+        published: status === 'published',
+      }),
+    });
+    if (res.ok) window.location.href = '/blog-dashboard';
   };
+
+  if (isAuthed === null) return <div className="min-h-screen flex items-center justify-center bg-[#efeee8] text-sm font-mono">Loading...</div>;
+  if (!isAuthed) return <LoginForm onLogin={() => setIsAuthed(true)} />;
 
   return (
     <main className="relative bg-[#efeee8] text-black min-h-screen selection:bg-black selection:text-white">
@@ -221,7 +274,7 @@ export default function CreateBlogPage() {
               />
             </div>
 
-            {/* DYNAMIC EXTRA PHOTO BLOCKS (Tanpa Batasan) */}
+            {/* DYNAMIC EXTRA PHOTO BLOCKS */}
             <div className="space-y-4 pt-4 border-t border-black/10">
               <div className="flex justify-between items-center">
                 <span className="text-xs font-mono uppercase tracking-wider font-bold">
@@ -256,7 +309,7 @@ export default function CreateBlogPage() {
               ))}
             </div>
 
-            {/* DYNAMIC TEXT SECTIONS (Tanpa Batasan) */}
+            {/* DYNAMIC TEXT SECTIONS */}
             <div className="space-y-4 pt-4 border-t border-black/10">
               <div className="flex justify-between items-center">
                 <span className="text-xs font-mono uppercase tracking-wider font-bold">
