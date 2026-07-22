@@ -148,7 +148,7 @@ export default function BlogDashboardPage() {
                       <td className="py-4 px-4">{art.category}</td>
                       <td className="py-4 px-4 text-black/60">{new Date(art.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }).toUpperCase()}</td>
                       <td className="py-4 px-4 text-right space-x-2">
-                        <button className="border border-black px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors">Edit</button>
+                        <a href={`/blog-dashboard/edit/${art.id}`} className="border border-black px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors inline-block">Edit</a>
                         <button onClick={() => handleDeleteArticle(art.id)} className="border border-red-600 text-red-600 px-2.5 py-1 text-xs hover:bg-red-600 hover:text-white transition-colors">Delete</button>
                       </td>
                     </tr>
@@ -192,7 +192,7 @@ export default function BlogDashboardPage() {
                       <td className="py-4 px-4">{pod.duration}</td>
                       <td className="py-4 px-4 text-black/60">{pod.author}</td>
                       <td className="py-4 px-4 text-right space-x-2">
-                        <button className="border border-black px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors">Edit</button>
+                        <a href={`/blog-dashboard/edit-podcast/${pod.id}`} className="border border-black px-2.5 py-1 text-xs hover:bg-black hover:text-white transition-colors inline-block">Edit</a>
                         <button onClick={() => handleDeletePodcast(pod.id)} className="border border-red-600 text-red-600 px-2.5 py-1 text-xs hover:bg-red-600 hover:text-white transition-colors">Delete</button>
                       </td>
                     </tr>

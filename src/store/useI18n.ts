@@ -40,7 +40,7 @@ export function useI18nStore() {
 
 /* ---- English ---- */
 Object.assign(en, {
-  'nav.work':'WORK','nav.about':'ABOUT','nav.services':'SERVICES','nav.careers':'CAREERS','nav.contact':'Contact',
+  'nav.work':'WORK','nav.about':'ABOUT','nav.services':'SERVICES','nav.careers':'CAREERS','nav.blog':'BLOG','nav.contact':'Contact',
   'nav.mega.website':'Website','nav.mega.mobile':'Mobile App','nav.mega.experiential':'Experiential','nav.mega.ecommerce':'E-commerce',
   'nav.mega.featured':'FEATURED PROJECTS','nav.mega.seeAll':'SEE ALL WORK [6]',
   'nav.mega.project.nurquran':'QURAN READER WITH PRAYER TIMES, FASTING CALENDAR & AUDIO',
@@ -154,7 +154,7 @@ Object.assign(en, {
 
 /* ---- Indonesian ---- */
 Object.assign(id, {
-  'nav.work':'KARYA','nav.about':'TENTANG','nav.services':'LAYANAN','nav.careers':'KARIR','nav.contact':'Kontak',
+  'nav.work':'KARYA','nav.about':'TENTANG','nav.services':'LAYANAN','nav.careers':'KARIR','nav.blog':'BLOG','nav.contact':'Kontak',
   'nav.mega.website':'Situs Web','nav.mega.mobile':'Aplikasi','nav.mega.experiential':'Eksperiensial','nav.mega.ecommerce':'E-dagang',
   'nav.mega.featured':'PROYEK UNGGULAN','nav.mega.seeAll':'LIHAT SEMUA KARYA [6]',
   'nav.mega.project.nurquran':'PEMBACA ALQURAN DENGAN JADWAL SALAT, KALENDER PUASA & AUDIO',

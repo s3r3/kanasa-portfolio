@@ -16,6 +16,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const [isWorkMenuOpen, setIsWorkMenuOpen] = useState(false);
+  const [isBlogMenuOpen, setIsBlogMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { toggleContact } = useUIStore();
   const { t } = useI18nStore();
@@ -38,6 +39,7 @@ export default function Navbar() {
           onMouseEnter={() => {
             setHoveredNav(item);
             if (item === 'WORK') setIsWorkMenuOpen(true);
+            if (item === 'BLOG') setIsBlogMenuOpen(true);
           }}
           className="relative py-2 z-50"
         >
@@ -46,7 +48,7 @@ export default function Navbar() {
             onClick={() => setMobileMenuOpen(false)}
             className="uppercase cursor-pointer transition-all duration-200 inline-block"
           >
-            {hoveredNav === item || (item === 'WORK' && isWorkMenuOpen) ? `[${t(`nav.${item.toLowerCase()}`)}]` : t(`nav.${item.toLowerCase()}`)}
+            {hoveredNav === item || (item === 'WORK' && isWorkMenuOpen) || (item === 'BLOG' && isBlogMenuOpen) ? `[${t(`nav.${item.toLowerCase()}`)}]` : t(`nav.${item.toLowerCase()}`)}
           </Link>
         </div>
       ))}
@@ -85,6 +87,7 @@ export default function Navbar() {
           onMouseLeave={() => {
             setHoveredNav(null);
             setIsWorkMenuOpen(false);
+            setIsBlogMenuOpen(false);
           }}
         >
           {navLinks}
@@ -137,6 +140,42 @@ export default function Navbar() {
                     ))}
                     <div className="px-4 pt-4 pb-2">
                       <Link href="/work"><button className="w-full border border-black py-3 text-xs uppercase hover:bg-black hover:text-white text-black transition-colors font-medium tracking-wide">{t('nav.mega.seeAll')}</button></Link>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Blog Dropdown */}
+          <AnimatePresence>
+            {isBlogMenuOpen && (
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="absolute top-full left-0 mt-2 w-[90vw] md:w-[400px] flex flex-col z-40"
+                onMouseEnter={() => setIsBlogMenuOpen(true)}
+              >
+                <motion.div
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    hidden: {},
+                    visible: { transition: { staggerChildren: 0.03, delayChildren: 0.05 } },
+                  }}
+                >
+                  <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.3 } } }} className="bg-bg-accent pt-6 flex flex-col">
+                    <div className="flex flex-col gap-y-3 text-[1.5rem] md:text-[1.75rem] tracking-tight mb-6 text-fg px-2">
+                      <Link href="/blog/all" className="hover:italic cursor-pointer transition-all">{t('nav.mega.allBlog') || 'All Blog'}</Link>
+                      <Link href="/blog/podcast" className="hover:italic cursor-pointer transition-all">{t('nav.mega.podcast') || 'Podcast'}</Link>
+                    </div>
+                    <div className="px-2 pb-2 text-sm text-fg/60 italic">{t('nav.mega.discoverStories') || 'Discover stories'}</div>
+                  </motion.div>
+                  <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.3 } } }} className="bg-white w-full flex flex-col shadow-2xl pb-2">
+                    <div className="px-4 pt-4 pb-2">
+                      <Link href="/blog"><button className="w-full border border-black py-3 text-xs uppercase hover:bg-black hover:text-white text-black transition-colors font-medium tracking-wide">{t('nav.mega.seeAllBlog') || 'BROWSE ALL CONTENT'}</button></Link>
                     </div>
                   </motion.div>
                 </motion.div>

@@ -5,7 +5,6 @@ import { useRef, useEffect, useState } from 'react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
-import Lenis from 'lenis';
 
 interface BlogItem {
   id: string; category: string; author: string; readTime: string;
@@ -71,14 +70,6 @@ const sectionVariant = {
 };
 
 export default function BlogHomePage() {
-  // Lenis smooth scroll init
-  useEffect(() => {
-    const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
-    const raf = (time: number) => { lenis.raf(time); requestAnimationFrame(raf); };
-    requestAnimationFrame(raf);
-    return () => lenis.destroy();
-  }, []);
-
   const [recentPosts, setRecentPosts] = useState<BlogItem[]>([]);
   const [watchPosts, setWatchPosts] = useState<BlogItem[]>([]);
   const [podcasts, setPodcasts] = useState<PodcastItem[]>([]);
@@ -179,38 +170,33 @@ export default function BlogHomePage() {
             </div>
           </div>
 
-          {/* BAGIAN KANAN: Featured Article */}
+          {/* BAGIAN KANAN: Featured Article (dinamis dari API) */}
           <div className="lg:col-span-7">
-            <Link href="/blog/featured-article">
-              <div className="border border-black p-3 md:p-4 bg-white/40 hover:bg-white/80 transition-colors cursor-pointer group shadow-sm hover:shadow-xl duration-500">
-                
-                {/* Header Frame */}
-                <div className="flex justify-between items-center border-b border-black/20 pb-3 mb-3 text-[10px] md:text-xs font-mono uppercase text-black/60">
-                  <span className="tracking-widest">○○○</span>
-                  <span className="tracking-[0.3em] font-bold text-black border-x border-black/20 px-8">FEATURED</span>
-                  <span className="tracking-widest">[NO. 019]</span>
+            {recentPosts[0] ? (
+              <Link href={`/blog/${recentPosts[0].slug}`}>
+                <div className="border border-black p-3 md:p-4 bg-white/40 hover:bg-white/80 transition-colors cursor-pointer group shadow-sm hover:shadow-xl duration-500">
+                  <div className="flex justify-between items-center border-b border-black/20 pb-3 mb-3 text-[10px] md:text-xs font-mono uppercase text-black/60">
+                    <span className="tracking-widest">○○○</span>
+                    <span className="tracking-[0.3em] font-bold text-black border-x border-black/20 px-8">FEATURED</span>
+                    <span className="tracking-widest">[NO. {recentPosts[0].id}]</span>
+                  </div>
+                  <div className="w-full aspect-4/3 md:aspect-16/10 bg-neutral-200 relative overflow-hidden border border-black/10">
+                    <ParallaxImg src={recentPosts[0].image} />
+                  </div>
+                  <div className="flex justify-between items-center mt-6 text-xs font-mono uppercase text-black/60">
+                    <span className="text-black font-bold">{recentPosts[0].category.toUpperCase()}</span>
+                    <span>by {recentPosts[0].author} | {recentPosts[0].readTime}</span>
+                  </div>
+                  <h2 className="text-3xl md:text-[2.75rem] font-medium leading-[1.15] mt-4 mb-2 tracking-tight">
+                    <span className="bg-[#fbc02d] px-2 py-1 box-decoration-clone leading-relaxed group-hover:bg-black group-hover:text-white transition-colors duration-300">
+                      {recentPosts[0].title}
+                    </span>
+                  </h2>
                 </div>
-
-                {/* Cover Image */}
-                <div className="w-full aspect-4/3 md:aspect-16/10 bg-neutral-200 relative overflow-hidden border border-black/10">
-                  <ParallaxImg src="/images/featured-blog.jpg" />
-                </div>
-
-                {/* Article Meta */}
-                <div className="flex justify-between items-center mt-6 text-xs font-mono uppercase text-black/60">
-                  <span className="text-black font-bold">TECH & DEV</span>
-                  <span>by Ref Admin | 7 min read</span>
-                </div>
-
-                {/* Highlighted Title */}
-                <h2 className="text-3xl md:text-[2.75rem] font-medium leading-[1.15] mt-4 mb-2 tracking-tight">
-                  <span className="bg-[#fbc02d] px-2 py-1 box-decoration-clone leading-relaxed group-hover:bg-black group-hover:text-white transition-colors duration-300">
-                    Best productivity hacks & state management for creative freelance developers today
-                  </span>
-                </h2>
-
-              </div>
-            </Link>
+              </Link>
+            ) : (
+              <div className="border border-black p-3 md:p-4 bg-white/40 shadow-sm aspect-4/3 flex items-center justify-center text-sm font-mono text-black/40">Loading featured...</div>
+            )}
           </div>
 
         </div>
@@ -306,47 +292,37 @@ export default function BlogHomePage() {
         {/* Garis Pemisah Tipis */}
         <div className="w-full border-t border-black/40 mb-12" />
 
-        {/* Banner Utama Editor's Choice */}
-        <Link href="/blog/editor-choice-slug" className="block group">
-          <div className="border border-black p-3 md:p-4 bg-white/40 hover:bg-white/90 transition-all duration-300 shadow-sm hover:shadow-xl">
-
-            {/* Header Jendela Kartu */}
-            <div className="flex justify-between items-center border-b border-black/20 pb-2 mb-3 text-[10px] md:text-xs font-mono uppercase text-black/60">
-              <span>○○○</span>
-              <span className="tracking-[0.3em] font-bold text-black border-x border-black/20 px-8 hidden sm:block">EDITOR&rsquo;S PICK</span>
-              <span className="tracking-widest">[NO. 018]</span>
-            </div>
-
-            {/* Konten Banner dengan Background Gambar & Gradien */}
-            <div className="w-full aspect-21/9 md:aspect-[2.4/1] relative overflow-hidden border border-black/10 flex items-center p-8 md:p-16">
-
-              {/* Gambar Latar Belakang / Kolase */}
-              <ParallaxImg src="/images/editors-choice.jpg" />
-
-              {/* Gradien Overlay (Supaya teks di kiri lebih terbaca) */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
-
-              {/* Konten Teks di Kiri */}
-              <div className="relative z-10 max-w-2xl flex flex-col items-start">
-                <span className="text-[11px] font-mono uppercase tracking-widest text-white/80 mb-3 bg-black/40 px-2.5 py-1 backdrop-blur-sm">
-                  Lifestyle
-                </span>
-
-                <h3 className="text-3xl md:text-5xl lg:text-6xl font-medium tracking-tight leading-[1.08] mb-4">
-                  <span className="bg-white text-black px-3 py-1.5 box-decoration-clone leading-relaxed">
-                    How remote work is reshaping modern lifestyles
+        {/* Banner Utama Editor's Choice (dinamis) */}
+        {recentPosts[1] ? (
+          <Link href={`/blog/${recentPosts[1].slug}`} className="block group">
+            <div className="border border-black p-3 md:p-4 bg-white/40 hover:bg-white/90 transition-all duration-300 shadow-sm hover:shadow-xl">
+              <div className="flex justify-between items-center border-b border-black/20 pb-2 mb-3 text-[10px] md:text-xs font-mono uppercase text-black/60">
+                <span>○○○</span>
+                <span className="tracking-[0.3em] font-bold text-black border-x border-black/20 px-8 hidden sm:block">EDITOR&rsquo;S PICK</span>
+                <span className="tracking-widest">[NO. {recentPosts[1].id}]</span>
+              </div>
+              <div className="w-full aspect-21/9 md:aspect-[2.4/1] relative overflow-hidden border border-black/10 flex items-center p-8 md:p-16">
+                <ParallaxImg src={recentPosts[1].image} />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
+                <div className="relative z-10 max-w-2xl flex flex-col items-start">
+                  <span className="text-[11px] font-mono uppercase tracking-widest text-white/80 mb-3 bg-black/40 px-2.5 py-1 backdrop-blur-sm">
+                    {recentPosts[1].category}
                   </span>
-                </h3>
-
-                <div className="text-xs font-mono uppercase text-white/90 tracking-wider">
-                  by Benjamin Scott | 7 min read
+                  <h3 className="text-3xl md:text-5xl lg:text-6xl font-medium tracking-tight leading-[1.08] mb-4">
+                    <span className="bg-white text-black px-3 py-1.5 box-decoration-clone leading-relaxed">
+                      {recentPosts[1].title}
+                    </span>
+                  </h3>
+                  <div className="text-xs font-mono uppercase text-white/90 tracking-wider">
+                    by {recentPosts[1].author} | {recentPosts[1].readTime}
+                  </div>
                 </div>
               </div>
-
             </div>
-
-          </div>
-        </Link>
+          </Link>
+        ) : (
+          <div className="border border-black p-8 bg-white/40 text-center text-sm font-mono text-black/40">Loading editor&rsquo;s pick...</div>
+        )}
 
       </motion.section>
 
@@ -379,34 +355,32 @@ export default function BlogHomePage() {
           <div className="w-full border-t border-dashed border-white/30 mb-12" />
 
           {/* Featured Watch Article (Banner Besar di Atas) */}
-          <Link href="/blog/quick-fitness-routines" className="block group mb-10">
-            <div className="border border-white/20 p-3 md:p-4 bg-neutral-900/40 hover:bg-neutral-900 transition-all duration-300 shadow-xl">
-
-              <div className="flex justify-between items-center border-b border-white/10 pb-2 mb-3 text-[10px] md:text-xs font-mono uppercase text-white/50">
-                <span>○○○</span>
-                <span className="tracking-widest">[NO. 016]</span>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                {/* Gambar Thumbnail Besar di Kiri */}
-                <div className="lg:col-span-7 w-full aspect-16/10 bg-neutral-800 relative overflow-hidden border border-white/10">
-                  <ParallaxImg src="/images/watch-featured.jpg" />
+          {watchPosts[0] ? (
+            <Link href={`/blog/${watchPosts[0].slug}`} className="block group mb-10">
+              <div className="border border-white/20 p-3 md:p-4 bg-neutral-900/40 hover:bg-neutral-900 transition-all duration-300 shadow-xl">
+                <div className="flex justify-between items-center border-b border-white/10 pb-2 mb-3 text-[10px] md:text-xs font-mono uppercase text-white/50">
+                  <span>○○○</span>
+                  <span className="tracking-widest">[NO. {watchPosts[0].id}]</span>
                 </div>
-
-                {/* Judul & Detail di Kanan */}
-                <div className="lg:col-span-5 flex flex-col justify-between py-4 pr-4">
-                  <h3 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight leading-[1.15] mb-6 group-hover:italic transition-all">
-                    Quick fitness routines you can do anywhere
-                  </h3>
-                  <div className="flex justify-between items-center text-xs font-mono uppercase text-white/60 border-t border-white/10 pt-4">
-                    <span>Health</span>
-                    <span>by William Parker | 5 min read</span>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                  <div className="lg:col-span-7 w-full aspect-16/10 bg-neutral-800 relative overflow-hidden border border-white/10">
+                    <ParallaxImg src={watchPosts[0].image} />
+                  </div>
+                  <div className="lg:col-span-5 flex flex-col justify-between py-4 pr-4">
+                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight leading-[1.15] mb-6 group-hover:italic transition-all">
+                      {watchPosts[0].title}
+                    </h3>
+                    <div className="flex justify-between items-center text-xs font-mono uppercase text-white/60 border-t border-white/10 pt-4">
+                      <span>{watchPosts[0].category}</span>
+                      <span>by {watchPosts[0].author} | {watchPosts[0].readTime}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-
-            </div>
-          </Link>
+            </Link>
+          ) : (
+            <div className="border border-white/20 p-8 bg-neutral-900/40 text-center text-sm font-mono text-white/40 mb-10">Loading watch...</div>
+          )}
 
           {/* Grid 3 Kolom untuk Watch Lainnya di Bawah */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -538,67 +512,52 @@ export default function BlogHomePage() {
 
           {/* KOLOM KIRI (2 Kartu Bertumpuk) */}
           <div className="lg:col-span-3 flex flex-col gap-8">
-            {/* Kartu 1 */}
-            <Link href="/blog/guide-personal-finances" className="group">
-              <div className="border border-black p-3 bg-white/40 hover:bg-white/90 transition-all duration-300 shadow-sm">
-                <div className="flex justify-between items-center border-b border-black/20 pb-2 mb-2 text-[10px] font-mono uppercase text-black/50">
-                  <span>○○○</span>
-                  <span className="tracking-widest font-bold">[NO. 010]</span>
+            {recentPosts.slice(2, 4).map((post) => (
+              <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
+                <div className="border border-black p-3 bg-white/40 hover:bg-white/90 transition-all duration-300 shadow-sm">
+                  <div className="flex justify-between items-center border-b border-black/20 pb-2 mb-2 text-[10px] font-mono uppercase text-black/50">
+                    <span>○○○</span>
+                    <span className="tracking-widest font-bold">[NO. {post.id}]</span>
+                  </div>
+                  <div className="w-full aspect-16/10 bg-neutral-200 relative overflow-hidden border border-black/10 mb-3">
+                    <div className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-500" style={{ backgroundImage: `url(${post.image})` }} />
+                  </div>
+                  <h3 className="text-lg font-medium tracking-tight leading-snug group-hover:italic transition-all mb-1">
+                    {post.title}
+                  </h3>
+                  <div className="flex justify-between items-center text-[10px] font-mono uppercase text-black/60 pt-2 border-t border-black/10">
+                    <span>{post.category}</span>
+                    <span>by {post.author} | {post.readTime}</span>
+                  </div>
                 </div>
-                <div className="w-full aspect-16/10 bg-neutral-200 relative overflow-hidden border border-black/10 mb-3">
-                  <div className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-500" style={{ backgroundImage: 'url(/images/story-1.jpg)' }} />
-                </div>
-                <h3 className="text-lg font-medium tracking-tight leading-snug group-hover:italic transition-all mb-1">
-                  A guide to building stronger personal finances
-                </h3>
-                <div className="flex justify-between items-center text-[10px] font-mono uppercase text-black/60 pt-2 border-t border-black/10">
-                  <span>Finance</span>
-                  <span>by Benjamin Scott | 4 min read</span>
-                </div>
-              </div>
-            </Link>
-
-            {/* Kartu 2 */}
-            <Link href="/blog/meaningful-careers-digital-age" className="group">
-              <div className="border border-black p-3 bg-white/40 hover:bg-white/90 transition-all duration-300 shadow-sm">
-                <div className="flex justify-between items-center border-b border-black/20 pb-2 mb-2 text-[10px] font-mono uppercase text-black/50">
-                  <span>○○○</span>
-                  <span className="tracking-widest font-bold">[NO. 009]</span>
-                </div>
-                <div className="w-full aspect-16/10 bg-neutral-200 relative overflow-hidden border border-black/10 mb-3">
-                  <div className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-500" style={{ backgroundImage: 'url(/images/story-2.jpg)' }} />
-                </div>
-                <h3 className="text-lg font-medium tracking-tight leading-snug group-hover:italic transition-all mb-1">
-                  Building meaningful careers in the digital age
-                </h3>
-                <div className="flex justify-between items-center text-[10px] font-mono uppercase text-black/60 pt-2 border-t border-black/10">
-                  <span>Business</span>
-                  <span>by Sophia Harris | 4 min read</span>
-                </div>
-              </div>
-            </Link>
+              </Link>
+            ))}
           </div>
 
           {/* KOLOM TENGAH (Featured Medium/Large Card) */}
           <div className="lg:col-span-6">
-            <Link href="/blog/technology-and-wellness" className="group">
-              <div className="border border-black p-3 md:p-4 bg-white/40 hover:bg-white/90 transition-all duration-300 shadow-sm h-full flex flex-col">
-                <div className="flex justify-between items-center border-b border-black/20 pb-2 mb-3 text-[10px] font-mono uppercase text-black/50">
-                  <span>○○○</span>
-                  <span className="tracking-widest font-bold">[NO. 008]</span>
+            {recentPosts[4] ? (
+              <Link href={`/blog/${recentPosts[4].slug}`} className="group">
+                <div className="border border-black p-3 md:p-4 bg-white/40 hover:bg-white/90 transition-all duration-300 shadow-sm h-full flex flex-col">
+                  <div className="flex justify-between items-center border-b border-black/20 pb-2 mb-3 text-[10px] font-mono uppercase text-black/50">
+                    <span>○○○</span>
+                    <span className="tracking-widest font-bold">[NO. {recentPosts[4].id}]</span>
+                  </div>
+                  <div className="w-full aspect-4/3 bg-neutral-200 relative overflow-hidden border border-black/10 mb-4">
+                    <div className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105" style={{ backgroundImage: `url(${recentPosts[4].image})` }} />
+                  </div>
+                  <h3 className="text-2xl md:text-3xl font-medium tracking-tight leading-snug group-hover:italic transition-all mb-2">
+                    {recentPosts[4].title}
+                  </h3>
+                  <div className="flex justify-between items-center text-xs font-mono uppercase text-black/60 pt-3 border-t border-black/10 mt-auto">
+                    <span>{recentPosts[4].category}</span>
+                    <span>by {recentPosts[4].author} | {recentPosts[4].readTime}</span>
+                  </div>
                 </div>
-                <div className="w-full aspect-4/3 bg-neutral-200 relative overflow-hidden border border-black/10 mb-4">
-                  <div className="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105" style={{ backgroundImage: 'url(/images/story-large.jpg)' }} />
-                </div>
-                <h3 className="text-2xl md:text-3xl font-medium tracking-tight leading-snug group-hover:italic transition-all mb-2">
-                  Exploring the intersection of technology and wellness
-                </h3>
-                <div className="flex justify-between items-center text-xs font-mono uppercase text-black/60 pt-3 border-t border-black/10 mt-auto">
-                  <span>Business</span>
-                  <span>by Michael Smith | 4 min read</span>
-                </div>
-              </div>
-            </Link>
+              </Link>
+            ) : (
+              <div className="border border-black p-8 bg-white/40 text-center text-sm font-mono text-black/40">Loading...</div>
+            )}
           </div>
 
           {/* KOLOM KANAN (List Teks Artikel & Banner Iklan Kecil) */}
@@ -606,17 +565,13 @@ export default function BlogHomePage() {
 
             {/* List Artikel Samping */}
             <div className="border border-black bg-white/40 p-5 flex flex-col gap-6 shadow-sm">
-              {[
-                { title: 'How podcasts changed the way we learn', author: 'Jacob Anderson', time: '4 min read', slug: 'podcasts-changed-way-we-learn' },
-                { title: 'How to create a realistic monthly budget plan', author: 'William Parker', time: '4 min read', slug: 'realistic-monthly-budget-plan' },
-                { title: 'Top exercises to strengthen your core and back', author: 'Ethan Miller', time: '4 min read', slug: 'exercises-strengthen-core-back' },
-              ].map((item, idx) => (
-                <Link key={idx} href={`/blog/${item.slug}`} className="group pb-6 border-b border-black/10 last:border-0 last:pb-0">
+              {recentPosts.slice(0, 3).map((post, idx) => (
+                <Link key={idx} href={`/blog/${post.slug}`} className="group pb-6 border-b border-black/10 last:border-0 last:pb-0">
                   <h4 className="text-sm font-medium tracking-tight leading-snug group-hover:italic transition-all mb-1">
-                    {item.title}
+                    {post.title}
                   </h4>
                   <div className="text-[10px] font-mono uppercase text-black/60">
-                    by {item.author} | {item.time}
+                    by {post.author} | {post.readTime}
                   </div>
                 </Link>
               ))}
