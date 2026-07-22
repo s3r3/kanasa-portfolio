@@ -74,4 +74,12 @@ body {
 .animate-bounceIn   { animation: bounceIn 0.7s ease both; }
 .animate-slideInUp  { animation: slideInUp 0.5s ease both; }
 
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+.animate-cursor-blink {
+  animation: cursor-blink 1s step-end infinite;
+}
+
 /* ponytail: re-usable entrance utils, extend when more needed */

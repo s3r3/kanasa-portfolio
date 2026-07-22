@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model Blog {
+  id        String    @id @default(cuid())
+  title     String
+  slug      String    @unique
+  category  String
+  author    String
+  readTime  String
+  image     String
+  excerpt   String    @db.Text
+  content   String    @db.Text
+  tags      String?
+  seoTitle  String?
+  seoDesc   String?   @db.Text
+  youtubeUrl String?
+  published Boolean   @default(true)
+  featured  Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Podcast {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  episodeNo   Int
+  duration    String
+  author      String
+  image       String
+  youtubeId   String
+  description String   @db.Text
+  content     String   @db.Text
+  tags        String?
+  seoTitle    String?
+  seoDesc     String?  @db.Text
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
