@@ -69,7 +69,7 @@ export default function WorkSection() {
               }[cat.position];
 
               return (
-                <div key={`title-${cat.id}`} className={`absolute ${posClasses} z-10 flex flex-col gap-2 max-w-[200px]`}>
+                <div key={`title-${cat.id}`} className={`absolute ${posClasses} z-10 flex flex-col gap-2 max-w-[200px] max-sm:hidden`}>
                   <h3 className="text-3xl md:text-4xl font-medium tracking-tight">
                     {({0:t('workSection.ecommerce'),1:t('workSection.mobile'),2:t('workSection.websites'),3:t('workSection.experiential')} as Record<number,string>)[cat.id]}
                   </h3>
@@ -91,7 +91,7 @@ export default function WorkSection() {
             })}
 
             <div
-              className="relative w-full max-w-lg aspect-square grid grid-cols-2 grid-rows-2 z-20"
+              className="relative w-full max-w-lg max-sm:max-w-full max-sm:w-[85vw] aspect-square grid grid-cols-2 grid-rows-2 z-20"
               style={{ cursor: 'none' }}
               onPointerLeave={() => setHoveredId(null)}
             >

@@ -51,7 +51,7 @@ export default function Footer() {
       </div>
 
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-12 w-full mt-auto">
-        <div className="text-[10rem] md:text-[14rem] lg:text-[18rem] leading-[0.7] tracking-tighter font-medium -ml-3 md:-ml-4">
+        <div className="text-[10rem] max-sm:text-[4rem] md:text-[14rem] lg:text-[18rem] leading-[0.7] tracking-tighter font-medium -ml-3 md:-ml-4">
           KANASA
         </div>
 

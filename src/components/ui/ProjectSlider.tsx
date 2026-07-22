@@ -52,7 +52,7 @@ export default function ProjectSlider() {
   ];
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-bg text-fg">
+    <section className="relative min-h-dvh w-full overflow-hidden bg-bg text-fg">
       {/* Kursor Kustom (tengah gambar saat hover) */}
       <motion.div
         style={{ x: cursorXSpring, y: cursorYSpring }}
@@ -65,7 +65,7 @@ export default function ProjectSlider() {
 
       {/* Area Gambar Utama — margin kiri-kanan lega, gambar ke kanan */}
       <div
-        className="relative flex flex-1 items-center justify-center px-24 pt-16 pb-20 cursor-none"
+        className="relative flex flex-1 items-center justify-center max-sm:px-4 px-24 pt-16 pb-20 cursor-none"
         onPointerEnter={() => setIsHovering(true)}
         onPointerLeave={() => setIsHovering(false)}
         onPointerMove={handlePointerMove}
@@ -79,7 +79,7 @@ export default function ProjectSlider() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -40 }}
             transition={{ duration: 0.8, ease: EASE }}
-            className="relative w-[55vw] max-w-[1100px] aspect-[16/10] overflow-hidden bg-neutral-200 border border-fg/10 cursor-pointer"
+            className="relative w-[55vw] max-w-[1100px] max-sm:w-[85vw] aspect-[16/10] overflow-hidden bg-neutral-200 border border-fg/10 cursor-pointer"
           >
             {/* Nomor project kiri atas */}
             <div className="absolute left-5 top-5 z-10 text-[15px] tracking-[0.15em] font-mono text-fg/70">
@@ -99,14 +99,14 @@ export default function ProjectSlider() {
       </div>
 
       {/* Layout Bawah Editorial */}
-      <div className="grid grid-cols-[1fr_auto_1fr] items-end px-10 pb-14">
+      <div className="grid grid-cols-[1fr_auto_1fr] items-end max-sm:grid-cols-1 max-sm:gap-2 max-sm:text-center px-10 pb-14">
         {/* Kiri: Judul */}
-        <div className="text-[54px] leading-none tracking-[-0.04em] font-medium">
+        <div className="text-[54px] leading-none tracking-[-0.04em] font-medium max-sm:text-[28px]">
           {slides[currentIndex]?.title || SLIDER_PROJECT.title}
         </div>
 
         {/* Tengah: Thumbnail Navigasi (naik 40px) */}
-        <div className="flex flex-col items-center relative -mt-10">
+        <div className="flex flex-col items-center relative max-sm:mt-0 -mt-10">
           {/* Garis tipis 160px lebih transparan */}
           <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-40 h-px bg-black/15" />
 
@@ -129,7 +129,7 @@ export default function ProjectSlider() {
                     key={idx}
                     onClick={() => setCurrentIndex(idx)}
                     whileHover={{ scale: 1.05 }}
-                    className={`relative w-[92px] h-[58px] transition-all duration-500 cursor-none ${
+                    className={`relative w-[92px] h-[58px] max-sm:w-[60px] max-sm:h-[38px] transition-all duration-500 cursor-none ${
                       isActive
                         ? "brightness-100 scale-100"
                         : "brightness-[.7] scale-95 hover:brightness-100"
@@ -160,7 +160,7 @@ export default function ProjectSlider() {
         </div>
 
         {/* Kanan: Kode */}
-        <div className="text-right text-[44px] tracking-[-0.05em] font-light">
+        <div className="text-right text-[44px] max-sm:text-[20px] tracking-[-0.05em] font-light">
           {codes[currentIndex] || SLIDER_PROJECT.code}
         </div>
       </div>

@@ -220,7 +220,7 @@ export default function WorkPage() {
               className="w-full flex flex-col"
             >
               {/* Header */}
-              <div className="grid grid-cols-5 gap-4 border-b border-fg pb-4 text-lg md:text-2xl font-medium tracking-tight mb-4">
+              <div className="grid grid-cols-5 gap-4 max-sm:grid-cols-3 border-b border-fg pb-4 text-lg md:text-2xl font-medium tracking-tight mb-4">
                 <div className="col-span-1">{t('work.projects')}</div>
                 <div className="col-span-1">{t('work.type')}</div>
                 <div className="col-span-1">{t('work.industries')}</div>
@@ -233,7 +233,7 @@ export default function WorkPage() {
               {ALL_WORK_ITEMS.map((item) => (
                 <div
                   key={`list-${item.id}`}
-                  className="grid grid-cols-5 gap-4 border-b border-fg/10 py-5 text-xs md:text-sm uppercase font-mono tracking-wide cursor-pointer hover:bg-black/5 transition-colors group"
+                  className="grid grid-cols-5 gap-4 max-sm:grid-cols-3 border-b border-fg/10 py-5 text-xs md:text-sm uppercase font-mono tracking-wide cursor-pointer hover:bg-black/5 transition-colors group"
                 >
                   <div className="col-span-1 font-sans font-medium group-hover:italic transition-all">
                     {item.client}

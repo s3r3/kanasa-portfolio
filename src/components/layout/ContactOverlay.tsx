@@ -40,7 +40,7 @@ export default function ContactOverlay() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ ease: EASE.smooth, duration: 0.6 }}
-            className="fixed top-0 right-0 w-full md:w-[750px] h-auto z-50 bg-bg-accent text-fg border-l border-b border-fg/10 shadow-2xl overflow-hidden"
+            className="fixed top-0 right-0 w-full md:w-[750px] h-auto z-50 bg-bg-accent text-fg border-l border-b border-fg/10 shadow-2xl overflow-y-auto max-h-dvh"
           >
             <motion.div
               initial="hidden"
@@ -49,7 +49,7 @@ export default function ContactOverlay() {
                 hidden: {},
                 visible: { transition: { staggerChildren: 0.06, delayChildren: 0.2 } },
               }}
-              className="p-8 md:p-10 flex flex-col"
+              className="max-sm:p-4 p-8 md:p-10 flex flex-col"
             >
               <motion.div variants={staggerItem} className="flex justify-between items-start mb-6">
                 <h2 className="text-4xl md:text-[3.25rem] tracking-tight leading-[1.05] font-medium text-fg">
@@ -64,7 +64,7 @@ export default function ContactOverlay() {
                 {t('contact.subtitle').split('\n').map((l, i) => <span key={i}>{l}<br /></span>)}
               </motion.p>
               <motion.div variants={staggerItem} className="border-t border-fg/10 py-6">
-                <div className="grid grid-cols-[120px_1fr_1.5fr] gap-6">
+                <div className="grid grid-cols-[120px_1fr_1.5fr] max-sm:grid-cols-[80px_1fr] gap-6">
                   <div className="relative w-[120px] h-[120px] bg-gray-400 grayscale bg-cover bg-center shadow-inner" style={{ backgroundImage: 'url(/images/profile.jpg)' }}>
                     <div className="absolute left-2 top-1/2 transform -translate-y-1/2 w-2.5 h-2.5 bg-white rounded-full shadow-sm" />
                   </div>

@@ -103,11 +103,11 @@ export default function WorkDetailTemplate({ data }: { data: WorkDetailData }) {
       className="relative min-h-screen bg-[#04142b] text-white"
     >
       {/* --- 1. HERO --- */}
-      <section className="pt-72 pb-12 px-6 md:px-12">
+      <section className="max-sm:pt-32 pt-72 pb-12 px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           <div className="hidden md:block md:col-span-6" />
           <div className="col-span-1 md:col-span-6">
-            <h1 className="text-5xl md:text-[5.5rem] leading-[1.05] tracking-tight font-medium mb-12">
+            <h1 className="text-5xl max-sm:text-[2rem] md:text-[5.5rem] leading-[1.05] tracking-tight font-medium mb-12">
               {data.hero.headline}
             </h1>
           </div>
@@ -131,7 +131,7 @@ export default function WorkDetailTemplate({ data }: { data: WorkDetailData }) {
       </section>
 
       {/* --- 2. STATS & BRIEF --- */}
-      <section className="px-6 md:px-12 py-24">
+      <section className="px-6 md:px-12 max-sm:py-12 py-24">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-6">
           <Reveal className="col-span-1 md:col-span-6 flex flex-col gap-12 max-w-lg">
             <div>
@@ -171,10 +171,10 @@ export default function WorkDetailTemplate({ data }: { data: WorkDetailData }) {
       </section>
 
       {/* --- 3. SCROLL-LINKED ACCORDION --- */}
-      <section className="px-6 md:px-12 py-24">
+      <section className="px-6 md:px-12 max-sm:py-12 py-24">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 relative">
           <div className="col-span-1 md:col-span-5 relative">
-            <div className="sticky top-[120px] flex flex-col w-full pr-8">
+            <div className="sticky max-sm:static top-[120px] flex flex-col w-full pr-8">
               {data.accordion.map((item, index) => {
                 const isActive = activeIndex === index;
                 return (
@@ -199,8 +199,8 @@ export default function WorkDetailTemplate({ data }: { data: WorkDetailData }) {
                       </span>
                     </div>
                     <div
-                      className={`overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] ${
-                        isActive ? 'mt-8 opacity-100' : 'mt-0 opacity-0'
+                      className={`overflow-hidden transition-all duration-400 ease-[cubic-bezier(0.76,0,0.24,1)] max-sm:!h-auto ${
+                        isActive ? 'mt-8 opacity-100' : 'max-sm:mt-4 max-sm:opacity-100 mt-0 opacity-0'
                       }`}
                       style={{ height: isActive ? 'auto' : '0px' }}
                     >
@@ -225,7 +225,7 @@ export default function WorkDetailTemplate({ data }: { data: WorkDetailData }) {
                 ref={(el) => {
                   sectionRefs.current[index] = el;
                 }}
-                className="w-full min-h-[90vh] flex flex-col items-center justify-center relative snap-start"
+                className="w-full max-sm:min-h-[50vh] min-h-[90vh] flex flex-col items-center justify-center relative snap-start"
               >
                 <div className="w-full bg-black/5 p-4 md:p-8">
                   <div className="relative w-full pt-[75%] bg-neutral-200 shadow-xl overflow-hidden">

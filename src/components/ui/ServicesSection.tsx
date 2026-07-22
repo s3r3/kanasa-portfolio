@@ -64,7 +64,7 @@ export default function ServicesSection() {
         </div>
 
         {/* Spider area — isolated from header */}
-        <div className="relative mt-24 lg:mt-32 h-[700px] md:h-[850px] overflow-hidden">
+        <div className="relative mt-24 lg:mt-32 h-[700px] max-sm:h-[500px] md:h-[850px] overflow-hidden">
           <motion.div
             style={{
               x: smoothX,

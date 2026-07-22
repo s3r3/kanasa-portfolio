@@ -81,7 +81,7 @@ export default function AboutPage() {
           {/* Grid Gambar Pop-up & Zoom */}
           <motion.div
             animate={{ opacity: gridOpacity, scale: gridScale }}
-            className="absolute z-10 w-[150vw] h-[150vh] md:w-[120vw] md:h-[120vh] bg-black grid grid-cols-3 md:grid-cols-4 gap-1 p-1 origin-center"
+            className="absolute z-10 w-[150vw] h-[150vh] max-sm:w-[100vw] max-sm:h-[100vh] md:w-[120vw] md:h-[120vh] bg-black grid grid-cols-3 md:grid-cols-4 gap-1 p-1 origin-center"
           >
             {GRID_IMAGES.map((src, index) => (
               <div key={index} className="relative w-full h-full bg-neutral-800 overflow-hidden">

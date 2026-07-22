@@ -101,7 +101,7 @@ export default function CareersPage() {
       {/* ========================================== */}
       {/* MIND MAP SECTION                           */}
       {/* ========================================== */}
-      <section className="relative min-h-[900px] md:min-h-[1100px] w-full">
+      <section className="relative min-h-[900px] max-sm:min-h-[700px] md:min-h-[1100px] w-full">
         {viewMode === 'node' && (
           <div className="absolute inset-0 w-full h-full pointer-events-none">
             {/* SVG lines */}
