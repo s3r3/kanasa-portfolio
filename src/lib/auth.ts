@@ -2,35 +2,43 @@ import { cookies } from 'next/headers';
 import { getIronSession } from 'iron-session';
 import bcrypt from 'bcryptjs';
 import { prisma } from './prisma';
-import type { IronSession, SessionOptions } from 'iron-session';
-
-const sessionOptions: SessionOptions = {
-  cookieName: 'portfolio-session',
-  password: process.env.SESSION_SECRET!,
-  ttl: 60 * 60 * 24, // 1 day
-};
 
 export interface SessionData {
-  admin?: {
-    id: string;
-    username: string;
-  };
+  adminId?: string;
+  username?: string;
+  isLoggedIn?: boolean;
 }
 
-export async function getSession(): Promise<IronSession<SessionData>> {
+const sessionOptions = {
+  password: process.env.SESSION_SECRET || 'complex_password_at_least_32_characters_long',
+  cookieName: 'kanasa_admin_session',
+  cookieOptions: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    sameSite: 'lax' as const,
+    maxAge: 60 * 60 * 24 * 7, // 7 days
+  },
+};
+
+export async function getSession() {
   const cookieStore = await cookies();
-  return getIronSession<SessionData>(cookieStore, sessionOptions);
+  const session = await getIronSession<SessionData>(cookieStore, sessionOptions);
+  return session;
 }
 
 export async function login(username: string, password: string) {
   const admin = await prisma.admin.findUnique({ where: { username } });
-  if (!admin || !(await bcrypt.compare(password, admin.password))) {
-    throw new Error('Invalid credentials');
-  }
+  if (!admin) return false;
+
+  const valid = await bcrypt.compare(password, admin.password);
+  if (!valid) return false;
+
   const session = await getSession();
-  session.admin = { id: admin.id, username: admin.username };
+  session.adminId = admin.id;
+  session.username = admin.username;
+  session.isLoggedIn = true;
   await session.save();
-  return session.admin;
+  return true;
 }
 
 export async function logout() {
@@ -40,8 +48,8 @@ export async function logout() {
 
 export async function requireAuth() {
   const session = await getSession();
-  if (!session.admin) {
+  if (!session.isLoggedIn) {
     throw new Error('Unauthorized');
   }
-  return session.admin;
+  return session;
 }
