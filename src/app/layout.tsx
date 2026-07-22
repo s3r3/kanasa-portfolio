@@ -8,8 +8,24 @@ import LoadingScreen from "@/components/ui/LoadingScreen";
 import SplashScreen from "@/components/ui/SplashScreen";
 
 export const metadata: Metadata = {
-  title: "Kanasa Creative — Design & Technology",
+  title: {
+    default: "Kanasa Creative — Design & Technology",
+    template: "%s — Kanasa Creative",
+  },
   description: "Kanasa Creative — blending design and technology to build digital products that matter.",
+  openGraph: {
+    type: "website",
+    siteName: "Kanasa Creative",
+    title: "Kanasa Creative — Design & Technology",
+    description: "Blending design and technology to build digital products that matter.",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export const viewport: Viewport = {
