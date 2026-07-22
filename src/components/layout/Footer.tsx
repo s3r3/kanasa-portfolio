@@ -19,6 +19,7 @@ export default function Footer() {
             <li><Link href="/work" className="hover:italic transition-all w-max">[ ] {t('nav.work')}</Link></li>
             <li><Link href="/about" className="hover:italic transition-all w-max">[ ] {t('nav.about')}</Link></li>
             <li><Link href="/services" className="hover:italic transition-all w-max">[ ] {t('nav.services')}</Link></li>
+            <li><Link href="/blog" className="hover:italic transition-all w-max">[ ] {t('nav.blog') || 'BLOG'}</Link></li>
             <li>
               <button onClick={toggleContact} className="hover:italic transition-all w-max text-left">[ ] {t('nav.contact')}</button>
             </li>

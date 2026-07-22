@@ -10,7 +10,7 @@ import ThemeToggle from '@/components/ui/ThemeToggle';
 import LangToggle from '@/components/ui/LangToggle';
 import { useI18nStore } from '@/store/useI18n';
 
-const NAV_ITEMS = ['WORK', 'ABOUT', 'SERVICES', 'CAREERS'] as const;
+const NAV_ITEMS = ['WORK', 'ABOUT', 'SERVICES', 'CAREERS', 'BLOG'] as const;
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
